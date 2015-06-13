@@ -2,6 +2,8 @@
 var React = require('react');
 var ContentEditor = require('./ContentEditor.jsx');
 var TextTemplateEditor = require('./TextTemplateEditor.jsx');
+var ErrorConsole = require('./ErrorConsole.jsx');
+var TextPreviewer = require('./TextPreviewer.jsx');
 
 var HovercraftApp = React.createClass({
 
@@ -11,29 +13,40 @@ var HovercraftApp = React.createClass({
       htmlTemplate: '',
       textTemplate: '',
       htmlOutput: '',
-      textOutput: ''
+      textOutput: '',
+      errors: []
     }
   },
 
   contentUpdated: function(text){
-    console.log(text);
-    this.setState({ textOutput: text });
     this.setState({ content: text });
+
   },
 
-  textTemplateUpdated: function(template){
-    console.log('textTemplateUpdated');
+  receiveNewErrors: function(errorText){
+    var allErrors = this.state.errors;
+    allErrors.push(errorText);
+    this.setState({ errors: allErrors });
+  },
+
+  textTemplateUpdated: function(text){
+    this.setState({ textTemplate: text});
   },
 
   render: function(){
     var textOut = this.state.textOutput;
+    var errors = this.state.errors;
 
     return (
       <div>
         <h2>Hovercraft</h2>
         <ContentEditor content={this.state.content} onChange={this.contentUpdated} />
+        <hr />
+        <TextTemplateEditor content={this.state.textTemplate} onChange={this.textTemplateUpdated} />
         <hr/>
-        <code><pre>{textOut}</pre></code>
+        <TextPreviewer content={this.state.content} template={this.state.textTemplate} />
+        <hr/>
+        <ErrorConsole errors={errors} />
       </div>
     )
   }
