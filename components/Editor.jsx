@@ -7,7 +7,7 @@
   require('brace/mode/markdown');
   require('brace/theme/tomorrow');
 
-  var TextTemplateEditor = React.createClass({
+  var Editor = React.createClass({
 
     shouldComponentUpdate: function(nextProps) {
       return (nextProps.newContent == true);
@@ -18,14 +18,15 @@
     },
 
     render: function() {
+      var name = this.props.mode+'Editor';
 
       return (
         <AceEditor
-            mode="yaml"
-            theme="tomorrow"
-            name="TextTemplateEditor"
-            height="200px"
-            width="450px"
+            mode={this.props.mode}
+            theme={this.props.theme}
+            name={name}
+            height='200px'
+            width='450px'
             onChange={this.onChange}
             value={this.props.content}
           />
@@ -34,6 +35,6 @@
 
   });
 
-  module.exports = TextTemplateEditor;
+  module.exports = Editor;
 
 })()
