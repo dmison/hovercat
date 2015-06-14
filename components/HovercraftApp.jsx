@@ -14,7 +14,9 @@ var HovercraftApp = React.createClass({
       textTemplate: '',
       htmlOutput: '',
       textOutput: '',
-      errors: []
+      errorsYAML: '',
+      errorsTEXT: '',
+      errorsHTML: ''
     }
   },
 
@@ -23,10 +25,17 @@ var HovercraftApp = React.createClass({
 
   },
 
-  receiveNewErrors: function(errorText){
-    var allErrors = this.state.errors;
-    allErrors.push(errorText);
-    this.setState({ errors: allErrors });
+  receiveNewErrors: function(type, errorText){
+
+    if (type === 'yaml'){
+      this.setState({errorsYAML: errorText});
+    }
+    if (type === 'text'){
+      this.setState({errorsTEXT: errorText});
+    }
+    if (type === 'html'){
+      this.setState({errorsHTML: errorText});
+    }
   },
 
   textTemplateUpdated: function(text){
@@ -46,7 +55,7 @@ var HovercraftApp = React.createClass({
         <hr/>
         <TextPreviewer content={this.state.content} template={this.state.textTemplate} />
         <hr/>
-        <ErrorConsole errors={errors} />
+          <ErrorConsole text={this.state.errorsTEXT} yaml={this.state.errorsYAML} html={this.state.errorsHTML} />
       </div>
     )
   }
