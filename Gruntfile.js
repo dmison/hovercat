@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 
     clean: {
       app: {
-        src: ['app/scripts/vendor/**/*', 'app/app.js']
+        src: ['app/vendor/**/*', 'app/app.js']
       }
     },
 
@@ -36,16 +36,27 @@ module.exports = function(grunt) {
         }
       }
 
-    }
+    },
+
+    copy: {
+      main: {
+        files: [
+          {expand: true, cwd:'node_modules/bootstrap/dist/', src: ['**'], dest: 'app/vendor/bootstrap/'},
+        ],
+      },
+    },
+
   });
 
   grunt.registerTask('dist', [
     'clean:app',
+    'copy:main',
     'browserify:dist'
   ]);
 
   grunt.registerTask('build', [
     'clean:app',
+    'copy:main',
     'browserify:dev'
   ]);
 
