@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=Hovercraft
+Comment=A sample application
+Exec=/opt/hovercraft/Hovercraft
+Icon=/opt/hovercraft/resources/default_app/electron.png
+Terminal=false
