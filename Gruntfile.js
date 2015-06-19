@@ -46,6 +46,48 @@ module.exports = function(grunt) {
       },
     },
 
+    electron: {
+      osxBuild: {
+        options: {
+          name: 'Hovercraft',
+          dir: 'app',
+          out: 'dist/osx_x64',
+          version: '0.26.0',
+          platform: 'darwin',
+          arch: 'x64'
+        }
+      },
+      linuxBuild: {
+        options: {
+          name: 'Hovercraft',
+          dir: 'app',
+          out: 'dist/linux',
+          version: '0.26.0',
+          platform: 'linux',
+          arch: 'x64'
+        }
+      }
+    },
+
+    easy_rpm: {
+       options: {
+         // These are the bare-minimum values required to create a properly named
+         // RPM package.  The plugin does contain defaults for these if you omit
+         // them, and will notify you when this occurs.
+         name: "hovercraft",
+         version: "0.0.2",
+         release: 1,
+         buildArch: "x86_64"
+       },
+       release: {
+         files: [
+           {cwd: 'dist/linux', src: "**/*", dest: "/opt/hovercraft/"},
+           {src: "Hovercraft.desktop", dest: "/usr/share/applications/"},
+         ]
+       }
+     }
+
+
   });
 
   grunt.registerTask('dist', [
@@ -61,6 +103,8 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('default', ['build']);
+  grunt.registerTask('linux-dist', ['clean:app', 'bowercopy', 'clean:dist', 'electron:linuxBuild']);
+  grunt.registerTask('linux-rpm', ['linux-dist', 'easy_rpm'])
 
 
 };
