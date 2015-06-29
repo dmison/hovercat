@@ -1,4 +1,4 @@
 var React = require('react');
-var HovercraftApp = require('./HovercraftApp.jsx');
+var HovercatApp = require('./HovercatApp.jsx');
 
-React.render(<HovercraftApp />, document.getElementById('app'));
+React.render(<HovercatApp />, document.getElementById('app'));

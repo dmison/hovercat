@@ -7,8 +7,9 @@
   var TabbedArea = require('react-bootstrap/lib/TabbedArea');
   var TabPane = require('react-bootstrap/lib/TabPane');
   var MainMenu = require('./MainMenu.jsx');
+  var HCFiles = require('./HCFiles.js');
 
-  var HovercraftApp = React.createClass({
+  var HovercatApp = React.createClass({
 
     getInitialState: function () {
       return {
@@ -19,11 +20,15 @@
         textOutput: '',
         errorsYAML: '',
         errorsTEXT: '',
-        errorsHTML: ''
+        errorsHTML: '',
+        filename: '',
+        unsaved: false,
+        saving: false
       }
     },
 
     contentUpdated: function (text) {
+      this.setState({unsaved: true});
       this.setState({
         content: text
       });
@@ -50,24 +55,52 @@
     },
 
     textTemplateUpdated: function (text) {
+      this.setState({unsaved: true});
       this.setState({
         textTemplate: text
       });
     },
     htmlTemplateUpdated: function (text) {
+      this.setState({unsaved: true});
       this.setState({
         htmlTemplate: text
       });
     },
 
+    save: function(filename){
+      this.setState({ saving: true});
+
+      var fileout = {
+        content: this.state.content,
+        gfmTemplate: this.state.textTemplate,
+        htmlTemplate: this.state.htmlTemplate
+      }
+
+      HCFiles.saveFile(filename, fileout, function(err){
+        if(err){
+          alert(err);
+        } else {
+          this.setState({ unsaved: false});
+          this.setState({ filename: filename });
+        }
+        this.setState({saving: false});
+      }.bind(this));
+
+    },
+
     render: function () {
       var textOut = this.state.textOutput;
       var errors = this.state.errors;
+      var thefilename = this.state.filename;
+      var saving = this.state.saving;
+      var unsaved = this.state.unsaved;
 
       return (
         <div>
-          <MainMenu />
-          <div className="row">
+
+          <MainMenu save={this.save} filename={thefilename} saving={saving} unsaved={unsaved} />
+
+          <div className="row main">
             <div className="col-sm-6">
               <TabbedArea defaultActiveKey={1}>
                 <TabPane eventKey={1} tab='Content'>
@@ -99,7 +132,7 @@
 
   });
 
-  module.exports = HovercraftApp;
+  module.exports = HovercatApp;
 
 })();
 
