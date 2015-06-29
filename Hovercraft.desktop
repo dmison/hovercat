@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
 Encoding=UTF-8
-Name=Hovercraft
+Name=Hovercat
 Comment=A sample application
-Exec=/opt/hovercraft/Hovercraft
-Icon=/opt/hovercraft/resources/default_app/electron.png
+Exec=/opt/hovercat/Hovercat
+Icon=/opt/hovercat/resources/default_app/electron.png
 Terminal=false
