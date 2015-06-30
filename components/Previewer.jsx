@@ -1,7 +1,8 @@
 (function(){
 
   var React = require('react');
-  var YAML = require('yamljs');
+
+  var HCCompiler = require('./HCCompiler.js')
 
   var Previewer = React.createClass({
 
@@ -27,46 +28,32 @@
         return;
       }
 
-
       var template = nextProps.template;
+      var contentType = nextProps.type;
 
       var content = {};
 
-      try {
-        content = YAML.parse(nextProps.content);
+      var contentData = HCCompiler.parseYAML(nextProps.content);
+      if (contentData.error){
+          var e = contentData.error;
+          var message = '"'+e.message+'" Line:'+e.parsedLine+' "'+e.snippet+'"';
+          this.props.returnError('yaml', message);
+          return;
+      } else {
+        content = contentData.data;
         this.props.returnError('yaml', '');
+      }
 
-      } catch (e) {
-        console.log(e);
-        var message = '"'+e.message+'" Line:'+e.parsedLine+' "'+e.snippet+'"';
-        this.props.returnError('yaml', message);
+      var result = HCCompiler.compile(content, template);
+      if (result.error){
+        var e = result.error;
+        var message = e.message;
+        this.props.returnError(contentType, message);
         return;
+      } else {
+        this.setState({ output: result.output});
+        this.props.returnError(contentType, '');
       }
-
-      if (nextProps.type === 'text'){
-        try {
-          var builder = Handlebars.compile(template);
-          this.setState({output: builder(content)});
-          this.props.returnError('text', '');
-
-        } catch(e){
-          this.props.returnError('text', e.message);
-          return;
-        }
-      }
-
-      if(nextProps.type === 'html'){
-        try {
-          var builder = Handlebars.compile(template);
-          this.setState({output: builder(content)});
-          this.props.returnError('html', '');
-
-        } catch(e){
-          this.props.returnError('html', e.message);
-          return;
-        }
-      }
-
 
     },
 
