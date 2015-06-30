@@ -11,8 +11,33 @@
     });
   };
 
+  var openFile = function(filename, callback) {
+    fs.readFile(filename, function(err, data) {
+      if (err) {
+        callback({
+          error: err
+        });
+      } else {
+        var dataInput = {};
+        try {
+          dataInput = JSON.parse(data);
+        } catch (e) {
+          dataInput = {
+              error: e.message
+          };
+        }
+
+        callback(dataInput);
+
+      }
+    });
+  };
+
+
+
   module.exports = {
-    saveFile: saveFile
+    saveFile: saveFile,
+    openFile: openFile
   };
 
 })();

@@ -67,6 +67,35 @@
       });
     },
 
+    open: function(filename){
+
+      HCFiles.openFile(filename, function(input) {
+        var invalid = false;
+
+        if (input.error) {
+          alert('ERROR: '+filename+' contains Invalid JSON Content: ' + input.error);
+          invalid = true;
+        } else {
+          if ((typeof input.content === 'undefined') ||
+            (typeof input.gfmTemplate === 'undefined') ||
+            (typeof input.htmlTemplate === 'undefined')) {
+            alert('ERROR: '+filename+' doesn\'t seem to be a valid hovercraft file.');
+            invalid = true;
+          }
+        }
+
+        if (!invalid) {
+          this.setState({ content: input.content});
+          this.setState({ textTemplate: input.gfmTemplate});
+          this.setState({ htmlTemplate: input.htmlTemplate});
+          this.setState({ filename: filename});
+          this.setState({unsaved: false});
+        }
+
+      }.bind(this));
+
+    },
+
     save: function(filename){
       this.setState({ saving: true});
 
@@ -98,7 +127,7 @@
       return (
         <div>
 
-          <MainMenu save={this.save} filename={thefilename} saving={saving} unsaved={unsaved} />
+          <MainMenu save={this.save} open={this.open} filename={thefilename} saving={saving} unsaved={unsaved} />
 
           <div className="row main">
             <div className="col-sm-6">
