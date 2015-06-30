@@ -21,7 +21,7 @@ module.exports = function(grunt) {
 
     browserify: {
       options: {
-        transform: ['reactify']
+        transform: ['babelify']
       },
       dev: {
         src: 'components/app.jsx',
