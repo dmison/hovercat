@@ -10,7 +10,7 @@
   var Editor = React.createClass({
 
     shouldComponentUpdate: function(nextProps) {
-      return (nextProps.newContent == true);
+      return (nextProps.content !== this.props.content);
     },
 
     onChange: function (content) {
