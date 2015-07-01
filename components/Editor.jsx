@@ -5,6 +5,9 @@
   var brace  = require('brace');
 
   require('brace/mode/markdown');
+  require('brace/mode/yaml');
+  require('brace/mode/html');
+
   require('brace/theme/tomorrow');
 
   var Editor = React.createClass({
