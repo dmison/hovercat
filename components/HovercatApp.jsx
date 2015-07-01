@@ -8,6 +8,7 @@
   var TabPane = require('react-bootstrap/lib/TabPane');
   var MainMenu = require('./MainMenu.jsx');
   var HCFiles = require('./HCFiles.js');
+  var HCCompiler = require('./HCCompiler.js');
 
   var HovercatApp = React.createClass({
 
@@ -29,13 +30,58 @@
 
     contentUpdated: function (text) {
       this.setState({unsaved: true});
-      this.setState({
-        content: text
-      });
+      this.setState({content: text});
+      this.updateOutput('all');
+    },
+
+    updateOutput: function(type){
+      var content = {};
+      var contentData = HCCompiler.parseYAML(this.state.content);
+      if (contentData.error){
+          var e = contentData.error;
+          var message = '"'+e.message+'" Line:'+e.parsedLine+' "'+e.snippet+'"';
+          this.updateErrors('yaml', message);
+          return;
+      } else {
+        content = contentData.data;
+        this.updateErrors('yaml', '');
+      }
+
+      //stupid repetition of code
+      if (type === 'text' || type === 'all'){
+        var result = HCCompiler.compile(content, this.state.textTemplate);
+        if (result.error){
+          var e = result.error;
+          var message = e.message;
+          this.updateErrors('text', message);
+          return;
+        } else {
+          this.setState({ textOutput: result.output});
+          this.updateErrors('text', '');
+        }
+      }
+      if (type === 'html' || type === 'all'){
+        var result = HCCompiler.compile(content, this.state.htmlTemplate);
+        if (result.error){
+          var e = result.error;
+          var message = e.message;
+          this.updateErrors('html', message);
+          return;
+        } else {
+          this.setState({ htmlOutput: result.output});
+          this.updateErrors('html', '');
+          // inline the CSS
+          HCCompiler.processCSS(result.output, function(html){
+            this.setState({ htmlOutput: html});
+          }.bind(this));
+        }
+      }
+      //stupid repetition ends
 
     },
 
-    receiveNewErrors: function (type, errorText) {
+
+    updateErrors: function (type, errorText) {
 
       if (type === 'yaml') {
         this.setState({
@@ -56,15 +102,14 @@
 
     textTemplateUpdated: function (text) {
       this.setState({unsaved: true});
-      this.setState({
-        textTemplate: text
-      });
+      this.setState({textTemplate: text});
+      this.updateOutput('text');
     },
     htmlTemplateUpdated: function (text) {
       this.setState({unsaved: true});
-      this.setState({
-        htmlTemplate: text
-      });
+      this.setState({htmlTemplate: text});
+      this.updateOutput('html');
+
     },
 
     open: function(filename){
@@ -90,6 +135,7 @@
           this.setState({ htmlTemplate: input.htmlTemplate});
           this.setState({ filename: filename});
           this.setState({unsaved: false});
+          this.updateOutput('all');
         }
 
       }.bind(this));
@@ -118,7 +164,9 @@
     },
 
     render: function () {
-      var textOut = this.state.textOutput;
+      var textOutput = this.state.textOutput;
+      var htmlOutput = this.state.htmlOutput;
+
       var errors = this.state.errors;
       var thefilename = this.state.filename;
       var saving = this.state.saving;
@@ -127,7 +175,7 @@
       return (
         <div>
 
-          <MainMenu save={this.save} open={this.open} filename={thefilename} saving={saving} unsaved={unsaved} />
+          <MainMenu save={this.save} open={this.open} export={this.export} filename={thefilename} saving={saving} unsaved={unsaved} />
 
           <div className="row main">
             <div className="col-sm-6">
@@ -147,10 +195,10 @@
             <div className="col-sm-6">
               <TabbedArea defaultActiveKey={1}>
                 <TabPane eventKey={1} tab='Text Preview'>
-                  <TextPreviewer content={this.state.content} returnError={this.receiveNewErrors} template={this.state.textTemplate} type='text'/>
+                  <TextPreviewer content={textOutput} type='text'/>
                 </TabPane>
                 <TabPane eventKey={2} tab='HTML Preview'>
-                  <TextPreviewer content={this.state.content} returnError={this.receiveNewErrors} template={this.state.htmlTemplate} type='html'/>
+                  <TextPreviewer content={htmlOutput} type='html'/>
                 </TabPane>
               </TabbedArea>
             </div>
