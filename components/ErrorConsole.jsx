@@ -5,12 +5,17 @@
 
     render: function(){
       var yamlDiv = (this.props.yaml === '') ? '' : <div><span className='label label-danger'>YAML</span> {this.props.yaml}</div>
-    var textDiv = (this.props.text === '') ? '' : <div><span className='label label-danger'>TEXT</span> {this.props.text}</div>
-  var htmlDiv = (this.props.html === '') ? '' : <div><span className='label label-danger'>HTML</span> {this.props.html}</div>
+      var textDiv = (this.props.text === '') ? '' : <div><span className='label label-danger'>TEXT</span> {this.props.text}</div>
+      var htmlDiv = (this.props.html === '') ? '' : <div><span className='label label-danger'>HTML</span> {this.props.html}</div>
+
+    var style = {
+      paddingLeft: 15,
+      paddingRight: 15
+    }
 
       return (
 
-        <div>
+        <div style={style}>
           {{yamlDiv}}
           {{textDiv}}
           {{htmlDiv}}

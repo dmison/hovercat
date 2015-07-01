@@ -95,8 +95,3 @@
   module.exports = MainMenu;
 
 })();
-
-
-// <Nav>
-//   <NavItem eventKey={1} href='#'>link</NavItem>
-// </Nav>

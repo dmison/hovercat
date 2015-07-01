@@ -17,3 +17,25 @@ html, body {
 a.menuLink {
   cursor: pointer;
 }
+
+div#yamlEditor {
+  margin: 12px;
+}
+
+div#markdownEditor {
+  margin: 12px;
+}
+
+div#htmlEditor {
+  margin: 12px;
+}
+
+.htmlpreview {
+  width: 95%;
+  -webkit-user-select: all;
+}
+.textpreview {
+  width: 95%;
+  -webkit-user-select: all;
+  border: 0px;
+}

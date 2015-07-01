@@ -171,7 +171,7 @@
         if (error) {
           alert('Export failed: '+error);
         } else {
-          alert('Export done.')
+          alert('Export done.');
         }
       });
 
@@ -191,6 +191,12 @@
 
           <MainMenu save={this.save} open={this.open} export={this.export} filename={thefilename} saving={saving} unsaved={unsaved} />
 
+          <div className="row console">
+            <div className="col-sm-12">
+              <ErrorConsole html={this.state.errorsHTML} text={this.state.errorsTEXT} yaml={this.state.errorsYAML}/>
+            </div>
+          </div>
+
           <div className="row main">
             <div className="col-sm-6">
               <TabbedArea defaultActiveKey={1}>
@@ -204,7 +210,6 @@
                   <Editor content={this.state.htmlTemplate} mode='html' onChange={this.htmlTemplateUpdated} theme='tomorrow'/>
                 </TabPane>
               </TabbedArea>
-              <ErrorConsole html={this.state.errorsHTML} text={this.state.errorsTEXT} yaml={this.state.errorsYAML}/>
             </div>
             <div className="col-sm-6">
               <TabbedArea defaultActiveKey={1}>
