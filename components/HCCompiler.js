@@ -76,8 +76,19 @@
     return { output:output, error: error };
   }
 
+  var processCSS = function(input, callback){
+    var styliner = new Styliner('', {
+      noCSS: false
+    });
+    styliner.processHTML(input)
+      .then(function(html) {
+          callback(html)
+      });
+  }
+
   module.exports = {
     parseYAML: parseYAML,
+    processCSS: processCSS,
     compile: compile
   }
 

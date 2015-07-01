@@ -15,7 +15,8 @@
     shouldComponentUpdate: function(nextProps, nextState){
 
       return !((nextProps.template === this.props.template) &&
-      (nextProps.content === this.props.content));
+      (nextProps.content === this.props.content) &&
+      (nextState.output === this.state.output));
 
     },
 
@@ -53,6 +54,12 @@
       } else {
         this.setState({ output: result.output});
         this.props.returnError(contentType, '');
+      }
+
+      if (contentType === 'html'){
+        HCCompiler.processCSS(result.output, function(html){
+          this.setState({ output: html});
+        }.bind(this));
       }
 
     },
