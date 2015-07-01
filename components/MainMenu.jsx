@@ -58,6 +58,14 @@
       this.props.open(filename);
     },
 
+    export: function(){
+      var exportName = dialog.showSaveDialog();
+
+      if(exportName){
+        this.props.export(exportName);
+      }
+    },
+
     render: function () {
 
       var fileSaveState = this.props.unsaved? (<span className='label label-warning'>unsaved</span>): (<span/>);
@@ -71,7 +79,7 @@
             <li><a href=''>New</a></li>
             <li><a className='menuLink' onClick={this.open}>Open</a></li>
             <li><a className='menuLink' onClick={this.save}>Save</a></li>
-            <li><a href=''>Export</a></li>
+            <li><a className='menuLink' onClick={this.export}>Export</a></li>
           </ul>
           <div className="navbar-right">
             <span style={style} className="navbar-left navbar-text">{fileSaveState} {filenameToShow}</span>

@@ -33,11 +33,28 @@
     });
   };
 
+  var exportFiles = function(filename, textOut, htmlOut, callback) {
 
+    fs.writeFile(filename + '.txt', textOut, function(err) {
+      if (err) {
+        callback(err);
+      } else {
+        fs.writeFile(filename + '.html', htmlOut, function(err) {
+          if (err) {
+            callback(err);
+          } else {
+            callback();
+          }
+        });
+      }
+    });
+
+  };
 
   module.exports = {
     saveFile: saveFile,
-    openFile: openFile
+    openFile: openFile,
+    exportFiles: exportFiles
   };
 
 })();

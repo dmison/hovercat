@@ -163,6 +163,20 @@
 
     },
 
+    export: function(exportName){
+      var htmlOutput = this.state.htmlOutput;
+      var textOutput = this.state.textOutput;
+
+      HCFiles.exportFiles(exportName, textOutput, htmlOutput, function(error){
+        if (error) {
+          alert('Export failed: '+error);
+        } else {
+          alert('Export done.')
+        }
+      });
+
+    },
+
     render: function () {
       var textOutput = this.state.textOutput;
       var htmlOutput = this.state.htmlOutput;
