@@ -87,7 +87,7 @@ module.exports = function(grunt) {
        },
        release: {
          files: [
-           {cwd: 'dist/linux', src: "**/*", dest: "/opt/hovercat/"},
+           {cwd: 'dist/linux/Hovercat-linux', src: "**/*", dest: "/opt/hovercat/"},
            {src: "Hovercat.desktop", dest: "/usr/share/applications/"},
          ]
        }
@@ -109,7 +109,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('default', ['build']);
-  grunt.registerTask('linux-dist', ['build', 'clean:linuxBuild', 'electron:linuxBuild']);
+  grunt.registerTask('linux-dist', ['dist', 'clean:linuxBuild', 'electron:linuxBuild']);
   grunt.registerTask('linux-rpm', ['linux-dist', 'easy_rpm'])
 
 
