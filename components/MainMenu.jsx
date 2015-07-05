@@ -1,12 +1,20 @@
 (function () {
 
   var React = require('react');
-
-  // var Navbar = require('react-bootstrap/lib/Navbar');
-  // var NavItem = require('react-bootstrap/lib/NavItem');
-  // var Nav = require('react-bootstrap/lib/Nav');
+  var ModalConfig = require('./ModalConfig.jsx');
 
   var MainMenu = React.createClass({
+
+    getInitialState: function(){
+      return ({ showConfig: false});
+    },
+
+    openConfig: function(){
+      this.setState({showConfig: true});
+    },
+    closeConfig: function(){
+      this.setState({showConfig: false});
+    },
 
     save: function(){
 
@@ -76,14 +84,18 @@
         <nav className='navbar navbar-default navbar-static-top'>
           <span className='navbar-brand'>Hovercat</span>
           <ul className='nav navbar-nav'>
-            <li><a href=''>New</a></li>
+            <li><a>New</a></li>
             <li><a className='menuLink' onClick={this.open}>Open</a></li>
             <li><a className='menuLink' onClick={this.save}>Save</a></li>
             <li><a className='menuLink' onClick={this.export}>Export</a></li>
+              <li><a className='menuLink' onClick={this.openConfig}>Configure</a></li>
           </ul>
           <div className="navbar-right">
             <span style={style} className="navbar-left navbar-text">{fileSaveState} {filenameToShow}</span>
           </div>
+
+          <ModalConfig show={this.state.showConfig} onHide={this.closeConfig} />
+
         </nav>
 
       );
@@ -95,3 +107,20 @@
   module.exports = MainMenu;
 
 })();
+
+
+// <div className="modal-content">
+//   <div className="modal-header">
+//     <button type="button" className="close" onClick={this.closeConfig}>
+//       <span aria-hidden="true">&times;</span>
+//     </button>
+//     <h4 className="modal-title" id="myModalLabel">Modal title</h4>
+//   </div>
+//   <div className="modal-body">
+//     ...
+//   </div>
+//   <div className="modal-footer">
+//     <button type="button" className="btn btn-default" onClick={this.closeConfig}>Close</button>
+//     <button type="button" className="btn btn-primary">Save changes</button>
+//   </div>
+// </div>
