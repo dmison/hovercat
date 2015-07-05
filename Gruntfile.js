@@ -110,6 +110,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['build']);
   grunt.registerTask('linux-dist', ['dist', 'clean:linuxBuild', 'electron:linuxBuild']);
+  grunt.registerTask('osx-dist', ['dist', 'clean:osxBuild', 'electron:osxBuild']);
+
   grunt.registerTask('linux-rpm', ['linux-dist', 'easy_rpm'])
 
 
