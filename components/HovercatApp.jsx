@@ -4,8 +4,8 @@
   var Editor = require('./Editor.jsx');
   var ErrorConsole = require('./ErrorConsole.jsx');
   var TextPreviewer = require('./Previewer.jsx');
-  var TabbedArea = require('react-bootstrap/lib/TabbedArea');
-  var TabPane = require('react-bootstrap/lib/TabPane');
+  var Tabs = require('react-bootstrap/lib/Tabs');
+  var Tab = require('react-bootstrap/lib/Tab');
   var MainMenu = require('./MainMenu.jsx');
   var HCFiles = require('./HCFiles.js');
   var HCCompiler = require('./HCCompiler.js');
@@ -72,6 +72,7 @@
           this.updateErrors('html', '');
           // inline the CSS
           HCCompiler.processCSS(result.output, function(html){
+            console.log('css done');
             this.setState({ htmlOutput: html});
           }.bind(this));
         }
@@ -199,27 +200,27 @@
 
           <div className="row main">
             <div className="col-sm-6">
-              <TabbedArea defaultActiveKey={1}>
-                <TabPane eventKey={1} tab='Content'>
+              <Tabs defaultActiveKey={1}>
+                <Tab eventKey={1} title='Content'>
                   <Editor content={this.state.content} mode='yaml' onChange={this.contentUpdated} theme='tomorrow'/>
-                </TabPane>
-                <TabPane eventKey={2} tab='Text Template'>
+                </Tab>
+                <Tab eventKey={2} title='Text Template'>
                   <Editor content={this.state.textTemplate} mode='markdown' onChange={this.textTemplateUpdated} theme='tomorrow'/>
-                </TabPane>
-                <TabPane eventKey={3} tab='HTML Template'>
+                </Tab>
+                <Tab eventKey={3} title='HTML Template'>
                   <Editor content={this.state.htmlTemplate} mode='html' onChange={this.htmlTemplateUpdated} theme='tomorrow'/>
-                </TabPane>
-              </TabbedArea>
+                </Tab>
+              </Tabs>
             </div>
             <div className="col-sm-6">
-              <TabbedArea defaultActiveKey={1}>
-                <TabPane eventKey={1} tab='Text Preview'>
+              <Tabs defaultActiveKey={1}>
+                <Tab eventKey={1} title='Text Preview'>
                   <TextPreviewer content={textOutput} type='text'/>
-                </TabPane>
-                <TabPane eventKey={2} tab='HTML Preview'>
+                </Tab>
+                <Tab eventKey={2} title='HTML Preview'>
                   <TextPreviewer content={htmlOutput} type='html'/>
-                </TabPane>
-              </TabbedArea>
+                </Tab>
+              </Tabs>
             </div>
           </div>
         </div>

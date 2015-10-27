@@ -29,7 +29,7 @@
       window.addEventListener('resize', this.handleResize);
     },
 
-    componentDidUnmount: function(){
+    componentWillUnmount: function(){
       window.removeEventListener('resize', this.handleReize);
     },
 
