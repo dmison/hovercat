@@ -16,9 +16,9 @@
       return (
 
         <div style={style}>
-          {{yamlDiv}}
-          {{textDiv}}
-          {{htmlDiv}}
+          {yamlDiv}
+          {textDiv}
+          {htmlDiv}
         </div>
 
       )
