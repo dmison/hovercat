@@ -1,6 +1,5 @@
 (function () {
   var React = require('react');
-
   var Editor = require('./Editor.jsx');
   var ErrorConsole = require('./ErrorConsole.jsx');
   var TextPreviewer = require('./Previewer.jsx');
@@ -24,8 +23,100 @@
         errorsHTML: '',
         filename: '',
         unsaved: false,
-        saving: false
+        saving: false,
+        homeDir: '',
+        config: {
+          email: {
+            defaultSender: '',
+            gmail: {
+              username: '',
+              appPassword: ''
+            },
+            smtp: {
+              host: '',
+              port: 25,
+              tls: {
+                rejectUnauthorized: false
+              }
+            }
+          }
+        }
       }
+    },
+
+
+    componentDidMount: function(){
+      //wait to get home directory path from main process
+      ipc.on('send-homedir', function(message) {
+        message = message + '/.hovercraft/config.yaml';
+        this.setState({ homeDir: message });
+
+        //load config into state
+        HCFiles.readConfigFile(this.state.config, message, function(config){
+          this.setState({ config: config });
+        }.bind(this));
+
+      }.bind(this));
+
+      //load config into state
+      HCFiles.readConfigFile(this.state.config, this.state.homeDir, function(config){
+        this.setState({ config: config });
+      }.bind(this));
+
+
+    },
+
+    render: function () {
+      var textOutput = this.state.textOutput;
+      var htmlOutput = this.state.htmlOutput;
+
+      var errors = this.state.errors;
+      var thefilename = this.state.filename;
+      var saving = this.state.saving;
+      var unsaved = this.state.unsaved;
+
+      return (
+        <div>
+
+          <MainMenu save={this.save} open={this.open} export={this.export} filename={thefilename} saving={saving} unsaved={unsaved} />
+
+          <div className="row console">
+            <div className="col-sm-12">
+              <ErrorConsole html={this.state.errorsHTML} text={this.state.errorsTEXT} yaml={this.state.errorsYAML}/>
+            </div>
+          </div>
+
+          <div className="row main">
+            <div className="col-sm-6">
+              <Tabs defaultActiveKey={1}>
+                <Tab eventKey={1} title='Content'>
+                  <Editor content={this.state.content} mode='yaml' onChange={this.contentUpdated} theme='tomorrow'/>
+                </Tab>
+                <Tab eventKey={2} title='Text Template'>
+                  <Editor content={this.state.textTemplate} mode='markdown' onChange={this.textTemplateUpdated} theme='tomorrow'/>
+                </Tab>
+                <Tab eventKey={3} title='HTML Template'>
+                  <Editor content={this.state.htmlTemplate} mode='html' onChange={this.htmlTemplateUpdated} theme='tomorrow'/>
+                </Tab>
+              </Tabs>
+            </div>
+            <div className="col-sm-6">
+              <Tabs defaultActiveKey={1}>
+                <Tab eventKey={1} title='Text Preview'>
+                  <TextPreviewer content={textOutput} type='text'/>
+                </Tab>
+                <Tab eventKey={2} title='HTML Preview'>
+                  <TextPreviewer content={htmlOutput} type='html'/>
+                </Tab>
+              </Tabs>
+            </div>
+          </div>
+        </div>
+      )
+    },
+
+    saveNewConfig: function(config){
+
     },
 
     contentUpdated: function (text) {
@@ -178,56 +269,14 @@
 
     },
 
-    render: function () {
-      var textOutput = this.state.textOutput;
-      var htmlOutput = this.state.htmlOutput;
+    openSendEmailDialog: function(){
 
-      var errors = this.state.errors;
-      var thefilename = this.state.filename;
-      var saving = this.state.saving;
-      var unsaved = this.state.unsaved;
-
-      return (
-        <div>
-
-          <MainMenu save={this.save} open={this.open} export={this.export} filename={thefilename} saving={saving} unsaved={unsaved} />
-
-          <div className="row console">
-            <div className="col-sm-12">
-              <ErrorConsole html={this.state.errorsHTML} text={this.state.errorsTEXT} yaml={this.state.errorsYAML}/>
-            </div>
-          </div>
-
-          <div className="row main">
-            <div className="col-sm-6">
-              <Tabs defaultActiveKey={1}>
-                <Tab eventKey={1} title='Content'>
-                  <Editor content={this.state.content} mode='yaml' onChange={this.contentUpdated} theme='tomorrow'/>
-                </Tab>
-                <Tab eventKey={2} title='Text Template'>
-                  <Editor content={this.state.textTemplate} mode='markdown' onChange={this.textTemplateUpdated} theme='tomorrow'/>
-                </Tab>
-                <Tab eventKey={3} title='HTML Template'>
-                  <Editor content={this.state.htmlTemplate} mode='html' onChange={this.htmlTemplateUpdated} theme='tomorrow'/>
-                </Tab>
-              </Tabs>
-            </div>
-            <div className="col-sm-6">
-              <Tabs defaultActiveKey={1}>
-                <Tab eventKey={1} title='Text Preview'>
-                  <TextPreviewer content={textOutput} type='text'/>
-                </Tab>
-                <Tab eventKey={2} title='HTML Preview'>
-                  <TextPreviewer content={htmlOutput} type='html'/>
-                </Tab>
-              </Tabs>
-            </div>
-          </div>
-        </div>
-      )
     }
 
+
   });
+
+
 
   module.exports = HovercatApp;
 
