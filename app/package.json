@@ -4,8 +4,5 @@
   "description": "",
   "main": "main.js",
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "styliner": "^0.8.9"
-  }
+  "license": "ISC"
 }
