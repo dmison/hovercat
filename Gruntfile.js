@@ -47,7 +47,18 @@ module.exports = function(grunt) {
     copy: {
       main: {
         files: [
-          {expand: true, cwd:'node_modules/bootstrap/dist/', src: ['**'], dest: 'app/vendor/bootstrap/'},
+          {
+            expand: true,
+            cwd:'node_modules/bootstrap/dist/',
+            src: ['**'],
+            dest: 'app/vendor/bootstrap/'
+          },
+          {
+            expand: true,
+            cwd:'node_modules/font-awesome/',
+            src: ['css/**', 'fonts/**'],
+            dest: 'app/vendor/font-awesome/'
+          }
         ],
       },
     },
