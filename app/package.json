@@ -4,5 +4,10 @@
   "description": "",
   "main": "main.js",
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "styliner": "^0.8.9",
+    "nodemailer": "^1.8.0",
+    "nodemailer-smtp-transport": "^1.0.4"
+  }
 }
