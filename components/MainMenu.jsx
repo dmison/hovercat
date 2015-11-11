@@ -88,11 +88,10 @@
         <nav className='navbar navbar-default navbar-static-top'>
           <span className='navbar-brand'>Hovercat</span>
           <ul className='nav navbar-nav'>
-            <li><a>New</a></li>
+
             <li><a className='menuLink' onClick={this.open}>Open</a></li>
             <li><a className='menuLink' onClick={this.save}>Save</a></li>
             <li><a className='menuLink' onClick={this.export}>Export</a></li>
-            <li><a className='menuLink' onClick={this.openConfig}>Configure</a></li>
             <li><a className='menuLink' onClick={this.showEmailDialog}>Send Email</a></li>
           </ul>
           <div className="navbar-right">
