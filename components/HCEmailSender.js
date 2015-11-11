@@ -6,10 +6,18 @@
     var mailOptions = {
       from: sender, // sender address
       to: receipients, // list of receivers
-      subject: subject, // Subject line
-      text: textBody, // plaintext body
-      html: htmlBody // html body
+      subject: subject // Subject line
     };
+
+    if (textBody !== ''){
+      mailOptions.text = textBody;  // plaintext body
+    }
+
+    if (htmlBody !== ''){
+      mailOptions.html = htmlBody; // html body
+    }
+
+    console.log(mailOptions);
 
     var transporter = getTransport(method, config);
 
