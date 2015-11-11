@@ -12,6 +12,21 @@
       }
     },
 
+    componentWillReceiveProps: function(newProps){
+      this.setState({
+        gmail: (newProps.selected === 'gmail'),
+        smtp: (newProps.selected === 'smtp')
+      })
+
+    },
+
+    componentDidMount: function(){
+      this.setState({
+        gmail: (this.props.selected === 'gmail'),
+        smtp: (this.props.selected === 'smtp')
+      })
+    },
+
     render: function() {
 
       return (

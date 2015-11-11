@@ -9,6 +9,8 @@
   var HCFiles = require('./HCFiles.js');
   var HCCompiler = require('./HCCompiler.js');
 
+  var EmailModal = require('./EmailModal.jsx');
+
   var HovercatApp = React.createClass({
 
     getInitialState: function () {
@@ -40,7 +42,8 @@
               }
             }
           }
-        }
+        },
+        showEmailDialog: false
       }
     },
 
@@ -66,7 +69,19 @@
 
     },
 
+    showEmailDialog: function(){
+      this.setState({showEmailDialog: true});
+
+
+    },
+
+    closeEmailDialog: function(){
+        this.setState({showEmailDialog: false});
+    },
+
     render: function () {
+      console.log('render: %s', JSON.stringify(this.state.config));
+
       var textOutput = this.state.textOutput;
       var htmlOutput = this.state.htmlOutput;
 
@@ -78,7 +93,14 @@
       return (
         <div>
 
-          <MainMenu save={this.save} open={this.open} export={this.export} filename={thefilename} saving={saving} unsaved={unsaved} />
+          <MainMenu
+            save={this.save}
+            open={this.open}
+            export={this.export}
+            filename={thefilename}
+            saving={saving}
+            unsaved={unsaved}
+            showEmailDialog={this.showEmailDialog} />
 
           <div className="row console">
             <div className="col-sm-12">
@@ -111,6 +133,12 @@
               </Tabs>
             </div>
           </div>
+
+          <EmailModal htmlOutput={this.state.htmlOutput}
+                      textOutput={this.state.textOutput}
+                      config={this.state.config}
+                      show={this.state.showEmailDialog}
+                      onHide={this.closeEmailDialog} />
         </div>
       )
     },
