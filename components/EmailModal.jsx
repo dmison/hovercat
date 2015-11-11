@@ -7,11 +7,13 @@
   var HCEmailSender = require('./HCEmailSender.js');
   var SendStatus = require('./SendStatus.jsx');
 
-  var EmailModal = React.createClass({getInitialState: function() {
+  var EmailModal = React.createClass({
+    getInitialState: function() {
       return {
         receipients: '',
         sender: '',
         subject: '',
+        replyTo: '',
         includeHTML: true,
         includeTEXT: true,
         accountToUse: 'gmail',
@@ -56,7 +58,9 @@
                 <label className='pull-right'>Account:</label>
               </div>
               <div className='col-md-7'>
-                <EmailAccountSelector accounts={this.props.config.email} selected={this.state.accountToUse} setAccount={this.setAccount}/>
+                <EmailAccountSelector accounts={this.props.config.email}
+                                      selected={this.state.accountToUse}
+                                      setAccount={this.setAccount} />
               </div>
             </div>
 
@@ -65,9 +69,11 @@
                 <label className='pull-right'>To:</label>
               </div>
               <div className='col-md-7'>
-                <Input value={this.state.receipients} type='text' onChange={this.setReceipients} bsStyle={this.state.receipientsIsValid
-                  ? 'success'
-                  : 'error'} hasFeedback/>
+                <Input  value={this.state.receipients}
+                        type='text'
+                        onChange={this.setReceipients}
+                        bsStyle={this.state.receipientsIsValid ? 'success' : 'error'}
+                        hasFeedback />
               </div>
             </div>
 
@@ -76,20 +82,36 @@
                 <label className='pull-right'>From:</label>
               </div>
               <div className='col-md-7'>
-                <Input value={this.state.sender} type='text' onChange={this.setSender} bsStyle={this.state.senderIsValid
-                  ? 'success'
-                  : 'error'} hasFeedback/>
+                <Input  value={this.state.sender}
+                        type='text'
+                        onChange={this.setSender}
+                        bsStyle={this.state.senderIsValid ? 'success' : 'error'}
+                        hasFeedback />
               </div>
             </div>
+
+            <div className='row'>
+              <div className='col-md-3'>
+                <label className='pull-right'>Reply To:</label>
+              </div>
+              <div className='col-md-7'>
+                <Input  value={this.state.replyTo}
+                        type='text'
+                        onChange={this.setReplyTo} />
+              </div>
+            </div>
+
 
             <div className='row'>
               <div className='col-md-3'>
                 <label className='pull-right'>Subject:</label>
               </div>
               <div className='col-md-7'>
-                <Input value={this.state.subject} type='text' onChange={this.setSubject} bsStyle={this.state.subjectIsValid
-                  ? 'success'
-                  : 'error'} hasFeedback/>
+                <Input  value={this.state.subject}
+                        type='text'
+                        onChange={this.setSubject}
+                        bsStyle={this.state.subjectIsValid ? 'success' : 'error'}
+                        hasFeedback />
               </div>
             </div>
 
@@ -98,8 +120,14 @@
                 <label className='pull-right'>Include Formats:</label>
               </div>
               <div className='col-md-7'>
-                <Input type='checkbox' label='HTML' checked={this.state.includeHTML} onChange={this.checkIncludeHTML}/>
-                <Input type='checkbox' label='Text' checked={this.state.includeTEXT} onChange={this.checkIncludeTEXT}/>
+                <Input  type='checkbox'
+                        label='HTML'
+                        checked={this.state.includeHTML}
+                        onChange={this.checkIncludeHTML} />
+                <Input  type='checkbox'
+                        label='Text'
+                        checked={this.state.includeTEXT}
+                        onChange={this.checkIncludeTEXT} />
               </div>
             </div>
 
@@ -137,6 +165,13 @@
       if (!checked) {
         this.setState({includeHTML: true});
       }
+    },
+
+    setReplyTo: function(event){
+      var replyTo = event.target.value;
+      this.setState({
+        replyTo: replyTo
+      });
     },
 
     setSubject: function(event) {
@@ -189,6 +224,7 @@
         htmlOut,
         textOut,
         this.state.sender,
+        this.state.replyTo,
         function(error) {
           if (error) {
             this.setState({

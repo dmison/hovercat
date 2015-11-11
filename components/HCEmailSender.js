@@ -1,7 +1,6 @@
 (function() {
 
-  var sendEmail = function(config, method, receipients, subject, htmlBody, textBody, sender, done) {
-    console.log(sender)
+  var sendEmail = function(config, method, receipients, subject, htmlBody, textBody, sender, replyTo, done) {
 
     var mailOptions = {
       from: sender, // sender address
@@ -17,7 +16,9 @@
       mailOptions.html = htmlBody; // html body
     }
 
-    console.log(mailOptions);
+    if(replyTo !== ''){
+      mailOptions.replyTo = replyTo;
+    }
 
     var transporter = getTransport(method, config);
 
@@ -25,7 +26,6 @@
       if (error) {
         done(error);
       } else {
-        console.log('Message sent: ' + info.response);
         done();
       }
     });

@@ -80,7 +80,6 @@
     },
 
     render: function () {
-      console.log('render: %s', JSON.stringify(this.state.config));
 
       var textOutput = this.state.textOutput;
       var htmlOutput = this.state.htmlOutput;
