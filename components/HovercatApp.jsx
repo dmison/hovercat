@@ -294,10 +294,6 @@
         }
       });
 
-    },
-
-    openSendEmailDialog: function(){
-
     }
 
 
