@@ -22,12 +22,8 @@
 
       if (this.props.filename === ''){
         var filenameToUse = dialog.showSaveDialog({filters: [{
-          name: 'Hovercraft',
-          extensions: ['hovercraft']
-        },
-        {
-          name: 'JSON',
-          extensions: ['json']
+          name: 'Hovercat',
+          extensions: ['hovercat']
         }]});
 
         if (typeof filenameToUse === 'undefined'){
@@ -47,12 +43,8 @@
       var filenames = dialog.showOpenDialog({
         properties: ['openFile'],
         filters: [{
-          name: 'Hovercraft',
-          extensions: ['hovercraft']
-        },
-        {
-          name: 'JSON',
-          extensions: ['json']
+          name: 'Hovercat',
+          extensions: ['hovercat']
         }]
       });
 
