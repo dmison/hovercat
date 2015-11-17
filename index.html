@@ -28,7 +28,7 @@
     <p>Some super lazy instructions I threw together quickly</p>
 
 
-    <h4>Installing on Fedora</h4>
+    <h3>Installing on Fedora</h3>
 
   <ol>
     <li><p>Add the following to
@@ -45,8 +45,31 @@ baseurl=http://shinysparkly.com/hovercat/repo</pre>
     <li><p>Launch <b>hovercat</b> from GNOME Shell launcher.</p></li>
   </ol>
 
-  <h4>Installing on OSX</h4>
+  <h3>Installing on OSX</h3>
   <p>TODO</p>
+
+  <h3>Configuring</h3>
+  <p>Right now the only configuable aspect of Hovercat is for email sending, and
+    until such time as I get around to creating a UI for it, you need to
+  configure Hovercat by editing a YAML config file.  The config file
+  (<code>~/.hovercat/config.yaml</code>) is created if it doesn't exist when
+  Hovercat launches.</p>
+
+  <p>The newly created file looks like this:</p>
+
+  <pre>email:
+    defaultSender: ""
+    gmail:
+        username: ""
+        appPassword: ""
+    smtp:
+        host: ""
+        port: 25
+        tls:
+             rejectUnauthorized: false</pre>
+
+    <p>You can find information <a href="https://support.google.com/mail/answer/185833?hl=en">here</a> about creating a Gmail 'app password'.</p>
+
 </div>
 </body>
 
