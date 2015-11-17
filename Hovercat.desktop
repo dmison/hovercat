@@ -4,5 +4,5 @@ Encoding=UTF-8
 Name=Hovercat
 Comment=A sample application
 Exec=/opt/hovercat/Hovercat
-Icon=/opt/hovercat/resources/default_app/electron.png
+Icon=/opt/hovercat/resources/app/electron.png
 Terminal=false
