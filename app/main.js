@@ -21,7 +21,7 @@ app.on('ready', function() {
   // Create the browser window.
   mainWindow = new BrowserWindow({'width': 1000, 'height': 700, 'dark-theme': false, 'icon': __dirname+'/electron.png' });
 
-  mainWindow.setMenu(null);
+  //mainWindow.setMenu(null);
   //mainWindow.openDevTools();
 
   // and load the index.html of the app.
