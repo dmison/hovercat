@@ -22,12 +22,8 @@
 
       if (this.props.filename === ''){
         var filenameToUse = dialog.showSaveDialog({filters: [{
-          name: 'Hovercraft',
-          extensions: ['hovercraft']
-        },
-        {
-          name: 'JSON',
-          extensions: ['json']
+          name: 'Hovercat',
+          extensions: ['hovercat']
         }]});
 
         if (typeof filenameToUse === 'undefined'){
@@ -47,12 +43,8 @@
       var filenames = dialog.showOpenDialog({
         properties: ['openFile'],
         filters: [{
-          name: 'Hovercraft',
-          extensions: ['hovercraft']
-        },
-        {
-          name: 'JSON',
-          extensions: ['json']
+          name: 'Hovercat',
+          extensions: ['hovercat']
         }]
       });
 
@@ -74,6 +66,10 @@
       }
     },
 
+    showEmailDialog: function(){
+      this.props.showEmailDialog();
+    },
+
     render: function () {
 
       var fileSaveState = this.props.unsaved? (<span className='label label-warning'>unsaved</span>): (<span/>);
@@ -84,11 +80,11 @@
         <nav className='navbar navbar-default navbar-static-top'>
           <span className='navbar-brand'>Hovercat</span>
           <ul className='nav navbar-nav'>
-            <li><a>New</a></li>
+
             <li><a className='menuLink' onClick={this.open}>Open</a></li>
             <li><a className='menuLink' onClick={this.save}>Save</a></li>
             <li><a className='menuLink' onClick={this.export}>Export</a></li>
-              <li><a className='menuLink' onClick={this.openConfig}>Configure</a></li>
+            <li><a className='menuLink' onClick={this.showEmailDialog}>Send Email</a></li>
           </ul>
           <div className="navbar-right">
             <span style={style} className="navbar-left navbar-text">{fileSaveState} {filenameToShow}</span>
@@ -107,20 +103,3 @@
   module.exports = MainMenu;
 
 })();
-
-
-// <div className="modal-content">
-//   <div className="modal-header">
-//     <button type="button" className="close" onClick={this.closeConfig}>
-//       <span aria-hidden="true">&times;</span>
-//     </button>
-//     <h4 className="modal-title" id="myModalLabel">Modal title</h4>
-//   </div>
-//   <div className="modal-body">
-//     ...
-//   </div>
-//   <div className="modal-footer">
-//     <button type="button" className="btn btn-default" onClick={this.closeConfig}>Close</button>
-//     <button type="button" className="btn btn-primary">Save changes</button>
-//   </div>
-// </div>

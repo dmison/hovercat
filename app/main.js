@@ -1,3 +1,4 @@
+var ipc = require('ipc');
 var app = require('app');  // Module to control application life.
 var BrowserWindow = require('browser-window');  // Module to create native browser window.
 
@@ -26,6 +27,9 @@ app.on('ready', function() {
   // and load the index.html of the app.
   mainWindow.loadUrl('file://' + __dirname + '/index.html');
 
+  mainWindow.webContents.on('did-finish-load', function() {
+      mainWindow.webContents.send('send-homedir', app.getPath('home'));
+    });
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
     // Dereference the window object, usually you would store windows

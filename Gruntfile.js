@@ -47,7 +47,18 @@ module.exports = function(grunt) {
     copy: {
       main: {
         files: [
-          {expand: true, cwd:'node_modules/bootstrap/dist/', src: ['**'], dest: 'app/vendor/bootstrap/'},
+          {
+            expand: true,
+            cwd:'node_modules/bootstrap/dist/',
+            src: ['**'],
+            dest: 'app/vendor/bootstrap/'
+          },
+          {
+            expand: true,
+            cwd:'node_modules/font-awesome/',
+            src: ['css/**', 'fonts/**'],
+            dest: 'app/vendor/font-awesome/'
+          }
         ],
       },
     },
@@ -81,13 +92,13 @@ module.exports = function(grunt) {
          // RPM package.  The plugin does contain defaults for these if you omit
          // them, and will notify you when this occurs.
          name: "hovercat",
-         version: "0.0.2",
+         version: "0.0.4",
          release: 1,
          buildArch: "x86_64"
        },
        release: {
          files: [
-           {cwd: 'dist/linux/Hovercat-linux', src: "**/*", dest: "/opt/hovercat/"},
+           {cwd: 'dist/linux/Hovercat-linux-x64', src: "**/*", dest: "/opt/hovercat/"},
            {src: "Hovercat.desktop", dest: "/usr/share/applications/"},
          ]
        }
