@@ -45,6 +45,10 @@
         filters: [{
           name: 'Hovercat',
           extensions: ['hovercat']
+        },
+        {
+          name: 'Hovercraft (legacy)',
+          extensions: ['hovercraft']
         }]
       });
 
