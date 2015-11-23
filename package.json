@@ -28,6 +28,7 @@
     "grunt-contrib-copy": "^0.8.2",
     "grunt-easy-rpm": "^1.5.4",
     "grunt-electron": "^2.0.1",
+    "grunt-shell": "^1.1.2",
     "load-grunt-tasks": "^3.3.0"
   }
 }

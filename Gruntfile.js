@@ -61,6 +61,10 @@ module.exports = function(grunt) {
           }
         ],
       },
+      rpmsToRepo: {
+        src: 'hovercat-*.rpm',
+        dest: 'repo/'
+      }
     },
 
     electron: {
@@ -83,6 +87,14 @@ module.exports = function(grunt) {
           platform: 'linux',
           arch: 'x64'
         }
+      }
+    },
+
+    shell: {
+      options: {
+      },
+      buildRepo: {
+        command: 'createrepo --database repo'
       }
     },
 
@@ -120,10 +132,12 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('default', ['build']);
-  grunt.registerTask('linux-dist', ['dist', 'clean:linuxBuild', 'electron:linuxBuild']);
+
   grunt.registerTask('osx-dist', ['dist', 'clean:osxBuild', 'electron:osxBuild']);
 
-  grunt.registerTask('linux-rpm', ['linux-dist', 'easy_rpm'])
+  grunt.registerTask('linux-dist', ['dist', 'clean:linuxBuild', 'electron:linuxBuild']);
+  grunt.registerTask('linux-rpm', ['linux-dist', 'easy_rpm']);
+  grunt.registerTask('linux-repo', ['linux-rpm', 'copy:rpmsToRepo', 'shell:buildRepo']);
 
 
 };
