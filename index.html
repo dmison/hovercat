@@ -10,67 +10,124 @@
   <!-- Optional theme -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
   <!-- Latest compiled and minified JavaScript -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
 </head>
 
 <body>
 
-  <nav class='navbar navbar-default navbar-inverse navbar-static-top'>
+  <nav class='navbar navbar-default navbar-inverse  navbar-static-top' style="margin-bottom: 0px !important;">
     <div class="container">
-    <span class='navbar-brand'>Hovercat</span>
-  </div>
+      <span class='navbar-brand'>Hovercat</span>
+      <span class='navbar-right navbar-text'><a href="https://github.com/dmison/hovercat"><i class="fa fa-github-alt"></i> On Github</a></span>
+    </div>
   </nav>
 
 
+  <div class="jumbotron" style=" margin-bottom: 0px; margin-top:0px;">
+    <div class="container" style="width: 75%">
+      <h1>Hovercat </h1>
+      <p>Easy repeatable email with structure.</p>
+    </div>
+  </div>
+
+  <div style="background-color: lightgrey; ">
   <div class="container">
 
-    <p>Some super lazy instructions I threw together quickly</p>
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        <!-- <li data-target="#carousel-example-generic" data-slide-to="3"></li> -->
+      </ol>
+
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner" role="listbox">
+        <div class="item active">
+          <img src="screenshots/main.png" alt="Main View" >
+        </div>
+
+        <div class="item">
+          <img src="screenshots/text-template.png" alt="...">
+        </div>
+
+        <div class="item">
+          <img src="screenshots/html-template.png" alt="...">
+        </div>
+
+        <!-- <div class="item">
+          <img src="screenshots/errors.png" alt="...">
+          <div class="carousel-caption">
+
+          </div>
+        </div> -->
 
 
-    <h3>Installing on Fedora</h3>
+      </div>
+
+    </div>
+  </div>
+  </div>
+  <div style="padding-top: 25px;"> <!--  style="background-color: lightgrey;" -->
+    <div class="container">
+  <h3>Installing on Fedora</h3>
 
   <ol>
-    <li><p>Add the following to
-      <code>/etc/yum.repos.d/hovercat.repo</code>:</p>
+    <li>
+      <p>Add the following to
+        <code>/etc/yum.repos.d/hovercat.repo</code>:</p>
 
-          <pre>[Hovercat]
+      <pre>[Hovercat]
 name=Hovercat Repository
 baseurl=http://shinysparkly.com/hovercat/repo</pre>
 
     </li>
-    <li><p>Install:
-      <code>sudo dnf install hovercat --nogpgcheck</code></p>
+    <li>
+      <p>Install:
+        <code>sudo dnf install hovercat --nogpgcheck</code>
+      </p>
     </li>
-    <li><p>Launch <b>hovercat</b> from GNOME Shell launcher.</p></li>
+    <li>
+      <p>Launch <b>hovercat</b> from GNOME Shell launcher.</p>
+    </li>
   </ol>
 
   <h3>Installing on OSX</h3>
   <p>TODO</p>
 
   <h3>Configuring</h3>
-  <p>Right now the only configuable aspect of Hovercat is for email sending, and
-    until such time as I get around to creating a UI for it, you need to
-  configure Hovercat by editing a YAML config file.  The config file
-  (<code>~/.hovercat/config.yaml</code>) is created if it doesn't exist when
-  Hovercat launches.</p>
+  <p>Right now the only configuable aspect of Hovercat is for email sending, and until such time as I get around to creating a UI for it, you need to configure Hovercat by editing a YAML config file. The config file (
+    <code>~/.hovercat/config.yaml</code>) is created if it doesn't exist when Hovercat launches.</p>
 
   <p>The newly created file looks like this:</p>
 
   <pre>email:
-    defaultSender: ""
-    gmail:
-        username: ""
-        appPassword: ""
-    smtp:
-        host: ""
-        port: 25
-        tls:
-             rejectUnauthorized: false</pre>
+  defaultSender: ""
 
-    <p>You can find information <a href="https://support.google.com/mail/answer/185833?hl=en">here</a> about creating a Gmail 'app password'.</p>
+  gmail:
+    username: ""
+    appPassword: ""
 
-</div>
+  smtp:
+    host: ""
+    port: 25
+    tls:
+      rejectUnauthorized: false</pre>
+
+  <p>You can find information <a href="https://support.google.com/mail/answer/185833?hl=en">here</a> about creating a Gmail 'app password'.</p>
+
+  </div>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  
 </body>
 
 </html>
