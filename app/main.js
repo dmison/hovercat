@@ -1,4 +1,4 @@
-var ipc = require('ipc');
+
 var app = require('app');  // Module to control application life.
 var BrowserWindow = require('browser-window');  // Module to create native browser window.
 
@@ -21,15 +21,62 @@ app.on('ready', function() {
   // Create the browser window.
   mainWindow = new BrowserWindow({'width': 1000, 'height': 700, 'dark-theme': false, 'icon': __dirname+'/electron.png' });
 
-  //mainWindow.setMenu(null);
-  //mainWindow.openDevTools();
+  if (process.platform == 'darwin'){
+
+    var Menu = require("menu");
+
+    var sendMenuMsg = function(msg){
+      mainWindow.webContents.send('send-menu', msg);
+    }
+
+    var template = [
+      {
+        label: "Application",
+        submenu: [
+            { label: "About Hovercat", selector: "orderFrontStandardAboutPanel:" },
+            { type: "separator" },
+            { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+        ]
+      },
+      {
+        label: "File",
+        submenu: [
+          { label: "New", accelerator: "CmdOrCtrl+N", click: function(){ sendMenuMsg('newFile'); }       },
+          { label: "Open", accelerator: "CmdOrCtrl+O", click: function(){ sendMenuMsg('openFile'); }     },
+          { label: "Save", accelerator: "CmdOrCtrl+S", click: function(){ sendMenuMsg('saveFile'); }     },
+          { label: "Export", accelerator: "CmdOrCtrl+E", click: function(){ sendMenuMsg('exportFile'); } },
+          { type: "separator" },
+          { label: "Send Email", accelerator: "CmdOrCtrl+T", click: function() { sendMenuMsg('sendEmail'); }}
+        ]
+      },
+      {
+        label: "Edit",
+        submenu: [
+          { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+          { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+          { type: "separator" },
+          { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+          { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+          { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+          { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+        ]
+      }
+    ];
+
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+
+  }
+  mainWindow.openDevTools();
 
   // and load the index.html of the app.
   mainWindow.loadUrl('file://' + __dirname + '/index.html');
 
   mainWindow.webContents.on('did-finish-load', function() {
       mainWindow.webContents.send('send-homedir', app.getPath('home'));
-    });
+      mainWindow.webContents.send('send-resourcesPath', process.resourcesPath);
+    }
+  );
+
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
     // Dereference the window object, usually you would store windows

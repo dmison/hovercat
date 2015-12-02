@@ -9,6 +9,7 @@
   var HCFiles = require('./HCFiles.js');
   var HCCompiler = require('./HCCompiler.js');
 
+
   var EmailModal = require('./EmailModal.jsx');
 
   var HovercatApp = React.createClass({
@@ -27,6 +28,7 @@
         unsaved: false,
         saving: false,
         homeDir: '',
+        resourcesPath: '',
         config: {
           email: {
             defaultSender: '',
@@ -49,6 +51,43 @@
 
 
     componentDidMount: function(){
+
+      //listen to messages from app menu
+      ipc.on('send-menu',function(message){
+
+        switch(message){
+
+          case 'newFile':
+            this.new();
+            break;
+
+          case 'openFile':
+            this.openFileDialog();
+            break;
+
+          case 'saveFile':
+            this.openSaveDialog();
+            break;
+
+          case 'exportFile':
+            this.openExportDialog();
+            break;
+
+          case 'sendEmail':
+            this.showEmailDialog();
+            break;
+
+          default:
+            console.log('unknown message sent from menu')
+        }
+
+      }.bind(this));
+
+      //wait to get resourcesPath from main process
+      ipc.on('send-resourcesPath',function(message){
+        this.setState({ resourcesPath: message});
+      }.bind(this));
+
       //wait to get home directory path from main process
       ipc.on('send-homedir', function(message) {
         message = message + '/.hovercraft/config.yaml';
@@ -93,9 +132,10 @@
         <div>
 
           <MainMenu
+            new={this.new}
             save={this.save}
-            open={this.open}
-            export={this.export}
+            open={this.openFileDialog}
+            export={this.openExportDialog}
             filename={thefilename}
             saving={saving}
             unsaved={unsaved}
@@ -293,6 +333,79 @@
           alert('Export done.');
         }
       });
+
+    },
+
+    new: function(){
+      console.log('oh hai');
+
+      if(this.state.unsaved){
+        if (!window.confirm("You have unsaved changes that will be lost if you create a new file.  Continue?")) {
+          return;
+        }
+      }
+      console.log(this.state.resourcesPath);
+      // open bundled file via asar path
+      // var newFilePath =
+      // this.open(newFilePath);
+      //
+      // //clear filename and set to unsaved
+      // this.setState({ filename: '', unsaved: true });
+
+    },
+
+    openExportDialog: function(){
+
+      var exportName = dialog.showSaveDialog();
+
+      if(exportName){
+        this.export(exportName);
+      }
+
+    },
+
+    openFileDialog: function(){
+      if(this.state.unsaved){
+        if (!window.confirm("You have unsaved changes that will be lost if you open a new file.  Continue?")) {
+          return;
+        }
+      }
+
+      var filenames = dialog.showOpenDialog({
+        properties: ['openFile'],
+        filters: [{
+          name: 'Hovercat',
+          extensions: ['hovercat']
+        },
+        {
+          name: 'Hovercraft (legacy)',
+          extensions: ['hovercraft']
+        }]
+      });
+
+      // if no file selected, ie cancelled, then we are done here
+      if (typeof filenames === 'undefined') {
+        return;
+      }
+
+      // otherwise continue
+      var filename = filenames[0];
+      this.open(filename);
+    },
+
+    openSaveDialog: function(){
+      var filenameToUse = this.state.filename;
+      if (filenameToUse === ''){
+        filenameToUse = dialog.showSaveDialog({filters: [{
+          name: 'Hovercat',
+          extensions: ['hovercat']
+        }]});
+
+        if (typeof filenameToUse === 'undefined'){
+          return;
+        }
+      }
+      this.save(filenameToUse);
 
     }
 

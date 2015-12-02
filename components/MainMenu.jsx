@@ -16,58 +16,20 @@
       this.setState({showConfig: false});
     },
 
-    save: function(){
-
-      var filenameToUse = this.props.filename;
-
-      if (this.props.filename === ''){
-        var filenameToUse = dialog.showSaveDialog({filters: [{
-          name: 'Hovercat',
-          extensions: ['hovercat']
-        }]});
-
-        if (typeof filenameToUse === 'undefined'){
-          return;
-        }
-      }
-      this.props.save(filenameToUse);
+    showSaveDialog: function(){
+      this.props.save();
     },
 
-    open: function(){
-      if(this.props.unsaved){
-        if (!window.confirm("You have unsaved changes that will be lost if you open a new file.  Continue?")) {
-          return;
-        }
-      }
-
-      var filenames = dialog.showOpenDialog({
-        properties: ['openFile'],
-        filters: [{
-          name: 'Hovercat',
-          extensions: ['hovercat']
-        },
-        {
-          name: 'Hovercraft (legacy)',
-          extensions: ['hovercraft']
-        }]
-      });
-
-      // if no file selected, ie cancelled, then we are done here
-      if (typeof filenames === 'undefined') {
-        return;
-      }
-
-      // otherwise continue
-      var filename = filenames[0];
-      this.props.open(filename);
+    new: function(){
+        this.props.new();
     },
 
-    export: function(){
-      var exportName = dialog.showSaveDialog();
+    showOpenDialog: function(){
+      this.props.open();
+    },
 
-      if(exportName){
-        this.props.export(exportName);
-      }
+    showExportDialog: function(){
+      this.props.export();
     },
 
     showEmailDialog: function(){
@@ -84,10 +46,10 @@
         <nav className='navbar navbar-default navbar-static-top'>
           <span className='navbar-brand'>Hovercat</span>
           <ul className='nav navbar-nav'>
-
-            <li><a className='menuLink' onClick={this.open}>Open</a></li>
-            <li><a className='menuLink' onClick={this.save}>Save</a></li>
-            <li><a className='menuLink' onClick={this.export}>Export</a></li>
+            <li><a className='menuLink' onClick={this.new}>New</a></li>
+            <li><a className='menuLink' onClick={this.showOpenDialog}>Open</a></li>
+            <li><a className='menuLink' onClick={this.showSaveDialog}>Save</a></li>
+            <li><a className='menuLink' onClick={this.showExportDialog}>Export</a></li>
             <li><a className='menuLink' onClick={this.showEmailDialog}>Send Email</a></li>
           </ul>
           <div className="navbar-right">
