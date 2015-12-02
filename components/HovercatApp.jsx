@@ -133,7 +133,7 @@
 
           <MainMenu
             new={this.new}
-            save={this.save}
+            save={this.openSaveDialog}
             open={this.openFileDialog}
             export={this.openExportDialog}
             filename={thefilename}

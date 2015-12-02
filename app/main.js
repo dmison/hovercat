@@ -66,7 +66,7 @@ app.on('ready', function() {
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
   }
-  mainWindow.openDevTools();
+  // mainWindow.openDevTools();
 
   // and load the index.html of the app.
   mainWindow.loadUrl('file://' + __dirname + '/index.html');
