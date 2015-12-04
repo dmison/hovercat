@@ -337,20 +337,23 @@
     },
 
     new: function(){
-      console.log('oh hai');
 
       if(this.state.unsaved){
         if (!window.confirm("You have unsaved changes that will be lost if you create a new file.  Continue?")) {
           return;
         }
       }
-      console.log(this.state.resourcesPath);
-      // open bundled file via asar path
-      // var newFilePath =
-      // this.open(newFilePath);
-      //
-      // //clear filename and set to unsaved
-      // this.setState({ filename: '', unsaved: true });
+
+      var newPath = this.state.resourcesPath + '/app/newfile.hovercat';
+
+      HCFiles.openFile(newPath, function(input) {
+          this.setState({ content: input.content});
+          this.setState({ textTemplate: input.gfmTemplate});
+          this.setState({ htmlTemplate: input.htmlTemplate});
+          this.setState({ filename: ''});
+          this.setState({unsaved: true});
+          this.updateOutput('all');
+        }.bind(this));
 
     },
 
