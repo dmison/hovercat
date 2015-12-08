@@ -104,7 +104,7 @@ module.exports = function(grunt) {
          // RPM package.  The plugin does contain defaults for these if you omit
          // them, and will notify you when this occurs.
          name: "hovercat",
-         version: "0.4.2",
+         version: "0.5.0",
          release: 1,
          buildArch: "x86_64"
        },
