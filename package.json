@@ -12,7 +12,7 @@
     "bootstrap": "^3.3.5",
     "brace": "^0.5.1",
     "entities": "^1.1.1",
-    "handlebars": "^4.0.3",
+    "handlebars": "^4.0.5",
     "node-markdown": "^0.1.1",
     "react": "^0.14.0",
     "react-ace": "^2.6.0",
