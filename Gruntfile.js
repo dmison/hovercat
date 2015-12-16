@@ -77,7 +77,7 @@ module.exports = function(grunt) {
           name: 'Hovercat',
           dir: 'app',
           out: 'dist/osx_x64',
-          version: '0.26.0',
+          version: '0.36.0',
           platform: 'darwin',
           arch: 'x64'
         }
@@ -87,7 +87,7 @@ module.exports = function(grunt) {
           name: 'Hovercat',
           dir: 'app',
           out: 'dist/linux',
-          version: '0.26.0',
+          version: '0.36.0',
           platform: 'linux',
           arch: 'x64'
         }
