@@ -84,12 +84,12 @@
       }.bind(this));
 
       //wait to get resourcesPath from main process
-      ipc.on('send-resourcesPath',function(message){
+      ipc.on('send-resourcesPath',function(event, message){
         this.setState({ resourcesPath: message});
       }.bind(this));
 
       //wait to get home directory path from main process
-      ipc.on('send-homedir', function(message) {
+      ipc.on('send-homedir', function(event, message) {
         message = message + '/.hovercraft/config.yaml';
         this.setState({ homeDir: message });
 
