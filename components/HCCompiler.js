@@ -3,6 +3,7 @@
   var entities = require('entities');
   var markdown = require('node-markdown').Markdown;
   var YAML = require('yamljs');
+  var Styliner = require('styliner');
 
   // ================ setup some handlebars helpers
   Handlebars.registerHelper('markdown', function(context) {
