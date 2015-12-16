@@ -10,6 +10,7 @@
   var HCCompiler = require('./HCCompiler.js');
 
   var dialog = require('remote').require('dialog');
+  var ipc = require("ipc-renderer");
 
   var EmailModal = require('./EmailModal.jsx');
 
