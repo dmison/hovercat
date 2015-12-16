@@ -28,7 +28,9 @@ module.exports = function(grunt) {
         dest: 'app/app.js',
         options: {
           browserifyOptions: {
-            debug: true
+            debug: true,
+            detectGlobals: false,
+            ignoreMissing: true
           }
         }
       },
@@ -37,7 +39,9 @@ module.exports = function(grunt) {
         dest: 'app/app.js',
         options: {
           browserifyOptions: {
-            debug: false
+            debug: false,
+            detectGlobals: false,
+            ignoreMissing: true
           }
         }
       }
