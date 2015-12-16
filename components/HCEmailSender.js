@@ -1,4 +1,6 @@
 (function() {
+  var nodemailer = require('remote').require('nodemailer');
+  var smtpTransport = require('remote').require('nodemailer-smtp-transport');
 
   var sendEmail = function(config, method, receipients, subject, htmlBody, textBody, sender, replyTo, done) {
 
