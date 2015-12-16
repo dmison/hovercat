@@ -1,6 +1,6 @@
 (function(){
   var path = require('path');
-  var fs = remote.require('fs');
+  var fs = require('remote').require('fs');
 
   var saveFile = function(filename, fileout, done) {
     fs.writeFile(filename, JSON.stringify(fileout), function(err) {

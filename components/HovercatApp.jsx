@@ -9,6 +9,7 @@
   var HCFiles = require('./HCFiles.js');
   var HCCompiler = require('./HCCompiler.js');
 
+  var dialog = require('remote').require('dialog');
 
   var EmailModal = require('./EmailModal.jsx');
 
