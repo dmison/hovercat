@@ -2,3 +2,4 @@ app/app.js
 node_modules
 dist
 app/vendor
+.DS_Store
