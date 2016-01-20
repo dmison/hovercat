@@ -21,7 +21,7 @@
     },
 
     new: function(){
-        this.props.new();
+      this.props.new();
     },
 
     showOpenDialog: function(){

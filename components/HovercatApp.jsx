@@ -10,7 +10,7 @@
   var HCCompiler = require('./HCCompiler.js');
 
   var dialog = require('remote').require('dialog');
-  var ipc = require("ipc-renderer");
+  var ipc = require('ipc-renderer');
 
   var EmailModal = require('./EmailModal.jsx');
 
@@ -48,7 +48,7 @@
           }
         },
         showEmailDialog: false
-      }
+      };
     },
 
 
@@ -59,28 +59,28 @@
 
         switch(message){
 
-          case 'newFile':
-            this.new();
-            break;
+        case 'newFile':
+          this.new();
+          break;
 
-          case 'openFile':
-            this.openFileDialog();
-            break;
+        case 'openFile':
+          this.openFileDialog();
+          break;
 
-          case 'saveFile':
-            this.openSaveDialog();
-            break;
+        case 'saveFile':
+          this.openSaveDialog();
+          break;
 
-          case 'exportFile':
-            this.openExportDialog();
-            break;
+        case 'exportFile':
+          this.openExportDialog();
+          break;
 
-          case 'sendEmail':
-            this.showEmailDialog();
-            break;
+        case 'sendEmail':
+          this.showEmailDialog();
+          break;
 
-          default:
-            console.log('unknown message sent from menu')
+        default:
+          alert('unknown message sent from menu');
         }
 
       }.bind(this));
@@ -125,7 +125,6 @@
       var textOutput = this.state.textOutput;
       var htmlOutput = this.state.htmlOutput;
 
-      var errors = this.state.errors;
       var thefilename = this.state.filename;
       var saving = this.state.saving;
       var unsaved = this.state.unsaved;
@@ -198,10 +197,10 @@
       var content = {};
       var contentData = HCCompiler.parseYAML(this.state.content);
       if (contentData.error){
-          var e = contentData.error;
-          var message = '"'+e.message+'" Line:'+e.parsedLine+' "'+e.snippet+'"';
-          this.updateErrors('yaml', message);
-          return;
+        var e = contentData.error;
+        var message = '"'+e.message+'" Line:'+e.parsedLine+' "'+e.snippet+'"';
+        this.updateErrors('yaml', message);
+        return;
       } else {
         content = contentData.data;
         this.updateErrors('yaml', '');
@@ -310,7 +309,7 @@
         content: this.state.content,
         gfmTemplate: this.state.textTemplate,
         htmlTemplate: this.state.htmlTemplate
-      }
+      };
 
       HCFiles.saveFile(filename, fileout, function(err){
         if(err){
@@ -341,7 +340,7 @@
     new: function(){
 
       if(this.state.unsaved){
-        if (!window.confirm("You have unsaved changes that will be lost if you create a new file.  Continue?")) {
+        if (!window.confirm('You have unsaved changes that will be lost if you create a new file.  Continue?')) {
           return;
         }
       }
@@ -349,13 +348,13 @@
       var newPath = this.state.resourcesPath + '/app/newfile.hovercat';
 
       HCFiles.openFile(newPath, function(input) {
-          this.setState({ content: input.content});
-          this.setState({ textTemplate: input.gfmTemplate});
-          this.setState({ htmlTemplate: input.htmlTemplate});
-          this.setState({ filename: ''});
-          this.setState({unsaved: true});
-          this.updateOutput('all');
-        }.bind(this));
+        this.setState({ content: input.content});
+        this.setState({ textTemplate: input.gfmTemplate});
+        this.setState({ htmlTemplate: input.htmlTemplate});
+        this.setState({ filename: ''});
+        this.setState({unsaved: true});
+        this.updateOutput('all');
+      }.bind(this));
 
     },
 
@@ -371,21 +370,22 @@
 
     openFileDialog: function(){
       if(this.state.unsaved){
-        if (!window.confirm("You have unsaved changes that will be lost if you open a new file.  Continue?")) {
+        if (!window.confirm('You have unsaved changes that will be lost if you open a new file.  Continue?')) {
           return;
         }
       }
 
       var filenames = dialog.showOpenDialog({
         properties: ['openFile'],
-        filters: [{
-          name: 'Hovercat',
-          extensions: ['hovercat']
-        },
-        {
-          name: 'Hovercraft (legacy)',
-          extensions: ['hovercraft']
-        }]
+        filters: [
+          {
+            name: 'Hovercat',
+            extensions: ['hovercat']
+          },
+          {
+            name: 'Hovercraft (legacy)',
+            extensions: ['hovercraft']
+          }]
       });
 
       // if no file selected, ie cancelled, then we are done here

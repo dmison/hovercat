@@ -25,7 +25,7 @@
         senderIsValid: false,
         subjectIsValid: false,
         sendDisabled: false
-      }
+      };
     },
 
     componentWillReceiveProps: function(newProps) {
@@ -151,7 +151,7 @@
       );
     },
 
-    checkIncludeHTML: function(event) {
+    checkIncludeHTML: function() {
       var checked = !this.state.includeHTML;
       this.setState({includeHTML: checked});
       if (!checked) {
@@ -159,7 +159,7 @@
       }
     },
 
-    checkIncludeTEXT: function(event) {
+    checkIncludeTEXT: function() {
       var checked = !this.state.includeTEXT;
       this.setState({includeTEXT: checked});
       if (!checked) {
@@ -258,4 +258,4 @@
 
   module.exports = EmailModal;
 
-}())
+}());

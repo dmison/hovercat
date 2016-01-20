@@ -23,42 +23,43 @@ app.on('ready', function() {
 
   if (process.platform == 'darwin'){
 
-    var Menu = require("menu");
+    var Menu = require('menu');
 
     var sendMenuMsg = function(msg){
       mainWindow.webContents.send('send-menu', msg);
-    }
+    };
 
     var template = [
       {
-        label: "Application",
+        label: 'Application',
         submenu: [
-            { label: "About Hovercat", selector: "orderFrontStandardAboutPanel:" },
-            { type: "separator" },
-            { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+            { label: 'About Hovercat', selector: 'orderFrontStandardAboutPanel:' },
+            { type: 'separator' },
+            { type: 'separator' },
+            { label: 'Quit', accelerator: 'Command+Q', click: function() { app.quit(); }}
         ]
       },
       {
-        label: "File",
+        label: 'File',
         submenu: [
-          { label: "New", accelerator: "CmdOrCtrl+N", click: function(){ sendMenuMsg('newFile'); }       },
-          { label: "Open", accelerator: "CmdOrCtrl+O", click: function(){ sendMenuMsg('openFile'); }     },
-          { label: "Save", accelerator: "CmdOrCtrl+S", click: function(){ sendMenuMsg('saveFile'); }     },
-          { label: "Export", accelerator: "CmdOrCtrl+E", click: function(){ sendMenuMsg('exportFile'); } },
-          { type: "separator" },
-          { label: "Send Email", accelerator: "CmdOrCtrl+T", click: function() { sendMenuMsg('sendEmail'); }}
+          { label: 'New', accelerator: 'CmdOrCtrl+N', click: function(){ sendMenuMsg('newFile'); }       },
+          { label: 'Open', accelerator: 'CmdOrCtrl+O', click: function(){ sendMenuMsg('openFile'); }     },
+          { label: 'Save', accelerator: 'CmdOrCtrl+S', click: function(){ sendMenuMsg('saveFile'); }     },
+          { label: 'Export', accelerator: 'CmdOrCtrl+E', click: function(){ sendMenuMsg('exportFile'); } },
+          { type: 'separator' },
+          { label: 'Send Email', accelerator: 'CmdOrCtrl+T', click: function() { sendMenuMsg('sendEmail'); }}
         ]
       },
       {
-        label: "Edit",
+        label: 'Edit',
         submenu: [
-          { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
-          { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
-          { type: "separator" },
-          { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
-          { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
-          { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
-          { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+          { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
+          { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
+          { type: 'separator' },
+          { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+          { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+          { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+          { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
         ]
       }
     ];
@@ -72,10 +73,9 @@ app.on('ready', function() {
   mainWindow.loadUrl('file://' + __dirname + '/index.html');
 
   mainWindow.webContents.on('did-finish-load', function() {
-      mainWindow.webContents.send('send-homedir', app.getPath('home'));
-      mainWindow.webContents.send('send-resourcesPath', process.resourcesPath);
-    }
-  );
+    mainWindow.webContents.send('send-homedir', app.getPath('home'));
+    mainWindow.webContents.send('send-resourcesPath', process.resourcesPath);
+  });
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
