@@ -43,7 +43,7 @@
               host: '',
               port: 25,
               tls: {
-                rejectUnauthorized: false
+                rejectUnauthorized: true
               }
             }
           }
