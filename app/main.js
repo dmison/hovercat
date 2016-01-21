@@ -37,6 +37,8 @@ app.on('ready', function() {
             { type: 'separator' },
             { label: 'Configure', accelerator: 'CmdOrCtrl+,', click: function(){ sendMenuMsg('openConfig'); }       },
             { type: 'separator' },
+            { label: 'DevTools', accelerator: 'CmdOrCtrl+\\', click: function(){ mainWindow.openDevTools(); }       },
+            { type: 'separator' },
             { label: 'Quit', accelerator: 'Command+Q', click: function() { app.quit(); }}
         ]
       },
@@ -68,7 +70,6 @@ app.on('ready', function() {
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
   }
-  // mainWindow.openDevTools();
 
   // and load the index.html of the app.
   mainWindow.loadUrl('file://' + __dirname + '/index.html');
