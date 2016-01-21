@@ -35,6 +35,7 @@ app.on('ready', function() {
         submenu: [
             { label: 'About Hovercat', selector: 'orderFrontStandardAboutPanel:' },
             { type: 'separator' },
+            { label: 'Configure', accelerator: 'CmdOrCtrl+,', click: function(){ sendMenuMsg('openConfig'); }       },
             { type: 'separator' },
             { label: 'Quit', accelerator: 'Command+Q', click: function() { app.quit(); }}
         ]

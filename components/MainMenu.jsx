@@ -36,6 +36,10 @@
       this.props.showEmailDialog();
     },
 
+    showConfigDialog: function(){
+      this.props.showConfigDialog();
+    },
+
     render: function () {
 
       var fileSaveState = this.props.unsaved? (<span className='label label-warning'>unsaved</span>): (<span/>);
@@ -51,6 +55,8 @@
             <li><a className='menuLink' onClick={this.showSaveDialog}>Save</a></li>
             <li><a className='menuLink' onClick={this.showExportDialog}>Export</a></li>
             <li><a className='menuLink' onClick={this.showEmailDialog}>Send Email</a></li>
+            <li><a className='menuLink' onClick={this.showConfigDialog}>Configure</a></li>
+
           </ul>
           <div className="navbar-right">
             <span style={style} className="navbar-left navbar-text">{fileSaveState} {filenameToShow}</span>

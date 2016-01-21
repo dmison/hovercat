@@ -13,6 +13,7 @@
   var ipc = require('ipc-renderer');
 
   var EmailModal = require('./EmailModal.jsx');
+  var ConfigModal = require('./ConfigModal.jsx');
 
   var HovercatApp = React.createClass({
 
@@ -47,6 +48,7 @@
             }
           }
         },
+        showConfigDialog: false,
         showEmailDialog: false
       };
     },
@@ -55,7 +57,7 @@
     componentDidMount: function(){
 
       //listen to messages from app menu
-      ipc.on('send-menu',function(message){
+      ipc.on('send-menu',function(event, message){
 
         switch(message){
 
@@ -79,8 +81,12 @@
           this.showEmailDialog();
           break;
 
+        case 'openConfig':
+          this.showConfigDialog();
+          break;
+
         default:
-          alert('unknown message sent from menu');
+          alert('unknown message sent from menu, "'+message+'"');
         }
 
       }.bind(this));
@@ -102,22 +108,30 @@
 
       }.bind(this));
 
-      //load config into state
-      HCFiles.readConfigFile(this.state.config, this.state.homeDir, function(config){
-        this.setState({ config: config });
-      }.bind(this));
-
-
     },
 
     showEmailDialog: function(){
       this.setState({showEmailDialog: true});
-
-
     },
 
     closeEmailDialog: function(){
-        this.setState({showEmailDialog: false});
+      this.setState({showEmailDialog: false});
+    },
+
+    showConfigDialog: function(){
+      this.setState({showConfigDialog: true});
+    },
+
+    closeConfigDialog: function(){
+      this.setState( { showConfigDialog: false } );
+    },
+
+    saveUpdatedConfig: function(config){
+      this.setState( { config: config } );
+
+      HCFiles.writeConfigFile(config, this.state.homeDir, function(){
+        alert('Config saved');
+      });
     },
 
     render: function () {
@@ -140,6 +154,7 @@
             filename={thefilename}
             saving={saving}
             unsaved={unsaved}
+            showConfigDialog={this.showConfigDialog}
             showEmailDialog={this.showEmailDialog} />
 
           <div className="row console">
@@ -179,12 +194,14 @@
                       config={this.state.config}
                       show={this.state.showEmailDialog}
                       onHide={this.closeEmailDialog} />
+
+          <ConfigModal  config={this.state.config}
+                        show={this.state.showConfigDialog}
+                        onHide={this.closeConfigDialog}
+                        save={this.saveUpdatedConfig} />
+
         </div>
-      )
-    },
-
-    saveNewConfig: function(config){
-
+      );
     },
 
     contentUpdated: function (text) {
