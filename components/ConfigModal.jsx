@@ -240,7 +240,6 @@
     },
 
     doClose: function(){
-      console.log('doClose');
       this.discardChanges();
       this.props.onHide();
     },
