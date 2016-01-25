@@ -29,7 +29,7 @@ app.on('ready', function() {
   mainWindow.setMenuBarVisibility(false);
 
   // and load the index.html of the app.
-  mainWindow.loadUrl('file://' + __dirname + '/index.html');
+  mainWindow.loadURL('file://' + __dirname + '/index.html');
 
   mainWindow.webContents.on('did-finish-load', function() {
     mainWindow.webContents.send('send-homedir', app.getPath('home'));
