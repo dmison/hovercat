@@ -21,55 +21,12 @@ app.on('ready', function() {
   // Create the browser window.
   mainWindow = new BrowserWindow({'width': 1000, 'height': 700, 'dark-theme': false, 'icon': __dirname+'/electron.png' });
 
-  if (process.platform == 'darwin'){
+  var Menu = require('menu');
 
-    var Menu = require('menu');
-
-    var sendMenuMsg = function(msg){
-      mainWindow.webContents.send('send-menu', msg);
-    };
-
-    var template = [
-      {
-        label: 'Application',
-        submenu: [
-            { label: 'About Hovercat', selector: 'orderFrontStandardAboutPanel:' },
-            { type: 'separator' },
-            { label: 'Configure', accelerator: 'CmdOrCtrl+,', click: function(){ sendMenuMsg('openConfig'); }       },
-            { type: 'separator' },
-            { label: 'DevTools', accelerator: 'CmdOrCtrl+\\', click: function(){ mainWindow.openDevTools(); }       },
-            { type: 'separator' },
-            { label: 'Quit', accelerator: 'Command+Q', click: function() { app.quit(); }}
-        ]
-      },
-      {
-        label: 'File',
-        submenu: [
-          { label: 'New', accelerator: 'CmdOrCtrl+N', click: function(){ sendMenuMsg('newFile'); }       },
-          { label: 'Open', accelerator: 'CmdOrCtrl+O', click: function(){ sendMenuMsg('openFile'); }     },
-          { label: 'Save', accelerator: 'CmdOrCtrl+S', click: function(){ sendMenuMsg('saveFile'); }     },
-          { label: 'Export', accelerator: 'CmdOrCtrl+E', click: function(){ sendMenuMsg('exportFile'); } },
-          { type: 'separator' },
-          { label: 'Send Email', accelerator: 'CmdOrCtrl+T', click: function() { sendMenuMsg('sendEmail'); }}
-        ]
-      },
-      {
-        label: 'Edit',
-        submenu: [
-          { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
-          { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
-          { type: 'separator' },
-          { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
-          { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-          { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
-          { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
-        ]
-      }
-    ];
-
-    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
-
-  }
+  var template = getMenuTemplate(process.platform);
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+  mainWindow.setAutoHideMenuBar(true);
+  mainWindow.setMenuBarVisibility(false);
 
   // and load the index.html of the app.
   mainWindow.loadUrl('file://' + __dirname + '/index.html');
@@ -87,3 +44,73 @@ app.on('ready', function() {
     mainWindow = null;
   });
 });
+
+
+var sendMenuMsg = function(msg){
+  mainWindow.webContents.send('send-menu', msg);
+};
+
+
+var getMenuTemplate = function(platform){
+
+  var OSX_app_menu = {
+    label: 'Application',
+    submenu: [
+      { label: 'About Hovercat', selector: 'orderFrontStandardAboutPanel:' },
+      { type: 'separator' },
+      { label: 'Configure', accelerator: 'CmdOrCtrl+,', click: function(){ sendMenuMsg('openConfig'); }       },
+      { type: 'separator' },
+      { label: 'DevTools', accelerator: 'CmdOrCtrl+\\', click: function(){ mainWindow.openDevTools(); }       },
+      { type: 'separator' },
+      { label: 'Quit', accelerator: 'CmdOrCtrl+Q', click: function() { app.quit(); }}
+    ]
+  };
+
+  var FileMenu = {
+    label: 'File',
+    submenu: [
+    { label: 'New', accelerator: 'CmdOrCtrl+N', click: function(){ sendMenuMsg('newFile'); }       },
+    { label: 'Open', accelerator: 'CmdOrCtrl+O', click: function(){ sendMenuMsg('openFile'); }     },
+    { label: 'Save', accelerator: 'CmdOrCtrl+S', click: function(){ sendMenuMsg('saveFile'); }     },
+    { label: 'Export', accelerator: 'CmdOrCtrl+E', click: function(){ sendMenuMsg('exportFile'); } },
+    { type: 'separator' },
+    { label: 'Send Email', accelerator: 'CmdOrCtrl+T', click: function() { sendMenuMsg('sendEmail'); }}
+    ]
+  };
+
+  var EditMenu = {
+    label: 'Edit',
+    submenu: [
+      { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
+      { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
+      { type: 'separator' },
+      { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+      { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+      { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+      { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
+    ]
+  };
+
+  var template = [];
+
+  if(platform === 'darwin'){
+    template.push(OSX_app_menu, FileMenu, EditMenu);
+  }
+
+  if(platform === 'linux'){
+    FileMenu.submenu.push(
+      { type: 'separator' },
+      { label: 'Quit', accelerator: 'Command+Q', click: function() { app.quit(); }}
+    );
+    EditMenu.submenu.push(
+      { type: 'separator' },
+      { label: 'Configure', accelerator: 'CmdOrCtrl+,', click: function(){ sendMenuMsg('openConfig'); }       },
+      { type: 'separator' },
+      { label: 'DevTools', accelerator: 'CmdOrCtrl+\\', click: function(){ mainWindow.openDevTools(); }       }
+    );
+    template.push(FileMenu, EditMenu);
+  }
+
+  return template;
+
+};
