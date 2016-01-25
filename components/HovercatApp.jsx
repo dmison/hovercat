@@ -119,7 +119,7 @@
     },
 
     showConfigDialog: function(){
-      this.setState({showConfigDialog: true});
+      this.setState( { showConfigDialog: true } );
     },
 
     closeConfigDialog: function(){

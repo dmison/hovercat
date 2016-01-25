@@ -174,7 +174,6 @@
                     description='Require valid SSL certificate from server.'
                     onChange={this.setSmtpTlsRejectUnauthorized} />
 
-
                 </div>
               </div>
             </form>
@@ -188,17 +187,23 @@
     },
 
     getFooter: function(){
+      var saved = this.state.saveStatus === 'unsaved' ? false : true;
+      var closeButtonText = saved ? 'Close' : 'Close without saving';
+
       return (
         <Modal.Footer>
           <div className='row'>
-            <div className='col-md-3'>
-              <Button className='pull-right' onClick={this.doSave}>Save</Button>
+            <div className='col-sm-2'>
+              <Button className='pull-left' disabled={saved} onClick={this.discardChanges}>Discard Changes</Button>
             </div>
-            <div className='col-md-6'>
-                <ConfigSaveStatus status={this.state.saveStatus} />
+            <div className='col-sm-4'>
+              <ConfigSaveStatus className='pull-right' status={this.state.saveStatus} />
             </div>
-            <div className='col-md-3'>
-              <Button onclick={this.doClose} className='pull-left' >Close</Button>
+            <div className='col-sm-3'>
+              <Button className='pull-right' disabled={saved} onClick={this.doSave}>Save changes</Button>
+            </div>
+            <div className='col-sm-3'>
+              <Button onClick={this.doClose} className='pull-right' >{closeButtonText}</Button>
             </div>
           </div>
         </Modal.Footer>
@@ -209,11 +214,34 @@
       this.saveConfigChanges();
     },
 
-    // doReset: function(){
-    //
-    // },
+    discardChanges: function(){
+      this.setState({
+        defaultSender: this.state.origDefaultSender,
+        gmailUsername: this.state.origGmailUsername,
+        gmailAppPassword: this.state.origGmailAppPassword,
+        smtpHost: this.state.origSmtpHost,
+        smtpPort: this.state.origSmtpPort,
+        smtpTlsRejectUnauthorized: this.state.origSmtpTlsRejectUnauthorized,
+        defaultSenderDirty: false,
+        gmailUsernameDirty: false,
+        gmailAppPasswordDirty: false,
+        smtpHostDirty: false,
+        smtpPortDirty: false,
+        smtpTlsRejectUnauthorizedDirty: false,
+        OrigDefaultSender: this.state.origOrigDefaultSender,
+        OrigGmailUsername: this.state.origOrigGmailUsername,
+        OrigGmailAppPassword: this.state.origOrigGmailAppPassword,
+        OrigSmtpHost: this.state.origOrigSmtpHost,
+        OrigSmtpPort: this.state.origOrigSmtpPort,
+        OrigSmtpTlsRejectUnauthorized: this.state.origOrigSmtpTlsRejectUnauthorized,
+        saveStatus: ''
+      });
+
+    },
 
     doClose: function(){
+      console.log('doClose');
+      this.discardChanges();
       this.props.onHide();
     },
 
@@ -291,7 +319,6 @@
         }
       };
 
-
       this.props.save(newConfig);
 
       this.setState({
@@ -300,21 +327,17 @@
         gmailAppPasswordDirty: false,
         smtpHostDirty: false,
         smtpPortDirty: false,
-        smtpTlsRejectUnauthorizedDirty: false
+        smtpTlsRejectUnauthorizedDirty: false,
+        origDefaultSender: this.state.defaultSender,
+        origGmailUsername: this.state.gmailUsername,
+        origGmailAppPassword: this.state.gmailAppPassword,
+        origSmtpHost: this.state.smtpHost,
+        origSmtpPort: this.state.smtpPort,
+        origSmtpTlsRejectUnauthorized: this.state.smtpTlsRejectUnauthorized,
+        saveStatus: ''
       });
 
-      this.setState( { saveStatus: '' } );
-
     }
-
-
-    // checkIncludeHTML: function(event) {
-    //   var checked = !this.state.includeHTML;
-    //   this.setState({includeHTML: checked});
-    //   if (!checked) {
-    //     this.setState({includeTEXT: true});
-    //   }
-    // }
 
   });
 
