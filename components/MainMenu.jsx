@@ -1,7 +1,6 @@
 (function () {
 
   var React = require('react');
-  var ModalConfig = require('./ModalConfig.jsx');
 
   var MainMenu = React.createClass({
 
@@ -61,8 +60,6 @@
           <div className="navbar-right">
             <span style={style} className="navbar-left navbar-text">{fileSaveState} {filenameToShow}</span>
           </div>
-
-          <ModalConfig show={this.state.showConfig} onHide={this.closeConfig} />
 
         </nav>
 

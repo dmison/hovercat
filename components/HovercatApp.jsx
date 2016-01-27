@@ -238,7 +238,7 @@
           this.updateErrors('text', '');
         }
       }
-      
+
       if (type === 'html' || type === 'all'){
         var result = HCCompiler.compile(content, this.state.htmlTemplate);
         if (result.error){
