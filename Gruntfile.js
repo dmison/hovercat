@@ -139,9 +139,9 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['build']);
 
-  grunt.registerTask('osx-dist', ['dist', 'clean:osxBuild', 'electron:osxBuild']);
+  grunt.registerTask('dist-osx', ['dist', 'clean:osxBuild', 'electron:osxBuild']);
 
-  grunt.registerTask('linux-dist', ['dist', 'clean:linuxBuild', 'electron:linuxBuild']);
+  grunt.registerTask('dist-linux', ['dist', 'clean:linuxBuild', 'electron:linuxBuild']);
   grunt.registerTask('linux-rpm', ['linux-dist', 'easy_rpm']);
   grunt.registerTask('linux-repo', ['linux-rpm', 'copy:rpmsToRepo', 'shell:buildRepo']);
 
