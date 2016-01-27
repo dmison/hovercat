@@ -130,7 +130,9 @@
       this.setState( { config: config } );
 
       HCFiles.writeConfigFile(config, this.state.homeDir, function(){
-        alert('Config saved');
+        var myNotification = new Notification('Hovercat', {
+          body: 'Successfully saved configuration'
+        });
       });
     },
 
