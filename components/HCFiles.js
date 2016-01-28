@@ -1,3 +1,4 @@
+/* global YAML */
 (function(){
   var path = require('path');
   var fs = require('fs');
@@ -86,7 +87,8 @@
   // done(config json)
   var readConfigFile = function(defaultConfig, configfilepath, done){
     if (configfilepath === ''){
-      console.log('no filename specified for config yet');
+      // no filename specified for config yet - ie got called before state
+      // populated so just return 
       return;
     }
     fs.access(configfilepath, fs.F_OK | fs.W_OK | fs.R_OK, function(error){
@@ -108,12 +110,30 @@
               alert('yaml parse error: %s', e);
               loadedConfig = {};
             }
+
+            loadedConfig = _mergeRecursive(loadedConfig, defaultConfig);
             done(loadedConfig);
           }
         });
       }
     });
 
+  };
+
+  // http://stackoverflow.com/questions/21450060/how-to-join-two-json-object-in-javascript-without-using-jquery
+  var _mergeRecursive = function(destObj, sourceObj) {
+
+    //iterate over all the properties in the object which is being consumed
+    for (var p in sourceObj) {
+      // Property in destination object set; update its value.
+      if ( sourceObj.hasOwnProperty(p) && typeof destObj[p] !== 'undefined' ) {
+        _mergeRecursive(destObj[p], sourceObj[p]);
+      } else {
+        //We don't have that level in the heirarchy so add it
+        destObj[p] = sourceObj[p];
+      }
+    }
+    return destObj;
   };
 
   module.exports = {
