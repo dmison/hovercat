@@ -15,10 +15,10 @@
     getInitialState: function(){
       return {
         editorHeight: window.innerHeight-170
-      }
+      };
     },
 
-    handleResize: function(e){
+    handleResize: function(){
       this.setState({
         editorHeight: window.innerHeight-170
       });
@@ -34,7 +34,8 @@
     },
 
     shouldComponentUpdate: function(nextProps) {
-      return (nextProps.content !== this.props.content);
+      return ( (nextProps.content !== this.props.content) ||
+        (nextProps.wrapEnabled !== this.props.wrapEnabled) );
     },
 
     onChange: function (content) {
@@ -53,12 +54,14 @@
             width='90%'
             onChange={this.onChange}
             value={this.props.content}
+            wrapEnabled={this.props.wrapEnabled}
+            showPrintMargin={false}
           />
-      )
+      );
     }
 
   });
 
   module.exports = Editor;
 
-})()
+})();

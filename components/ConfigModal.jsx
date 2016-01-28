@@ -25,6 +25,7 @@
   var ConfigModal = React.createClass({
     getInitialState: function() {
       return {
+        editorWrapEnabled: true,
         defaultSender: '',
         gmailUsername: '',
         gmailAppPassword: '',
@@ -32,6 +33,7 @@
         smtpPort: 25,
         smtpTlsRejectUnauthorized: false,
 
+        editorWrapEnabledDirty: false,
         defaultSenderDirty: false,
         gmailUsernameDirty: false,
         gmailAppPasswordDirty: false,
@@ -39,6 +41,7 @@
         smtpPortDirty: false,
         smtpTlsRejectUnauthorizedDirty: false,
 
+        OrigEditorWrapEnabled: '',
         OrigDefaultSender: '',
         OrigGmailUsername: '',
         OrigGmailAppPassword: '',
@@ -52,6 +55,7 @@
 
     componentDidMount: function(){
       this.setState({
+        editorWrapEnabled: this.props.config.editor.wrapEnabled,
         defaultSender: this.props.config.email.defaultSender,
         gmailUsername: this.props.config.email.gmail.username,
         gmailAppPassword: this.props.config.email.gmail.appPassword,
@@ -69,6 +73,13 @@
 
     componentWillReceiveProps: function(newProps) {
       // update state IF the individual item is not marked as dirty
+      if (!this.state.editorWrapEnabledDirty) {
+        this.setState({
+          editorWrapEnabled: newProps.config.editor.wrapEnabled,
+          OrigEditorWrapEnabled:  newProps.config.editor.wrapEnabled
+        });
+      }
+
       if (!this.state.defaultSenderDirty) {
         this.setState({
           defaultSender: newProps.config.email.defaultSender,
@@ -109,6 +120,7 @@
     },
 
     render: function() {
+
       var footer = this.getFooter();
       return (
         <Modal bsSize='large' dialogClassName='custom-modal' show={this.props.show} onHide={this.props.onHide}>
@@ -120,6 +132,22 @@
           <Modal.Body>
 
             <form className='form-horizontal'>
+
+              <div className='panel panel-default'>
+                <div className='panel-heading'>
+                  <h3 className='panel-title'>Editor Configuration</h3>
+                </div>
+
+                <div className='panel-body'>
+                  <ConfigEntryField
+                    type='boolean'
+                    label='Word wrap'
+                    configValue={this.state.editorWrapEnabled}
+                    description='Enable word wrap in editors.'
+                    onChange={this.setEditorWrapEnabled} />
+
+                </div>
+              </div>
 
               <div className='panel panel-default'>
                 <div className='panel-heading'>
@@ -216,6 +244,7 @@
 
     discardChanges: function(){
       this.setState({
+        editorWrapEnabled: this.state.OrigEditorWrapEnabled,
         defaultSender: this.state.origDefaultSender,
         gmailUsername: this.state.origGmailUsername,
         gmailAppPassword: this.state.origGmailAppPassword,
@@ -298,10 +327,20 @@
       }
     },
 
-
+    setEditorWrapEnabled: function(editorWrapEnabled){
+      this.setState( { editorWrapEnabled: editorWrapEnabled});
+      if(editorWrapEnabled !== this.state.OrigEditorWrapEnabled){
+        this.setState( { editorWrapEnabledDirty: true, saveStatus: 'unsaved'});
+      } else {
+        this.setState( {editorWrapEnabledDirty: false, saveStatus: ''} );
+      }
+    },
 
     saveConfigChanges: function(){
       var newConfig = {
+        editor: {
+          wrapEnabled: this.state.editorWrapEnabled
+        },
         email: {
           defaultSender: this.state.defaultSender,
           gmail: {
@@ -321,6 +360,7 @@
       this.props.save(newConfig);
 
       this.setState({
+        editorWrapEnabledDirty: false,
         defaultSenderDirty: false,
         gmailUsernameDirty: false,
         gmailAppPasswordDirty: false,

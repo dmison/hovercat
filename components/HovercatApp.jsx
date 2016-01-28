@@ -33,6 +33,9 @@
         homeDir: '',
         resourcesPath: '',
         config: {
+          editor: {
+            wrapEnabled: true
+          },
           email: {
             defaultSender: '',
             gmail: {
@@ -134,6 +137,7 @@
           body: 'Successfully saved configuration'
         });
       });
+
     },
 
     render: function () {
@@ -169,13 +173,25 @@
             <div className="col-sm-6">
               <Tabs defaultActiveKey={1}>
                 <Tab eventKey={1} title='Content'>
-                  <Editor content={this.state.content} mode='yaml' onChange={this.contentUpdated} theme='tomorrow'/>
+                  <Editor content={this.state.content}
+                          mode='yaml'
+                          onChange={this.contentUpdated}
+                          theme='tomorrow'
+                          wrapEnabled={this.state.config.editor.wrapEnabled} />
                 </Tab>
                 <Tab eventKey={2} title='Text Template'>
-                  <Editor content={this.state.textTemplate} mode='markdown' onChange={this.textTemplateUpdated} theme='tomorrow'/>
+                  <Editor content={this.state.textTemplate}
+                          mode='markdown'
+                          onChange={this.textTemplateUpdated}
+                          theme='tomorrow'
+                          wrapEnabled={this.state.config.editor.wrapEnabled} />
                 </Tab>
                 <Tab eventKey={3} title='HTML Template'>
-                  <Editor content={this.state.htmlTemplate} mode='html' onChange={this.htmlTemplateUpdated} theme='tomorrow'/>
+                  <Editor content={this.state.htmlTemplate}
+                          mode='html'
+                          onChange={this.htmlTemplateUpdated}
+                          theme='tomorrow'
+                          wrapEnabled={this.state.config.editor.wrapEnabled} />
                 </Tab>
               </Tabs>
             </div>
