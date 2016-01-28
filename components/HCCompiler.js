@@ -22,8 +22,8 @@
   Handlebars.registerHelper('spanner', function(content) {
     var words = content.split(' ');
     words = words.map(function(word) {
-      return "<span>" + word[0] + "</span>" + word.substring(1);
-    })
+      return '<span>' + word[0] + '</span>' + word.substring(1);
+    });
     return words.join(' ');
   });
 
@@ -38,7 +38,7 @@
   });
 
   Handlebars.registerHelper('firsthalf', function(context, options) {
-    var ret = "";
+    var ret = '';
     for (var i = 0, j = Math.ceil(context.length / 2); i < j; i++) {
       ret = ret + options.fn(context[i]);
     }
@@ -46,7 +46,7 @@
   });
 
   Handlebars.registerHelper('secondhalf', function(context, options) {
-    var ret = "";
+    var ret = '';
     for (var i = Math.ceil(context.length / 2), j = context.length; i < j; i++) {
       ret = ret + options.fn(context[i]);
     }
@@ -63,7 +63,7 @@
       yamlError = e;
     }
     return { data: data, error: yamlError };
-  }
+  };
 
   var compile = function(content, template){
     var output = '';
@@ -76,7 +76,7 @@
       error = e;
     }
     return { output:output, error: error };
-  }
+  };
 
   var processCSS = function(input, callback){
     var styliner = new Styliner('', {
@@ -84,14 +84,14 @@
     });
     styliner.processHTML(input)
       .then(function(html) {
-          callback(html)
+        callback(html);
       });
-  }
+  };
 
   module.exports = {
     parseYAML: parseYAML,
     processCSS: processCSS,
     compile: compile
-  }
+  };
 
 })();
