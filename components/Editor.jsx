@@ -1,7 +1,10 @@
 (function(){
   var React = require('react');
 
-  var AceEditor  = require('react-ace');
+  // bundling a build of react-ace from https://github.com/dmison/react-ace
+  // until wrap mode updating is supported in the NPM react-ace
+  // see PR: https://github.com/securingsincity/react-ace/pull/80
+  var AceEditor  = require('./react-ace.min.js'); //('react-ace');
   var brace  = require('brace');
 
   require('brace/mode/markdown');
@@ -45,6 +48,7 @@
     render: function() {
       var name = this.props.mode+'Editor';
       var height = this.state.editorHeight+'px';
+
       return (
         <AceEditor
             mode={this.props.mode}
