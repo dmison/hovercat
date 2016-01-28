@@ -1,7 +1,7 @@
-/* global YAML */
 (function(){
   var path = require('path');
   var fs = require('fs');
+  var YAML = require('yamljs');
 
   var saveFile = function(filename, fileout, done) {
     fs.writeFile(filename, JSON.stringify(fileout), function(err) {
@@ -88,7 +88,7 @@
   var readConfigFile = function(defaultConfig, configfilepath, done){
     if (configfilepath === ''){
       // no filename specified for config yet - ie got called before state
-      // populated so just return 
+      // populated so just return
       return;
     }
     fs.access(configfilepath, fs.F_OK | fs.W_OK | fs.R_OK, function(error){
