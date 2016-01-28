@@ -10,12 +10,12 @@
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^3.3.5",
-    "brace": "^0.5.1",
+    "brace": "^0.7.0",
     "entities": "^1.1.1",
     "handlebars": "^4.0.5",
     "node-markdown": "^0.1.1",
     "react": "^0.14.0",
-    "react-ace": "^2.6.0",
+    "react-ace": "^3.1.0",
     "react-bootstrap": "^0.27.3",
     "yamljs": "^0.2.4"
   },
