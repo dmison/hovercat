@@ -65,7 +65,7 @@ module.exports = function(grunt) {
             src: ['css/**', 'fonts/**'],
             dest: 'app/vendor/font-awesome/'
           }
-        ],
+        ]
       },
       rpmsToRepo: {
         src: 'hovercat-*.rpm',
@@ -105,22 +105,22 @@ module.exports = function(grunt) {
     },
 
     easy_rpm: {
-       options: {
-         // These are the bare-minimum values required to create a properly named
-         // RPM package.  The plugin does contain defaults for these if you omit
-         // them, and will notify you when this occurs.
-         name: "hovercat",
-         version: "0.5.0",
-         release: 1,
-         buildArch: "x86_64"
-       },
-       release: {
-         files: [
-           {cwd: 'dist/linux/Hovercat-linux-x64', src: "**/*", dest: "/opt/hovercat/"},
-           {src: "Hovercat.desktop", dest: "/usr/share/applications/"},
-         ]
-       }
-     }
+      options: {
+        // These are the bare-minimum values required to create a properly named
+        // RPM package.  The plugin does contain defaults for these if you omit
+        // them, and will notify you when this occurs.
+        name: 'hovercat',
+        version: '0.6.0',
+        release: 1,
+        buildArch: 'x86_64'
+      },
+      release: {
+        files: [
+          {cwd: 'dist/linux/Hovercat-linux-x64', src: '**/*', dest: '/opt/hovercat/'},
+          {src: 'Hovercat.desktop', dest: '/usr/share/applications/'}
+        ]
+      }
+    }
 
 
   });
@@ -142,7 +142,7 @@ module.exports = function(grunt) {
   grunt.registerTask('dist-osx', ['dist', 'clean:osxBuild', 'electron:osxBuild']);
 
   grunt.registerTask('dist-linux', ['dist', 'clean:linuxBuild', 'electron:linuxBuild']);
-  grunt.registerTask('linux-rpm', ['linux-dist', 'easy_rpm']);
+  grunt.registerTask('linux-rpm', ['dist-linux', 'easy_rpm']);
   grunt.registerTask('linux-repo', ['linux-rpm', 'copy:rpmsToRepo', 'shell:buildRepo']);
 
 
