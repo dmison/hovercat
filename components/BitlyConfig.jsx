@@ -43,7 +43,7 @@ var BitlyConfig = React.createClass({
           <input className='form-control' value={this.state.username} onChange={this.setUsername} />
         </div>
         <div className='col-sm-3'>
-          <input className='form-control' value={this.state.password} onChange={this.setPassword} />
+          <input className='form-control' type='password' value={this.state.password} onChange={this.setPassword} />
         </div>
         <div className='col-sm-3'>
           <a className='btn btn-success' onClick={this.getToken}>Get Token</a>
