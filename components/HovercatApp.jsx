@@ -15,11 +15,16 @@
   var EmailModal = require('./EmailModal.jsx');
   var ConfigModal = require('./ConfigModal.jsx');
 
+  var BitlyView = require('./BitlyView.jsx');
+
+  var URLExtractor = require('url-extractor');
+
   var HovercatApp = React.createClass({
 
     getInitialState: function () {
       return {
         content: '',
+        urls: [],
         htmlTemplate: '',
         textTemplate: '',
         htmlOutput: '',
@@ -180,14 +185,17 @@
                           theme='tomorrow'
                           wrapEnabled={this.state.config.editor.wrapEnabled} />
                 </Tab>
-                <Tab eventKey={2} title='Text Template'>
+                <Tab eventKey={2} title='URLs'>
+                  <BitlyView urls={this.state.urls} setShortURL={this.setShortURL} authToken={this.state.config.bitlyAccessToken} />
+                </Tab>
+                <Tab eventKey={3} title='Text Template'>
                   <Editor content={this.state.textTemplate}
                           mode='markdown'
                           onChange={this.textTemplateUpdated}
                           theme='tomorrow'
                           wrapEnabled={this.state.config.editor.wrapEnabled} />
                 </Tab>
-                <Tab eventKey={3} title='HTML Template'>
+                <Tab eventKey={4} title='HTML Template'>
                   <Editor content={this.state.htmlTemplate}
                           mode='html'
                           onChange={this.htmlTemplateUpdated}
@@ -226,7 +234,51 @@
     contentUpdated: function (text) {
       this.setState({unsaved: true});
       this.setState({content: text});
+      this.updateURLs(text);
       this.updateOutput('all');
+    },
+
+    setShortURL: function(longURL, shortURL){
+      console.log(longURL, shortURL);
+      var urls = this.state.urls;
+      urls.forEach(function(url){
+        if (url.url === longURL){
+          url.shortURL = shortURL;
+          url.shortened = true;
+        }
+      });
+      this.setState( {urls: urls});
+
+    },
+
+    updateURLs: function(text){
+      var listURLsFromText = URLExtractor.extract(text, URLExtractor.SOURCE_TYPE_MARKDOWN);
+
+      if(listURLsFromText === null){
+        listURLsFromText = [];
+      }
+      var newURLs = listURLsFromText.map(function(url){
+        return {
+          url: url,
+          shortened: false,
+          shortURL: ''
+        };
+      });
+
+      // copy objects from state if found there
+      newURLs = newURLs.map(function(thisURL){
+        var result = thisURL;
+        // yep this is a shit bit
+        this.state.urls.forEach(function(url){
+          if(url.url === thisURL){
+            result = url;
+          }
+        });
+        return result;
+      }.bind(this));
+
+      this.setState( {urls: newURLs} );
+
     },
 
     updateOutput: function(type){
@@ -333,6 +385,7 @@
           this.setState({ filename: filename});
           this.setState({unsaved: false});
           this.updateOutput('all');
+          this.updateURLs(input.content);
         }
 
       }.bind(this));
@@ -391,6 +444,7 @@
         this.setState({ filename: ''});
         this.setState({unsaved: true});
         this.updateOutput('all');
+        this.updateURLs(input.content);
       }.bind(this));
 
     },
