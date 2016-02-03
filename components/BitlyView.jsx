@@ -28,9 +28,9 @@ var BitlyView = React.createClass({
       fetch(bitlyURL).then((response)=>{
 
         response.json().then((result)=>{
-
           if (result.status_code !== 200){
             alert(`Error shortening URL:\n${url.url}\n\n${result.status_txt}`);
+            return;
           }
 
           this.props.setShortURL(url.url, result.data.url);
