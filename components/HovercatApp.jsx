@@ -36,6 +36,7 @@
           editor: {
             wrapEnabled: true
           },
+          bitlyAccessToken: '',
           email: {
             defaultSender: '',
             gmail: {

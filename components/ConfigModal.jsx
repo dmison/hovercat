@@ -22,6 +22,8 @@
   var ConfigEntryField = require('./ConfigEntryField.jsx');
   var ConfigSaveStatus = require('./ConfigSaveStatus.jsx');
 
+  var BitlyConfig = require('./BitlyConfig.jsx');
+
   var ConfigModal = React.createClass({
     getInitialState: function() {
       return {
@@ -32,6 +34,7 @@
         smtpHost: '',
         smtpPort: 25,
         smtpTlsRejectUnauthorized: false,
+        bitlyAccessToken: '',
 
         editorWrapEnabledDirty: false,
         defaultSenderDirty: false,
@@ -40,6 +43,7 @@
         smtpHostDirty: false,
         smtpPortDirty: false,
         smtpTlsRejectUnauthorizedDirty: false,
+        bitlyAccessTokenDirty: false,
 
         OrigEditorWrapEnabled: '',
         OrigDefaultSender: '',
@@ -48,6 +52,7 @@
         OrigSmtpHost: '',
         OrigSmtpPort: 25,
         OrigSmtpTlsRejectUnauthorized: false,
+        OrigBitlyAccessToken: '',
 
         saveStatus: ''
       };
@@ -62,12 +67,14 @@
         smtpHost: this.props.config.email.smtp.host,
         smtpPort: this.props.config.email.smtp.port,
         smtpTlsRejectUnauthorized: this.props.config.email.smtp.tls.rejectUnauthorized,
+        bitlyAccessToken: this.props.config.bitlyAccessToken,
         origDefaultSender: this.props.config.email.defaultSender,
         origGmailUsername: this.props.config.email.gmail.username,
         origGmailAppPassword: this.props.config.email.gmail.appPassword,
         origSmtpHost: this.props.config.email.smtp.host,
         origSmtpPort: this.props.config.email.smtp.port,
-        origSmtpTlsRejectUnauthorized: this.props.config.email.smtp.tls.rejectUnauthorized
+        origSmtpTlsRejectUnauthorized: this.props.config.email.smtp.tls.rejectUnauthorized,
+        origBitlyAccessToken: this.props.config.bitlyAccessToken
       });
     },
 
@@ -116,6 +123,12 @@
           origSmtpTlsRejectUnauthorized:  newProps.config.email.smtp.tls.rejectUnauthorized
         });
       }
+      if (!this.state.bitlyAccessTokenDirty) {
+        this.setState({
+          bitlyAccessToken: newProps.config.bitlyAccessToken,
+          origBitlyAccessToken: newProps.config.bitlyAccessToken
+        });
+      }
 
     },
 
@@ -148,6 +161,17 @@
 
                 </div>
               </div>
+
+              <div className='panel panel-default'>
+                <div className='panel-heading'>
+                  <h3 className='panel-title'>Bitly Configuration</h3>
+                </div>
+
+                <div className='panel-body'>
+                  <BitlyConfig authToken={this.state.bitlyAccessToken} setAuthToken={this.setAuthToken} />
+                </div>
+              </div>
+
 
               <div className='panel panel-default'>
                 <div className='panel-heading'>
@@ -204,6 +228,7 @@
 
                 </div>
               </div>
+
             </form>
 
           </Modal.Body>
@@ -251,18 +276,21 @@
         smtpHost: this.state.origSmtpHost,
         smtpPort: this.state.origSmtpPort,
         smtpTlsRejectUnauthorized: this.state.origSmtpTlsRejectUnauthorized,
+        bitlyAccessToken: this.state.origBitlyAccessToken,
         defaultSenderDirty: false,
         gmailUsernameDirty: false,
         gmailAppPasswordDirty: false,
         smtpHostDirty: false,
         smtpPortDirty: false,
         smtpTlsRejectUnauthorizedDirty: false,
+        bitlyAccessTokenDirty: false,
         OrigDefaultSender: this.state.origOrigDefaultSender,
         OrigGmailUsername: this.state.origOrigGmailUsername,
         OrigGmailAppPassword: this.state.origOrigGmailAppPassword,
         OrigSmtpHost: this.state.origOrigSmtpHost,
         OrigSmtpPort: this.state.origOrigSmtpPort,
         OrigSmtpTlsRejectUnauthorized: this.state.origOrigSmtpTlsRejectUnauthorized,
+        OrigBitlyAccessToken: this.state.origBitlyAccessToken,
         saveStatus: ''
       });
 
@@ -327,6 +355,16 @@
       }
     },
 
+    setAuthToken: function(token){
+      this.setState( { bitlyAccessToken: token } );
+      if(token !== this.state.origBitlyAccessToken){
+        this.setState( {bitlyAccessTokenDirty: true, saveStatus: 'unsaved' } );
+      } else {
+        this.setState( {bitlyAccessTokenDirty: false, saveStatus: '' } );
+      }
+    },
+
+
     setEditorWrapEnabled: function(editorWrapEnabled){
       this.setState( { editorWrapEnabled: editorWrapEnabled});
       if(editorWrapEnabled !== this.state.OrigEditorWrapEnabled){
@@ -341,6 +379,7 @@
         editor: {
           wrapEnabled: this.state.editorWrapEnabled
         },
+        bitlyAccessToken: this.state.bitlyAccessToken,
         email: {
           defaultSender: this.state.defaultSender,
           gmail: {
@@ -361,12 +400,15 @@
 
       this.setState({
         editorWrapEnabledDirty: false,
+        bitlyAccessTokenDirty: false,
         defaultSenderDirty: false,
         gmailUsernameDirty: false,
         gmailAppPasswordDirty: false,
         smtpHostDirty: false,
         smtpPortDirty: false,
         smtpTlsRejectUnauthorizedDirty: false,
+        origBitlyAccessToken: this.state.bitlyAccessToken,
+        OrigEditorWrapEnabled: this.state.editorWrapEnabled,
         origDefaultSender: this.state.defaultSender,
         origGmailUsername: this.state.gmailUsername,
         origGmailAppPassword: this.state.gmailAppPassword,
