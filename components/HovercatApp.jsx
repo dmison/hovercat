@@ -252,11 +252,13 @@
     },
 
     updateURLs: function(text){
+
       var listURLsFromText = URLExtractor.extract(text, URLExtractor.SOURCE_TYPE_MARKDOWN);
 
       if(listURLsFromText === null){
         listURLsFromText = [];
       }
+
       var newURLs = listURLsFromText.map(function(url){
         return {
           url: url,
@@ -266,16 +268,16 @@
       });
 
       // copy objects from state if found there
-      newURLs = newURLs.map(function(thisURL){
+      newURLs = newURLs.map((thisURL)=>{
         var result = thisURL;
         // yep this is a shit bit
-        this.state.urls.forEach(function(url){
-          if(url.url === thisURL){
+        this.state.urls.forEach((url)=>{
+          if(url.url === thisURL.url){
             result = url;
           }
         });
         return result;
-      }.bind(this));
+      });
 
       this.setState( {urls: newURLs} );
 
