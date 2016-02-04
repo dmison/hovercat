@@ -239,7 +239,7 @@
     },
 
     setShortURL: function(longURL, shortURL){
-      console.log(longURL, shortURL);
+
       var urls = this.state.urls;
       urls.forEach(function(url){
         if (url.url === longURL){
@@ -382,6 +382,7 @@
 
         if (!invalid) {
           this.setState({ content: input.content});
+          this.setState({ urls: input.urls});
           this.setState({ textTemplate: input.gfmTemplate});
           this.setState({ htmlTemplate: input.htmlTemplate});
           this.setState({ filename: filename});
@@ -399,6 +400,7 @@
 
       var fileout = {
         content: this.state.content,
+        urls: this.state.urls,
         gfmTemplate: this.state.textTemplate,
         htmlTemplate: this.state.htmlTemplate
       };
