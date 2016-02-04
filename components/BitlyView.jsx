@@ -43,7 +43,6 @@ var BitlyView = React.createClass({
   },
 
   render: function(){
-
     var urlFragments = this.props.urls.map(function(url, index){
       return (
         <tr key={index}>
@@ -63,7 +62,7 @@ var BitlyView = React.createClass({
             <tr>
               <td className='checkboxes'><input type='checkbox' /></td>
               <td className='longURL'>URL</td>
-              <td className='shortURL'>Shortened</td>
+              <td className='shortURL'>Short URL</td>
             </tr>
           </thead>
           <tbody>
