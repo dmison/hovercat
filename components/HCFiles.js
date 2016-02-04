@@ -4,7 +4,7 @@
   var YAML = require('yamljs');
 
   var saveFile = function(filename, fileout, done) {
-    fs.writeFile(filename, JSON.stringify(fileout), function(err) {
+    fs.writeFile(filename, JSON.stringify(fileout, null, 2), function(err) {
       if (err) {
         done('File save failed: ' + err);
       } else {
