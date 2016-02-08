@@ -382,7 +382,9 @@
 
         if (!invalid) {
           this.setState({ content: input.content});
-          this.setState({ urls: input.urls});
+          if(input.urls){
+            this.setState({ urls: input.urls});
+          }
           this.setState({ textTemplate: input.gfmTemplate});
           this.setState({ htmlTemplate: input.htmlTemplate});
           this.setState({ filename: filename});
