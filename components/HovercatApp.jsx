@@ -17,7 +17,8 @@
 
   var BitlyView = require('./BitlyView.jsx');
 
-  var URLExtractor = require('url-extractor');
+  var getURLs = require('get-urls');
+  var escapeStringRegExp = require('escape-string-regexp');
 
   var HovercatApp = React.createClass({
 
@@ -253,7 +254,7 @@
 
     updateURLs: function(text){
 
-      var listURLsFromText = URLExtractor.extract(text, URLExtractor.SOURCE_TYPE_MARKDOWN);
+      var listURLsFromText = getURLs(text);
 
       if(listURLsFromText === null){
         listURLsFromText = [];
@@ -283,9 +284,35 @@
 
     },
 
+    doURLReplace: function(content, urls){
+
+      var sortedURLs = urls.sort(function(a,b){
+        if (a.url.length < b.url.length){
+          return 1;
+        }
+        if (a.url.length > b.url.length){
+          return -1;
+        }
+        return 0;
+      });
+
+      var urlsToReplace = sortedURLs.filter((url)=>{
+        return url.shortened;
+      });
+
+      urlsToReplace.forEach((url)=>{
+        var urlRegex = new RegExp(escapeStringRegExp(url.url),'g');
+        content = content.replace(urlRegex, url.shortURL);
+      });
+
+      return content;
+    },
+
     updateOutput: function(type){
       var content = {};
-      var contentData = HCCompiler.parseYAML(this.state.content);
+      var processedContent = this.doURLReplace(this.state.content, this.state.urls);
+      var contentData = HCCompiler.parseYAML(processedContent);
+
       if (contentData.error){
         var e = contentData.error;
         var message = '"'+e.message+'" Line:'+e.parsedLine+' "'+e.snippet+'"';
@@ -328,7 +355,6 @@
         }
       }
       //stupid repetition ends
-
     },
 
 
@@ -389,8 +415,8 @@
           this.setState({ htmlTemplate: input.htmlTemplate});
           this.setState({ filename: filename});
           this.setState({unsaved: false});
-          this.updateOutput('all');
           this.updateURLs(input.content);
+          this.updateOutput('all');
         }
 
       }.bind(this));

@@ -12,13 +12,14 @@
     "bootstrap": "^3.3.5",
     "brace": "^0.7.0",
     "entities": "^1.1.1",
+    "escape-string-regexp": "^1.0.4",
+    "get-urls": "^5.0.0",
     "handlebars": "^4.0.5",
     "node-markdown": "^0.1.1",
     "react": "^0.14.0",
     "react-ace": "^3.1.0",
     "react-bootstrap": "^0.27.3",
-    "yamljs": "^0.2.4",
-    "url-extractor": "^1.0.1"
+    "yamljs": "^0.2.4"
   },
   "devDependencies": {
     "babel-preset-react": "^6.3.13",
