@@ -15,6 +15,7 @@
     "escape-string-regexp": "^1.0.4",
     "get-urls": "^5.0.0",
     "handlebars": "^4.0.5",
+    "lodash": "^4.3.0",
     "node-markdown": "^0.1.1",
     "react": "^0.14.0",
     "react-ace": "^3.1.0",
