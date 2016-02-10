@@ -16,6 +16,8 @@ var React = require('react');
 var _ = require('lodash');
 
 var HCBitly = require('./HCBitly.js');
+var HCURLSelectorController = require('./HCURLSelectorController.js');
+
 var BitlyViewListItem = require('./BitlyViewListItem.jsx');
 
 var BitlyView = React.createClass({
@@ -24,33 +26,9 @@ var BitlyView = React.createClass({
     return {selectedURLs: []};
   },
 
-  shortenAll: function() {
-
-    this.props.urls.forEach((url) => {
-
-      var longURL = querystring.escape(url.url);
-      var bitlyURL = `https://api-ssl.bitly.com/v3/shorten?access_token=${this.props.authToken}&longUrl=${longURL}`;
-
-      fetch(bitlyURL).then((response) => {
-
-        response.json().then((result) => {
-          if (result.status_code !== 200) {
-            alert(`Error shortening URL:\n${url.url}\n\n${result.status_txt}`);
-            return;
-          }
-
-          this.props.setShortURL(url.url, result.data.url);
-        });
-
-      });
-
-    });
-
-  },
-
   _selectURL: function(longURL) {
     var urls = this.state.selectedURLs;
-    var urlsToAddToSelection = this.getOtherURLSthatMatch(longURL);
+    var urlsToAddToSelection = HCURLSelectorController.getOtherURLSthatMatch(longURL, this.state.selectedURLs, this.props.urls);
 
     if (urls.indexOf(longURL) === -1) {
       urls.push(longURL);
@@ -61,59 +39,8 @@ var BitlyView = React.createClass({
       });
     }
 
-    // if longURL is already shortened
-    //  - this means it is being selected for un-shortening
-    //  - get the list of unselected shortend urls that would also match longURL
-    //  - mark those as selected too
-
-
-    // if longURL is not shortened
-    //  - this means it is being selected for shortening
-    //  - get the list of unselected non-shortened urls that longURL will also match
-    //  - mark those as selected too
-
-    // console.log(JSON.stringify(urlsToAddToSelection.map((url)=>{
-    //   return url.url;
-    // })));
-
-    // dedupe urls
     urls = _.uniq(urls);
     this.setState({selectedURLs: urls});
-  },
-
-  getOtherURLSthatMatch: function(selectedURL){
-
-    // all the urls that are not selected
-    var unselectedURLs = this.props.urls.filter((url)=>{
-      return this.state.selectedURLs.indexOf(url.url) === -1;
-    });
-
-    // has selectedURL already been shortened?
-    var alreadyShortened = this.props.urls.filter((url)=>{
-      return url.url === selectedURL;
-    }).reduce((prev,curr, index, array)=>{
-      return array[index].shortened;
-    }, false);
-
-    if(alreadyShortened){
-      // return all the unselected urls that are in selectedURL
-      return unselectedURLs.filter((url)=>{
-        return selectedURL.indexOf(url.url) !== -1;
-      }).map((url)=>{
-        return url.url;
-      });
-
-    } else {
-      // return all the unselected urls that have selectedURL in them
-      return unselectedURLs.filter((url)=>{
-        return url.url.indexOf(selectedURL) !== -1;
-      }).map((url)=>{
-        return url.url;
-      });
-
-    }
-
-
   },
 
   _selectAllURLs: function() {
