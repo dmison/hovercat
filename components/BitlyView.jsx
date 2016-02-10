@@ -13,9 +13,9 @@
 // ]
 
 var React = require('react');
-var querystring = require('querystring');
 var _ = require('lodash');
 
+var HCBitly = require('./HCBitly.js');
 var BitlyViewListItem = require('./BitlyViewListItem.jsx');
 
 var BitlyView = React.createClass({
@@ -133,23 +133,13 @@ var BitlyView = React.createClass({
     });
 
     urls.forEach((url) => {
-
-      var longURL = querystring.escape(url.url);
-      var bitlyURL = `https://api-ssl.bitly.com/v3/shorten?access_token=${this.props.authToken}&longUrl=${longURL}`;
-
-      fetch(bitlyURL).then((response) => {
-
-        response.json().then((result) => {
-          if (result.status_code !== 200) {
-            alert(`Error shortening URL:\n${url.url}\n\n${result.status_txt}`);
-            return;
-          }
-
-          this.props.setShortURL(url.url, result.data.url);
-        });
-
+      HCBitly.shortenURL(url.url, this.props.authToken, (err, shortURL)=>{
+        if(err){
+          alert(err);
+        } else {
+          this.props.setShortURL(url.url, shortURL);
+        }
       });
-
     });
     this.setState( { selectedURLs: [] });
   },
