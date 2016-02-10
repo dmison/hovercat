@@ -187,7 +187,7 @@
                           wrapEnabled={this.state.config.editor.wrapEnabled} />
                 </Tab>
                 <Tab eventKey={2} title='URLs'>
-                  <BitlyView urls={this.state.urls} setShortURL={this.setShortURL} authToken={this.state.config.bitlyAccessToken} />
+                  <BitlyView urls={this.state.urls} restoreURL={this.restoreURL} setShortURL={this.setShortURL} authToken={this.state.config.bitlyAccessToken} />
                 </Tab>
                 <Tab eventKey={3} title='Text Template'>
                   <Editor content={this.state.textTemplate}
@@ -239,17 +239,29 @@
       this.updateOutput('all');
     },
 
-    setShortURL: function(longURL, shortURL){
-
-      var urls = this.state.urls;
-      urls.forEach(function(url){
+    restoreURL: function(longURL){
+      var urls = this.state.urls.map((url)=>{
         if (url.url === longURL){
-          url.shortURL = shortURL;
-          url.shortened = true;
+          url.shortened = false;
+          url.shortURL = '';
         }
+        return url;
       });
-      this.setState( {urls: urls});
 
+      this.setState( { urls: urls});
+      this.updateOutput('all');
+    },
+
+    setShortURL: function(longURL, shortURL){
+      var urls = this.state.urls.map((url)=>{
+        if (url.url === longURL){
+          url.shortened = true;
+          url.shortURL = shortURL;
+        }
+        return url;
+      });
+      this.setState( { urls: urls});
+      this.updateOutput('all');
     },
 
     updateURLs: function(text){
@@ -281,7 +293,7 @@
       });
 
       this.setState( {urls: newURLs} );
-
+      this.updateOutput('all');
     },
 
     doURLReplace: function(content, urls){
@@ -304,7 +316,6 @@
         var urlRegex = new RegExp(escapeStringRegExp(url.url),'g');
         content = content.replace(urlRegex, url.shortURL);
       });
-
       return content;
     },
 
