@@ -60,7 +60,9 @@
           }
         },
         showConfigDialog: false,
-        showEmailDialog: false
+        showEmailDialog: false,
+        activeEditorTab: 1,
+        activePreviewTab: 1
       };
     },
 
@@ -124,6 +126,7 @@
     showEmailDialog: function(){
       if (HCBitly.invalidURLsfromSet(this.state.urls).length>0) {
         if (!window.alert('Some of your shortened URLs will break non-shortened ones.  You need to fix that before sending.')) {
+          this.setState({ activeEditorTab: 2 });
           return;
         }
       }
@@ -152,6 +155,14 @@
         });
       });
 
+    },
+
+    _handleEditorTabSelect: function(key){
+      this.setState({ activeEditorTab: key });
+    },
+
+    _handlePreviewTabSelect: function(key){
+      this.setState({ activePreviewTab: key });
     },
 
     render: function () {
@@ -185,7 +196,7 @@
 
           <div className="row main">
             <div className="col-sm-6">
-              <Tabs defaultActiveKey={1}>
+              <Tabs activeKey={this.state.activeEditorTab} onSelect={this._handleEditorTabSelect}>
                 <Tab eventKey={1} title='Content'>
                   <Editor content={this.state.content}
                           mode='yaml'
@@ -213,7 +224,7 @@
               </Tabs>
             </div>
             <div className="col-sm-6">
-              <Tabs defaultActiveKey={1}>
+              <Tabs activeKey={this.state.activePreviewTab} onSelect={this._handlePreviewTabSelect}>
                 <Tab eventKey={1} title='Text Preview'>
                   <TextPreviewer content={textOutput} type='text'/>
                 </Tab>
@@ -500,9 +511,9 @@
     },
 
     openExportDialog: function(){
-
       if (HCBitly.invalidURLsfromSet(this.state.urls).length>0) {
         if (!window.alert('Some of your shortened URLs will break non-shortened ones.  You need to fix that before exporting.')) {
+          this.setState({ activeEditorTab: 2 });
           return;
         }
       }
