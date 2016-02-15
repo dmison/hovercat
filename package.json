@@ -17,9 +17,10 @@
     "handlebars": "^4.0.5",
     "lodash": "^4.3.0",
     "node-markdown": "^0.1.1",
-    "react": "^0.14.0",
+    "react": "^0.14.7",
     "react-ace": "^3.1.0",
     "react-bootstrap": "^0.27.3",
+    "react-dom": "^0.14.7",
     "yamljs": "^0.2.4"
   },
   "devDependencies": {
