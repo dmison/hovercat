@@ -16,6 +16,7 @@
   var ConfigModal = require('./ConfigModal.jsx');
 
   var BitlyView = require('./BitlyView.jsx');
+  var HCBitly = require('./HCBitly.js');
 
   var getURLs = require('get-urls');
   var escapeStringRegExp = require('escape-string-regexp');
@@ -121,6 +122,12 @@
     },
 
     showEmailDialog: function(){
+      if (HCBitly.invalidURLsfromSet(this.state.urls).length>0) {
+        if (!window.alert('Some of your shortened URLs will break non-shortened ones.  You need to fix that before sending.')) {
+          return;
+        }
+      }
+
       this.setState({showEmailDialog: true});
     },
 
@@ -494,6 +501,11 @@
 
     openExportDialog: function(){
 
+      if (HCBitly.invalidURLsfromSet(this.state.urls).length>0) {
+        if (!window.alert('Some of your shortened URLs will break non-shortened ones.  You need to fix that before exporting.')) {
+          return;
+        }
+      }
       var exportName = dialog.showSaveDialog();
 
       if(exportName){
