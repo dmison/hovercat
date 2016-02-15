@@ -48,7 +48,7 @@ div.bitlyTableDiv {
   overflow-x: scroll;
 }
 
-table.urlTable {
+/*table.urlTable {
   width: 100%;
 }
 
@@ -68,8 +68,14 @@ table.urlTable > tbody > tr > td.longURL {
 }
 table.urlTable > tbody > tr > td.shortURL {
   width: 35%;
-}
+}*/
 
 .row-warning {
-  background-color: red;
+  background-color: #ffaaaa;
+}
+
+
+.shorteningToolbar {
+  margin: 15px 15px;
+
 }

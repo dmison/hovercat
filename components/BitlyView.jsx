@@ -14,9 +14,9 @@
 
 var React = require('react');
 var _ = require('lodash');
-
+var Table = require('react-bootstrap/lib/Table');
+var ButtonToolbar = require('react-bootstrap/lib/ButtonToolbar');
 var HCBitly = require('./HCBitly.js');
-
 var BitlyViewListItem = require('./BitlyViewListItem.jsx');
 
 var BitlyView = React.createClass({
@@ -100,24 +100,28 @@ var BitlyView = React.createClass({
 
     var allSelected = (this.state.selectedURLs.length === this.props.urls.length);
 
+    var noURLsDiv = (urls.length === 0)? <div>No URLs found</div> : '';
+
     return (
       <div>
-        <a className='btn btn-default' onClick={this._shortenSelected}>Shorten Selected</a>
-        <a className='btn btn-default' onClick={this._restoreSelected}>Restore Selected</a>
-
+        <ButtonToolbar className='shorteningToolbar'>
+          <a className='btn btn-default pull-right' onClick={this._shortenSelected}>Shorten Selected</a>
+          <a className='btn btn-default pull-right' onClick={this._restoreSelected}>Restore Selected</a>
+        </ButtonToolbar>
         <div className='bitlyTableDiv'>
-          <table className='urlTable'>
+          <Table condensed>
             <thead>
               <tr>
-                <td className='checkboxes'><input checked={allSelected} type='checkbox' onChange={this._toggleSelectAllURLs}/></td>
-                <td className='longURL'>URL</td>
-                <td className='shortURL'>Short URL</td>
+                <th className='checkboxes'><input checked={allSelected} type='checkbox' onChange={this._toggleSelectAllURLs}/></th>
+                <th className='longURL'>Long URL</th>
+                <th className='shortURL'>Short URL</th>
               </tr>
             </thead>
             <tbody>
               {urlFragments}
             </tbody>
-          </table>
+          </Table>
+          {noURLsDiv}
         </div>
       </div>
     );
