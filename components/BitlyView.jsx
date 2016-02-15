@@ -16,7 +16,6 @@ var React = require('react');
 var _ = require('lodash');
 
 var HCBitly = require('./HCBitly.js');
-var HCURLSelectorController = require('./HCURLSelectorController.js');
 
 var BitlyViewListItem = require('./BitlyViewListItem.jsx');
 
@@ -26,24 +25,21 @@ var BitlyView = React.createClass({
     return {selectedURLs: []};
   },
 
+  _unselectURL: function(longURL){
+    var remainingURLs = this.state.selectedURLs.filter((url)=>{
+      return url !== longURL;
+    });
+    this.setState({selectedURLs: remainingURLs});
+  },
+
   _selectURL: function(longURL) {
     var urls = this.state.selectedURLs;
-    var urlsToAddToSelection = HCURLSelectorController.getOtherURLSthatMatch(longURL, this.state.selectedURLs, this.props.urls);
-
-    if (urls.indexOf(longURL) === -1) {
-      urls.push(longURL);
-      urls = urls.concat(urlsToAddToSelection);
-    } else {
-      urls = urls.filter((url) => {
-        return url !== longURL;
-      });
-    }
-
+    urls.push(longURL);
     urls = _.uniq(urls);
     this.setState({selectedURLs: urls});
   },
 
-  _selectAllURLs: function() {
+  _toggleSelectAllURLs: function() {
     var urls = [];
     if (this.state.selectedURLs.length !== this.props.urls.length) {
       urls = this.props.urls.map((url) => {
@@ -54,6 +50,7 @@ var BitlyView = React.createClass({
     this.setState({selectedURLs: urls});
   },
 
+  // shorten the URLS that are selected
   _shortenSelected: function() {
     var urls = this.props.urls.filter((url) => {
       return (this.state.selectedURLs.indexOf(url.url) !== -1);
@@ -65,12 +62,14 @@ var BitlyView = React.createClass({
           alert(err);
         } else {
           this.props.setShortURL(url.url, shortURL);
+          this._unselectURL(url.url);
         }
       });
     });
-    this.setState( { selectedURLs: [] });
+
   },
 
+  // unshorten the selected URLS
   _restoreSelected: function() {
     this.props.urls.forEach((url) => {
       if (this.state.selectedURLs.indexOf(url.url) !== -1) {
@@ -80,14 +79,23 @@ var BitlyView = React.createClass({
     this.setState( { selectedURLs: [] });
   },
 
+  // ========================================================================
   render: function() {
     var urls = this.props.urls.map((url) => {
       url.selected = (this.state.selectedURLs.indexOf(url.url) !== -1);
       return url;
     });
 
+    var invalidURLs = HCBitly.invalidURLsfromSet(urls);
+
     var urlFragments = urls.map((url, index) => {
-      return (<BitlyViewListItem key={index} selected={url.selected} url={url.url} shortURL={url.shortURL} didSelect={this._selectURL}/>);
+      return (<BitlyViewListItem  key={index}
+                                  selected={url.selected}
+                                  url={url.url}
+                                  shortURL={url.shortURL}
+                                  didUnSelect={this._unselectURL}
+                                  didSelect={this._selectURL}
+                                  invalid={invalidURLs.indexOf(url.url) !== -1} />);
     });
 
     var allSelected = (this.state.selectedURLs.length === this.props.urls.length);
@@ -101,7 +109,7 @@ var BitlyView = React.createClass({
           <table className='urlTable'>
             <thead>
               <tr>
-                <td className='checkboxes'><input checked={allSelected} type='checkbox' onChange={this._selectAllURLs}/></td>
+                <td className='checkboxes'><input checked={allSelected} type='checkbox' onChange={this._toggleSelectAllURLs}/></td>
                 <td className='longURL'>URL</td>
                 <td className='shortURL'>Short URL</td>
               </tr>

@@ -69,3 +69,7 @@ table.urlTable > tbody > tr > td.longURL {
 table.urlTable > tbody > tr > td.shortURL {
   width: 35%;
 }
+
+.row-warning {
+  background-color: red;
+}
