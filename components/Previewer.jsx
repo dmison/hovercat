@@ -7,10 +7,10 @@
     getInitialState: function(){
       return {
         previewHeight: window.innerHeight-170
-      }
+      };
     },
 
-    handleResize: function(e){
+    handleResize: function(){
       this.setState({
         previewHeight: window.innerHeight-170
       });
@@ -31,7 +31,7 @@
 
       if (this.props.type === 'text'){
 
-        var frameContent = '<html><head><link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css"><link rel="stylesheet" href="vendor/bootstrap/css/bootstrap-theme.min.css"> <style>html { overflow-x: wrap; overflow-y: scroll; } </style></head><body><pre style="overflow: wrap; word-break: auto;"><code>'+this.props.content+'</code></pre></body></html>'
+        var frameContent = '<html><head><link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css"><link rel="stylesheet" href="vendor/bootstrap/css/bootstrap-theme.min.css"> <style>html { overflow-x: wrap; overflow-y: scroll; } </style></head><body><pre style="overflow: wrap; word-break: auto;"><code>'+this.props.content+'</code></pre></body></html>';
         return (
           <iframe style={style} className="previewer textpreview" scrolling="yes" srcDoc={frameContent}></iframe>
         );
