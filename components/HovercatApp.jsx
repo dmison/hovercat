@@ -196,7 +196,7 @@
 
           <div className="row main">
             <div className="col-sm-6">
-              <Tabs activeKey={this.state.activeEditorTab} onSelect={this._handleEditorTabSelect}>
+              <Tabs animation={false} activeKey={this.state.activeEditorTab} onSelect={this._handleEditorTabSelect}>
                 <Tab eventKey={1} title='Content'>
                   <Editor content={this.state.content}
                           mode='yaml'
@@ -224,7 +224,7 @@
               </Tabs>
             </div>
             <div className="col-sm-6">
-              <Tabs activeKey={this.state.activePreviewTab} onSelect={this._handlePreviewTabSelect}>
+              <Tabs animation={false} activeKey={this.state.activePreviewTab} onSelect={this._handlePreviewTabSelect}>
                 <Tab eventKey={1} title='Text Preview'>
                   <TextPreviewer content={textOutput} type='text'/>
                 </Tab>
