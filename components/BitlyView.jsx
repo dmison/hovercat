@@ -22,7 +22,25 @@ var BitlyViewListItem = require('./BitlyViewListItem.jsx');
 var BitlyView = React.createClass({
 
   getInitialState: function() {
-    return {selectedURLs: []};
+    return {
+      selectedURLs: [],
+      height: window.innerHeight-170
+    };
+  },
+
+  handleResize: function(e){
+    this.setState({
+      height: window.innerHeight-170
+    });
+    this.forceUpdate();
+  },
+
+  componentDidMount: function(){
+    window.addEventListener('resize', this.handleResize);
+  },
+
+  componentWillUnmount: function(){
+    window.removeEventListener('resize', this.handleReize);
   },
 
   _unselectURL: function(longURL){
@@ -81,6 +99,9 @@ var BitlyView = React.createClass({
 
   // ========================================================================
   render: function() {
+
+    var style = { height: this.state.height, margin: 12 };
+
     var urls = this.props.urls.map((url) => {
       url.selected = (this.state.selectedURLs.indexOf(url.url) !== -1);
       return url;
@@ -123,8 +144,8 @@ var BitlyView = React.createClass({
           <a className='btn btn-default pull-right' disabled={!enableShortenBtn} onClick={this._shortenSelected}><i className="fa fa-chevron-right"></i><i className="fa fa-chevron-left"></i> Shorten Selected</a>
           <a className='btn btn-default pull-right' disabled={!enableRestoreBtn} onClick={this._restoreSelected}><i className="fa fa-chevron-left"></i><i className="fa fa-chevron-right"></i> Restore Selected</a>
         </ButtonToolbar>
-        <div className='bitlyTableDiv'>
-          <Table condensed>
+        <div style={style} className='bitlyTableDiv'>
+          <Table condensed className='urlTable'>
             <thead>
               <tr>
                 <th className='checkboxes'><input checked={allSelected} type='checkbox' onChange={this._toggleSelectAllURLs}/></th>
