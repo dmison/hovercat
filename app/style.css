@@ -74,6 +74,9 @@ table.urlTable > tbody > tr > td.shortURL {
   background-color: #ffaaaa;
 }
 
+table.urlTable > tbody > tr > td {
+  font-size: 14px;
+}
 
 .shorteningToolbar {
   margin: 15px 15px;
