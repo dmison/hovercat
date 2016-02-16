@@ -102,11 +102,26 @@ var BitlyView = React.createClass({
 
     var noURLsDiv = (urls.length === 0)? <div>No URLs found</div> : '';
 
+
+    var enableShortenBtn = urls.filter((url)=>{
+      return url.selected;
+    }).reduce((prev, url)=>{
+      return  prev || url.shortened !== true;
+    }, false);
+
+
+
+    var enableRestoreBtn = urls.filter((url)=>{
+      return url.selected;
+    }).reduce((prev, url)=>{
+      return prev || url.shortened === true;
+    }, false);
+
     return (
       <div>
         <ButtonToolbar className='shorteningToolbar'>
-          <a className='btn btn-default pull-right' onClick={this._shortenSelected}>Shorten Selected</a>
-          <a className='btn btn-default pull-right' onClick={this._restoreSelected}>Restore Selected</a>
+          <a className='btn btn-default pull-right' disabled={!enableShortenBtn} onClick={this._shortenSelected}><i className="fa fa-chevron-right"></i><i className="fa fa-chevron-left"></i> Shorten Selected</a>
+          <a className='btn btn-default pull-right' disabled={!enableRestoreBtn} onClick={this._restoreSelected}><i className="fa fa-chevron-left"></i><i className="fa fa-chevron-right"></i> Restore Selected</a>
         </ButtonToolbar>
         <div className='bitlyTableDiv'>
           <Table condensed>
