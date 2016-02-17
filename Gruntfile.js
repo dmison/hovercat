@@ -79,7 +79,7 @@ module.exports = function(grunt) {
           name: 'Hovercat',
           dir: 'app',
           out: 'dist/osx_x64',
-          version: '0.36.4',
+          version: '0.36.7',
           platform: 'darwin',
           arch: 'x64'
         }
@@ -89,7 +89,7 @@ module.exports = function(grunt) {
           name: 'Hovercat',
           dir: 'app',
           out: 'dist/linux',
-          version: '0.36.4',
+          version: '0.36.7',
           platform: 'linux',
           arch: 'x64'
         }
@@ -110,7 +110,7 @@ module.exports = function(grunt) {
         // RPM package.  The plugin does contain defaults for these if you omit
         // them, and will notify you when this occurs.
         name: 'hovercat',
-        version: '0.6.0',
+        version: '0.7.0',
         release: 1,
         buildArch: 'x86_64'
       },
