@@ -1,0 +1,50 @@
+{
+  "name": "hovercat2-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "config": {
+    "electronVersion": "0.36.5"
+  },
+  "scripts": {
+    "clean": "rm -fr build dist",
+    "copy:bootstrap": "mkdir -p build/vendor/bootstrap; cp -Rf node_modules/bootstrap/dist/* build/vendor/bootstrap",
+    "copy:html": "mkdir -p build; cp -Rf src/html/* build",
+    "watch:src": "onchange 'src/**/*' -- npm run build:dist",
+    "build:js": "webpack",
+    "build:dist": "npm run clean; npm run copy:html; npm run copy:bootstrap; npm run build:js; npm run package:linux",
+    "build:dev": "npm run build:dist; npm run watch:src",
+    "watch:CI": "onchange 'src/**/*' -e 'src/html/**.*' -- npm run test",
+    "package:linux": "electron-packager build Hovercat --arch=x64 --platform=linux --version=$npm_package_config_electronVersion --out dist --prune --overwrite",
+    "test": "mocha './src/**/*.spec.js' --compilers js:babel-core/register"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "brace": "^0.7.0",
+    "entities": "^1.1.1",
+    "handlebars": "^4.0.5",
+    "node-markdown": "^0.1.1",
+    "node-uuid": "^1.4.7",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "react-redux": "^4.4.1",
+    "redux": "^3.3.1",
+    "yamljs": "^0.2.7"
+  },
+  "devDependencies": {
+    "babel-core": "^6.7.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
+    "bootstrap": "^3.3.6",
+    "chai": "^3.5.0",
+    "electron-packager": "^6.0.0",
+    "eslint": "^2.5.3",
+    "eslint-plugin-react": "^4.2.3",
+    "mocha": "^2.4.5",
+    "onchange": "^2.2.0",
+    "parallelshell": "^2.0.0",
+    "webpack": "^1.12.14"
+  }
+}

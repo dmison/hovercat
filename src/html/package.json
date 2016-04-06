@@ -1,0 +1,13 @@
+{
+  "name": "Hovercat",
+  "version": "0.7.0",
+  "description": "",
+  "main": "main.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "styliner": "^0.8.9",
+    "nodemailer": "^1.8.0",
+    "nodemailer-smtp-transport": "^1.0.4"
+  }
+}

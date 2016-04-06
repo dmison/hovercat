@@ -1,0 +1,84 @@
+html, body {
+  /*padding-top: 35px;*/
+  /*padding-left: 12px;
+  padding-right: 12px;*/
+  /*padding-bottom: 10px*/
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.main {
+  padding: 15px;
+}
+
+
+a.menuLink {
+  cursor: pointer;
+}
+
+div#yamlEditor {
+  margin: 12px;
+}
+
+div#markdownEditor {
+  margin: 12px;
+}
+
+div#htmlEditor {
+  margin: 12px;
+}
+
+.htmlpreview {
+  width: 95%;
+  -webkit-user-select: all;
+}
+.textpreview {
+  width: 95%;
+  -webkit-user-select: all;
+  border: 0px;
+}
+
+
+/* bitly view */
+
+div.bitlyTableDiv {
+  overflow-y: scroll;
+  overflow-x: scroll;
+}
+
+/*table.urlTable {
+  width: 100%;
+}
+
+table.urlTable > thead > tr {
+  border-bottom: 1px solid black;
+}
+
+table.urlTable > tbody > tr {
+  border-bottom: 1px solid grey;
+}
+
+table.urlTable > tbody > tr > td.checkboxes {
+  width: 10%;
+}
+table.urlTable > tbody > tr > td.longURL {
+  width: 35%;
+}
+table.urlTable > tbody > tr > td.shortURL {
+  width: 35%;
+}*/
+
+.row-warning {
+  background-color: #ffaaaa;
+}
+
+table.urlTable > tbody > tr > td {
+  font-size: 14px;
+}
+
+.shorteningToolbar {
+  margin: 15px 15px;
+
+}
