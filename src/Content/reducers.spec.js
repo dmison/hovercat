@@ -5,13 +5,13 @@ const actions = require('./actions.js');
 
 describe('testing content reducers', () => {
 
-  it('add simple content', ()=>{
+  it('update simple content', ()=>{
     const content = 'some arbitrary text content';
-    const actualNewState = reducers.content_reducer('', actions.addContent(content));
+    const actualNewState = reducers.content_reducer('', actions.updateContent(content));
     const expectedNewState = 'some arbitrary text content';
     expect(actualNewState).to.equal(expectedNewState);
   });
-
+ 
 
 
 });

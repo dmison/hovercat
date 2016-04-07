@@ -10,7 +10,7 @@ describe('testing template reducers', () => {
     const name = 'basic text';
     const type = 'TEXT';
 
-    const actualNewTemplates = reducers.template_reducer(undefined, actions.addTemplate(template, name, type));
+    const actualNewTemplates = reducers.template_reducer(undefined, actions.addTemplate(name, type, template));
     expect(actualNewTemplates[0].content).to.equal(template);
     expect(actualNewTemplates[0].name).to.equal(name);
     expect(actualNewTemplates[0].type).to.equal(type);
@@ -28,8 +28,8 @@ describe('testing template reducers', () => {
     const typeTwo = 'HTML';
 
     let actualNewTemplates = [];
-    actualNewTemplates = reducers.template_reducer(actualNewTemplates, actions.addTemplate(templateOne, nameOne, typeOne));
-    actualNewTemplates = reducers.template_reducer(actualNewTemplates, actions.addTemplate(templateTwo, nameTwo, typeTwo));
+    actualNewTemplates = reducers.template_reducer(actualNewTemplates, actions.addTemplate(nameOne, typeOne, templateOne));
+    actualNewTemplates = reducers.template_reducer(actualNewTemplates, actions.addTemplate(nameTwo, typeTwo, templateTwo));
 
     const expectedNewTemplates = [
       {
@@ -63,7 +63,7 @@ describe('testing template reducers', () => {
     const startingTemplates = [
       {
         id: id,
-        template: template,
+        content: template,
         name: name,
         type: type
       }
@@ -72,7 +72,7 @@ describe('testing template reducers', () => {
     const newName = 'text email';
 
     const actualUpdatedTemplates = reducers.template_reducer(startingTemplates, actions.updateTemplate(id, newName));
-    expect(actualUpdatedTemplates[0].template).to.equal(template);
+    expect(actualUpdatedTemplates[0].content).to.equal(template);
     expect(actualUpdatedTemplates[0].name).to.equal(newName);
     expect(actualUpdatedTemplates[0].type).to.equal(type);
     expect(actualUpdatedTemplates[0].id).to.equal(id);
@@ -89,7 +89,7 @@ describe('testing template reducers', () => {
     const startingTemplates = [
       {
         id: id,
-        template: template,
+        content: template,
         name: name,
         type: type
       }
@@ -98,7 +98,7 @@ describe('testing template reducers', () => {
     const newType = 'HTML';
 
     const actualUpdatedTemplates = reducers.template_reducer(startingTemplates, actions.updateTemplate(id, name, newType));
-    expect(actualUpdatedTemplates[0].template).to.equal(template);
+    expect(actualUpdatedTemplates[0].content).to.equal(template);
     expect(actualUpdatedTemplates[0].name).to.equal(name);
     expect(actualUpdatedTemplates[0].type).to.equal(newType);
     expect(actualUpdatedTemplates[0].id).to.equal(id);
@@ -109,13 +109,13 @@ describe('testing template reducers', () => {
 
     const templateOne = {
       id: '234-235-235-235-235-222',
-      template: 'here is some arbitrary {{content}}.',
+      content: 'here is some arbitrary {{content}}.',
       name: 'template two',
       type: 'TEXT'
     };
     const templateTwo = {
       id: '493-235-746-235-255',
-      template: 'here is some other arbitrary {{content}}.',
+      content: 'here is some other arbitrary {{content}}.',
       name: 'template one',
       type: 'TEXT'
     };

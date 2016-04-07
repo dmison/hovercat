@@ -1,17 +1,18 @@
-const addTemplate = (template, name, type) => {
+const addTemplate = (name, type, template ) => {
   return {
     type: 'ADD_TEMPLATE',
-    template: template,
+    content: template,
     templateName: name,
     templateType: type
   };
 };
 
 const updateTemplate = (id, name, type, template) => {
+
   return {
     type: 'UPDATE_TEMPLATE',
     id: id,
-    template: template,
+    content: template,
     templateName: name,
     templateType: type
   };

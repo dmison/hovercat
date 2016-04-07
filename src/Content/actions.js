@@ -1,10 +1,11 @@
-const addContent = (content) => {
+
+const updateContent = (content) => {
   return {
-    type: 'ADD_CONTENT',
+    type: 'UPDATE_CONTENT',
     content: content
   };
 };
 
 module.exports = {
-  addContent: addContent
+  updateContent: updateContent
 };

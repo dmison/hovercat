@@ -17,13 +17,13 @@
 
     getInitialState: function(){
       return {
-        editorHeight: window.innerHeight-170
+        editorHeight: window.innerHeight/2
       };
     },
 
     handleResize: function(){
       this.setState({
-        editorHeight: window.innerHeight-170
+        editorHeight: window.innerHeight/2
       });
       this.forceUpdate();
     },

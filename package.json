@@ -10,12 +10,19 @@
     "clean": "rm -fr build dist",
     "copy:bootstrap": "mkdir -p build/vendor/bootstrap; cp -Rf node_modules/bootstrap/dist/* build/vendor/bootstrap",
     "copy:html": "mkdir -p build; cp -Rf src/html/* build",
-    "watch:src": "onchange 'src/**/*' -- npm run build:dist",
     "build:js": "webpack",
-    "build:dist": "npm run clean; npm run copy:html; npm run copy:bootstrap; npm run build:js; npm run package:linux",
-    "build:dev": "npm run build:dist; npm run watch:src",
-    "watch:CI": "onchange 'src/**/*' -e 'src/html/**.*' -- npm run test",
+
+    "watch:src:linux": "onchange 'src/**/*' -- npm run build:dist:linux",
+    "build:dist:linux": "npm run clean; npm run copy:html; npm run copy:bootstrap; npm run build:js; npm run package:linux",
+    "build:dev:linux": "npm run build:dist:linux; npm run watch:src:linux",
     "package:linux": "electron-packager build Hovercat --arch=x64 --platform=linux --version=$npm_package_config_electronVersion --out dist --prune --overwrite",
+
+    "watch:src:osx": "onchange 'src/**/*' -- npm run build:dist:osx",
+    "build:dist:osx": "npm run clean; npm run copy:html; npm run copy:bootstrap; npm run build:js; npm run package:osx",
+    "build:dev:osx": "npm run build:dist:osx; npm run watch:src:osx",
+    "package:osx": "electron-packager build Hovercat --arch=x64 --platform=darwin --version=$npm_package_config_electronVersion --out dist --prune --overwrite",
+
+    "watch:CI": "onchange 'src/**/*' -e 'src/html/**.*' -- npm run test",
     "test": "mocha './src/**/*.spec.js' --compilers js:babel-core/register"
   },
   "author": "",

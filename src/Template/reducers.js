@@ -6,7 +6,7 @@ const template_reducer = (templates = [], action) => {
   case 'ADD_TEMPLATE':
     return templates.concat({
       id: uuid.v1(),
-      content: action.template,
+      content: action.content,
       name: action.templateName,
       type: action.templateType
     });
@@ -15,7 +15,7 @@ const template_reducer = (templates = [], action) => {
       if (action.id === template.id){
         template.name = (typeof action.templateName !== 'undefined')? action.templateName: template.name;
         template.type = (typeof action.templateType !== 'undefined')? action.templateType: template.type;
-        template.template = (typeof action.template !== 'undefined')? action.template: template.template;
+        template.content = (typeof action.content !== 'undefined')? action.content: template.content;
       }
       return template;
     });
