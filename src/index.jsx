@@ -7,14 +7,16 @@ const PreviewerListContainer = require('./Previewer/PreviewerListContainer.js');
 
 const store = require('./Store');
 
-const {addTemplate} = require('./Template/actions.js');
-store.dispatch(addTemplate('TXT email thing', 'markdown', '{{title}} some template text'));
-store.dispatch(addTemplate('HTML email thing', 'html', 'some <h2>template</h2> text'));
-
 ReactDOM.render(<Provider store={store}>
   <div>
-    <EditorListContainer />
-    <PreviewerListContainer />
+    <div className='row hovercat'>
+      <div className='col col-left'>
+        <EditorListContainer />
+      </div>
+      <div className='col col-right'>
+        <PreviewerListContainer />
+      </div>
+    </div>
   </div>
 </Provider>, document.getElementById('app'));
 

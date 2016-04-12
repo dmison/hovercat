@@ -1,7 +1,6 @@
 const content_reducers = require('../Content/reducers.js');
 const error_reducers = require('../Errors/reducers.js');
 const template_reducers = require('../Template/reducers.js');
-
 const Redux = require('redux');
 
 const AppReducer = Redux.combineReducers({
@@ -10,6 +9,12 @@ const AppReducer = Redux.combineReducers({
   templates: template_reducers.template_reducer
 });
 
-const store = Redux.createStore(AppReducer);
+const defaultState = {
+  templates: [],
+  content: '',
+  errors: []
+};
+
+const store = Redux.createStore(AppReducer, defaultState);
 
 module.exports = store;
