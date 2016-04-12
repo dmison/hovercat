@@ -8,20 +8,19 @@
   },
   "scripts": {
     "clean": "rm -fr build dist",
+    "makeicns": "nicns --in assets/hovercat.png --out assets/hovercat.icns",
     "copy:bootstrap": "mkdir -p build/vendor/bootstrap; cp -Rf node_modules/bootstrap/dist/* build/vendor/bootstrap",
     "copy:html": "mkdir -p build; cp -Rf src/html/* build",
+    "copy:assets": "mkdir -p build; cp assets/hovercat.png build/hovercat.png",
     "build:js": "webpack",
-
     "watch:src:linux": "onchange 'src/**/*' -- npm run build:dist:linux",
-    "build:dist:linux": "npm run clean; npm run copy:html; npm run copy:bootstrap; npm run build:js; npm run package:linux",
+    "build:dist:linux": "npm run clean; npm run copy:html; npm run copy:assets; npm run copy:bootstrap; npm run build:js; npm run package:linux",
     "build:dev:linux": "npm run build:dist:linux; npm run watch:src:linux",
     "package:linux": "electron-packager build Hovercat --arch=x64 --platform=linux --version=$npm_package_config_electronVersion --out dist --prune --overwrite",
-
     "watch:src:osx": "onchange 'src/**/*' -- npm run build:dist:osx",
-    "build:dist:osx": "npm run clean; npm run copy:html; npm run copy:bootstrap; npm run build:js; npm run package:osx",
+    "build:dist:osx": "npm run clean; npm run copy:html; npm run copy:assets; npm run copy:bootstrap; npm run build:js; npm run package:osx",
     "build:dev:osx": "npm run build:dist:osx; npm run watch:src:osx",
-    "package:osx": "electron-packager build Hovercat --arch=x64 --platform=darwin --version=$npm_package_config_electronVersion --out dist --prune --overwrite",
-
+    "package:osx": "electron-packager build Hovercat --arch=x64 --platform=darwin --version=$npm_package_config_electronVersion --out dist --prune --overwrite --icon=assets/hovercat.icns",
     "watch:CI": "onchange 'src/**/*' -e 'src/html/**.*' -- npm run test",
     "test": "mocha './src/**/*.spec.js' --compilers js:babel-core/register"
   },
@@ -50,6 +49,7 @@
     "eslint": "^2.5.3",
     "eslint-plugin-react": "^4.2.3",
     "mocha": "^2.4.5",
+    "node-icns": "0.0.4",
     "onchange": "^2.2.0",
     "parallelshell": "^2.0.0",
     "webpack": "^1.12.14"

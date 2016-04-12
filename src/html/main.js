@@ -16,7 +16,7 @@ app.on('window-all-closed', function() {
 // initialization and ready for creating browser windows.
 app.on('ready', function() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({'width': 1000, 'height': 700, 'dark-theme': false, 'icon': __dirname+'/electron.png' });
+  mainWindow = new BrowserWindow({'width': 1000, 'height': 700, 'dark-theme': false, 'icon': __dirname+'/hovercat.png' });
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html');
