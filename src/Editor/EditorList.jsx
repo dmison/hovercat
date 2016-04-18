@@ -1,7 +1,6 @@
 const React = require('react');
 const {Tab, Tabs, TabList, TabPanel} = require('react-tabs');
 const Editor = require('./Editor.jsx');
-const AddTemplate = require('../Template/AddTemplate.jsx');
 
 
 const EditorList = (props) => {
@@ -20,7 +19,7 @@ const EditorList = (props) => {
     return (
       <TabPanel key={index+1}>
         <h3>{template.name} <small>{template.type}</small></h3>
-        <button className='btn btn-danger' onClick={ ()=>{ props.deleteTemplate(template.id); } }>x</button>
+        
         <Editor content={template.content}
                 mode={template.type}
                 theme='tomorrow'
@@ -37,7 +36,6 @@ const EditorList = (props) => {
 
   return (
     <div >
-        <AddTemplate  onAdd={(name, type)=>{ props.addTemplate(name, type, ''); }} />
         <Tabs>
           <TabList>{EditorTabs}</TabList>
           {EditorTabPanels}

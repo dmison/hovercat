@@ -1,4 +1,5 @@
 const React = require('react');
+const {Link} = require('react-router');
 
 const MainMenu = (props) => {
   return (
@@ -10,8 +11,8 @@ const MainMenu = (props) => {
           <li><a className='menuLink' >Save</a></li>
           <li><a className='menuLink' >Export</a></li>
           <li><a className='menuLink' >Send Email</a></li>
-          <li><a className='menuLink' >Manage Templates</a></li>
-          <li><a className='menuLink' >Configure</a></li>
+          <li><Link to='/manage-templates' >Manage Templates</Link></li>
+          <li><Link to='/configure' >Configure</Link></li>
         </ul>
     </nav>
 
