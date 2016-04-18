@@ -13,8 +13,9 @@
         }
     },
     "plugins": [
-        "react"
-    ],
+    "react"
+  ],
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
     "rules": {
         "indent": [
             2,
