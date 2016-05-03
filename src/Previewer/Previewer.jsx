@@ -1,55 +1,97 @@
-(function(){
+var React = require('react');
 
-  var React = require('react');
+const {compile} = require('../Compiler');
+const {parseYAML} = require('../Compiler');
 
-  var Previewer = React.createClass({
+var Previewer = React.createClass({
 
-    getInitialState: function(){
-      return {
-        previewHeight: window.innerHeight/2
-      };
-    },
+  propTypes: function(){
+    return {
+      template: React.PropTypes.object,
+      content: React.PropTypes.string,
+      addError: React.PropTypes.func,
+      clearError: React.PropTypes.func
+    };
+  },
 
-    handleResize: function(){
-      this.setState({
-        previewHeight: window.innerHeight/2
-      });
-      this.forceUpdate();
-    },
+  getInitialState: function(){
+    return {
+      previewHeight: window.innerHeight/2,
+      output: ''
+    };
+  },
 
-    componentDidMount: function(){
-      window.addEventListener('resize', this.handleResize);
-    },
+  handleResize: function(){
+    this.setState({
+      previewHeight: window.innerHeight/2
+    });
+    this.forceUpdate();
+  },
 
-    componentWillUnmount: function(){
-      window.removeEventListener('resize', this.handleReize);
-    },
+  componentWillMount: function(){
+    this.setState( { output: this.compileOutput(this.props.template, this.props.content, this.props.addError, this.props.clearError) } );
+  },
 
-    render: function(){
+  componentWillReceiveProps: function(nextProps){
+    this.setState( { output: this.compileOutput(nextProps.template, nextProps.content, nextProps.addError, this.props.clearError) } );
+  },
 
-      var style = { height: this.state.previewHeight, margin: 12 };
+  componentDidMount: function(){
+    window.addEventListener('resize', this.handleResize);
+  },
 
-      if (this.props.type === 'markdown'){
+  componentWillUnmount: function(){
+    window.removeEventListener('resize', this.handleReize);
+  },
 
-        let frameContent = '<html><head><link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css"><link rel="stylesheet" href="vendor/bootstrap/css/bootstrap-theme.min.css"> <style>html { overflow-x: wrap; overflow-y: scroll; } </style></head><body><pre style="overflow: wrap; word-break: auto;"><code>'+this.props.content+'</code></pre></body></html>';
-        return (
-          <iframe style={style} className="previewer textpreview" scrolling="yes" srcDoc={frameContent}></iframe>
-        );
-      }
+  render: function(){
 
-      if (this.props.type === 'html'){
+    var style = { height: this.state.previewHeight, margin: 12 };
 
-        let frameContent = '<html><head><style>html { overflow-x: wrap; overflow-y: scroll; } </style></head><body><div>'+this.props.content+'</div></body></html>';
+    if (this.props.template.type === 'markdown'){
 
-        return (
-          <iframe style={style} className="previewer htmlpreview" scrolling="yes" srcDoc={frameContent}></iframe>
-        );
-      }
-
+      let frameContent = '<html><head><link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css"><link rel="stylesheet" href="vendor/bootstrap/css/bootstrap-theme.min.css"> <style>html { overflow-x: wrap; overflow-y: scroll; } </style></head><body><pre style="overflow: wrap; word-break: auto;"><code>'+this.state.output+'</code></pre></body></html>';
+      return (
+        <iframe style={style} className="previewer textpreview" scrolling="yes" srcDoc={frameContent}></iframe>
+      );
     }
 
-  });
+    if (this.props.template.type === 'html'){
 
-  module.exports = Previewer;
+      let frameContent = '<html><head><style>html { overflow-x: wrap; overflow-y: scroll; } </style></head><body><div>'+this.state.output+'</div></body></html>';
 
-})();
+      return (
+        <iframe style={style} className="previewer htmlpreview" scrolling="yes" srcDoc={frameContent}></iframe>
+      );
+    }
+  },
+
+  compileOutput: function(template, content, addError, clearError){
+
+    let preview = '';
+    let output = {};
+    let data = parseYAML(content);
+
+    if (data.error){
+      let message = `Line: ${data.error.parsedLine}: ${data.error.message}, \"${data.error.snippet}\"`;
+      addError(message, 'YAML', template.name);
+    } else {
+      clearError('YAML', template.name);
+      output = compile(data.data, template.content);
+    }
+
+    if (output.error){
+      // console.log(output.error);
+      addError('output.error', template.type, template.name);
+    } else {
+      clearError(template.type, template.name);
+      preview = output.output;
+    }
+
+    return preview;
+
+  }
+
+});
+
+module.exports = Previewer;
