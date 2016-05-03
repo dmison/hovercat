@@ -9,6 +9,14 @@ html, body {
   background-color: #ffffff;
 }
 
+div.hovercat-workspace {
+  margin: 0px;
+}
+
+span.label {
+  padding: 5px 8px 4px 8px;
+}
+
 div.col {
   display: inline-block;
   width: 50%;
