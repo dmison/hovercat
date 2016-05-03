@@ -13,7 +13,7 @@ describe('testing error reducers', () => {
       {
         type: 'YAML',
         template: '',
-        error: errorText
+        message: errorText
       }
     ];
     expect(actualNewState).to.deep.equal(expectedNewState);
@@ -29,7 +29,7 @@ describe('testing error reducers', () => {
       {
         type: 'TEXT',
         template: templateName,
-        error: errorText
+        message: errorText
       }
     ];
     expect(actualNewState).to.deep.equal(expectedNewState);
@@ -45,7 +45,7 @@ describe('testing error reducers', () => {
       {
         type: 'HTML',
         template: templateName,
-        error: errorText
+        message: errorText
       }
     ];
     expect(actualNewState).to.deep.equal(expectedNewState);
