@@ -51,5 +51,15 @@ describe('testing error reducers', () => {
     expect(actualNewState).to.deep.equal(expectedNewState);
   });
 
+  it('add text template processing error and then clear it', ()=>{
+    const errorText = 'some arbitrary text error message';
+    const sourceType = 'TEXT';
+    const templateName = 'basic text email';
+
+    const startState = reducers.error_reducer(undefined, actions.addError(errorText, sourceType, templateName));
+    const finalState = reducers.error_reducer(startState, actions.clearError(sourceType, templateName));
+    expect(finalState).to.deep.equal([]);
+  });
+
 
 });

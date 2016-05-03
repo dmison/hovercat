@@ -1,12 +1,21 @@
-const addError = (error, sourceType, templateName) => {
+const addError = (message, sourceType, templateName) => {
   return {
     type: 'ADD_ERROR',
-    error: error,
+    message: message,
+    sourceType: sourceType,
+    templateName: templateName
+  };
+};
+
+const clearError = (sourceType, templateName) => {
+  return {
+    type: 'CLEAR_ERROR',
     sourceType: sourceType,
     templateName: templateName
   };
 };
 
 module.exports = {
-  addError: addError
+  addError: addError,
+  clearError: clearError
 };
