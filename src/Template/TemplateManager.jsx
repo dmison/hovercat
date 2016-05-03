@@ -12,12 +12,33 @@ const TemplateManager = React.createClass({
     const history = createHistory();
 
     return (
-      <div className='container'>
-        <button className='btn btn-default' onClick={()=>{history.goBack();}} >&lt; We're done here</button>
-        <hr/>
-        <AddTemplate  onAdd={(name, type)=>{ this.props.addTemplate(name, type, ''); }} />
-        <hr/>
-        <TemplateManagerList {...this.props} />
+      <div className='container col-md-10 col-md-offset-1'>
+        <div className='panel panel-default'>
+
+          <div className='panel-heading'>
+            <h3 className='panel-title'>Template Manager</h3>
+          </div>
+
+          <div className='panel-body'>
+
+            <div className='row'>
+              <div className='col-md-8'>
+                <AddTemplate  onAdd={(name, type)=>{ this.props.addTemplate(name, type, ''); }} />
+              </div>
+              <div className='col-md-4'>
+                <button className='btn btn-info pull-right' onClick={()=>{history.goBack();}} >Done</button>
+              </div>
+            </div>
+
+            <div className='row'>
+              <div className='col-md-8'>
+                <TemplateManagerList {...this.props} />
+              </div>
+            </div>
+
+          </div>
+
+        </div>
       </div>
     );
   },
@@ -36,16 +57,25 @@ const TemplateManager = React.createClass({
 
 // ======================================================= TemplateManagerList
 const TemplateManagerList = (props) => {
-  return (
-    <ul>
+  const style = {
+    marginTop: 15
+  };
+
+  return props.templates.length>0 ? (
+    <div style={style}>
+    <table className='table table-striped table-hover'>
+      <tbody>
       {props.templates.map((template, index)=>{
-        return (
-          <li key={index}>
-            <TemplateListItem onDelete={props.deleteTemplate} onUpdate={props.updateTemplate} template={template} />
-          </li>
-        );
+        return <TemplateListItem key={index} onDelete={props.deleteTemplate} onUpdate={props.updateTemplate} template={template} />;
       })}
-    </ul>
+      </tbody>
+    </table>
+    </div>
+  ): (
+    <div>
+      <h3>No templates</h3>
+      <p>Maybe you should add one.</p>
+    </div>
   );
 };
 TemplateManagerList.propTypes = {
@@ -91,27 +121,31 @@ const TemplateListItem = React.createClass({
 
     if(this.state.showEditor){
       return (
-        <div>
-          <TemplateDetailsForm  name={this.state.newName} type={this.state.newType}
-                                onNameChange={(name)=>{ this.setState({newName: name});}}
-                                onTypeChange={(type)=>{ this.setState({newType: type});}} />
-          <button onClick={this._cancelEdit} className='btn btn-default'>Cancel</button>
-          <button onClick={this._saveChanges} className='btn btn-default'>Save</button>
-
-        </div>
+        <tr>
+          <td>
+            <TemplateDetailsForm  name={this.state.newName} type={this.state.newType}
+                                          onNameChange={(name)=>{ this.setState({newName: name});}}
+                                          onTypeChange={(type)=>{ this.setState({newType: type});}} />
+          </td>
+          <td>
+            <button onClick={this._cancelEdit} className='btn btn-default'>Cancel</button>
+            <button onClick={this._saveChanges} className='btn btn-default'>Save</button>
+          </td>
+        </tr>
       );
     } else {
       return (
-        <div>
-          <span>{this.props.template.name}</span>
-          <span className='label label-default'>{this.props.template.type}</span>
-          <span><button onClick={()=>{ this.setState({showEditor:true});} } className='btn btn-sm btn-info'><span className="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></span>
-          <span><button onClick={()=>{
-            if (window.confirm('Are you sure you want to delete this template?')) {
-              this.props.onDelete(this.props.template.id);
-            }
-          }} className='btn btn-sm btn-danger'><span className="glyphicon glyphicon-remove" aria-hidden="true"></span></button></span>
-        </div>
+        <tr>
+          <td>{this.props.template.name} <span className='label label-default'>{this.props.template.type}</span></td>
+          <td>
+            <button onClick={()=>{ this.setState({showEditor:true});} } className='btn btn-xs btn-info'><span className="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</button>
+            <button onClick={()=>{
+              if (window.confirm('Are you sure you want to delete this template?')) {
+                this.props.onDelete(this.props.template.id);
+              }
+            }} className='btn btn-xs btn-danger'><span className="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+          </td>
+      </tr>
       );
 
     }
@@ -122,12 +156,3 @@ const TemplateListItem = React.createClass({
 });
 
 module.exports = TemplateManager;
-
-
-// <TemplateDetailsForm  name={this.state.name} type={this.state.newType}
-//                       onNameChange={(name)=>{ this.setState({newName: name});}}
-//                       onTypeChange={(type)=>{ this.setState({newType: type});}} />
-// <button onClick={ ()=>{ this.setState({ newName: '', newType:'html', showAddTemplate: false }); } }
-//         className='btn btn-default'>Cancel</button>
-// <button onClick={()=>{ this.props.onAdd(this.state.newName, this.state.newType); this.setState({ showAddTemplate: false , newName: '', newType:'html' });}}
-//         className='btn btn-default'>Save</button>
