@@ -105,7 +105,7 @@ describe('testing template reducers', () => {
 
   });
 
-  it('delete a template', ()=>{
+  it('clear all templates', ()=>{
 
     const templateOne = {
       id: '234-235-235-235-235-222',
@@ -122,10 +122,12 @@ describe('testing template reducers', () => {
 
     const startingTemplates = [ templateOne, templateTwo ];
 
-    const actualUpdatedTemplates = reducers.template_reducer(startingTemplates, actions.deleteTemplate(templateOne.id));
-    expect(actualUpdatedTemplates.length).to.equal(1);
-    expect(actualUpdatedTemplates[0]).to.deep.equal(templateTwo);
+    const actualUpdatedTemplates = reducers.template_reducer(startingTemplates, actions.clearTemplates());
+    expect(actualUpdatedTemplates.length).to.equal(0);
+    expect(actualUpdatedTemplates).to.deep.equal([]);
   });
+
+
 
 
 });

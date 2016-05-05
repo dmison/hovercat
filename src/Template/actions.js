@@ -25,8 +25,15 @@ const deleteTemplate = (id) => {
   };
 };
 
+const clearTemplates = () => {
+  return {
+    type: 'CLEAR_TEMPLATES'
+  };
+};
+
 module.exports = {
   addTemplate: addTemplate,
   updateTemplate: updateTemplate,
-  deleteTemplate: deleteTemplate
+  deleteTemplate: deleteTemplate,
+  clearTemplates: clearTemplates
 };

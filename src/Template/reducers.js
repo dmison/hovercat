@@ -23,6 +23,8 @@ const template_reducer = (templates = [], action) => {
     return templates.filter((template)=>{
       return template.id !== action.id;
     });
+  case 'CLEAR_TEMPLATES':
+    return [];
   default:
     return templates;
   }
