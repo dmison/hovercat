@@ -1,3 +1,9 @@
+const setFilename = (filename) => {
+  return {
+    type: 'SET_FILENAME',
+    filename: filename
+  };
+};
 
 const setSaved = (saved) => {
   return {
@@ -14,6 +20,7 @@ const setEditorWrap = (enabled) => {
 };
 
 module.exports = {
+  setFilename: setFilename,
   setSaved: setSaved,
   setEditorWrap: setEditorWrap
 };

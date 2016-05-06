@@ -1,15 +1,12 @@
-const ui_state_reducer = (state = [], action) => {
+const uistate_reducer = (state = {}, action) => {
 
   switch(action.type){
   case 'SET_SAVED':
-    return state.filter(item=>{
-      return item.key === 'saved';
-    }).concat({'saved': action.saved});
+    return Object.assign( state, { saved: action.saved } );
   case 'SET_WRAP':
-    return state.filter(item=>{
-      return item.key === 'wrap';
-    }).concat({'wrap': action.enabled});
-
+    return Object.assign( state, { wrap: action.enabled } );
+  case 'SET_FILENAME':
+    return Object.assign( state, { filename: action.filename } );
   default:
     return state;
   }
@@ -18,5 +15,5 @@ const ui_state_reducer = (state = [], action) => {
 
 
 module.exports = {
-  ui_state_reducer: ui_state_reducer
+  uistate_reducer: uistate_reducer
 };
