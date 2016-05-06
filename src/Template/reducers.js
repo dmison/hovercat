@@ -25,6 +25,10 @@ const template_reducer = (templates = [], action) => {
     });
   case 'CLEAR_TEMPLATES':
     return [];
+  case 'IMPORT_TEMPLATES':
+    return templates.concat(action.templates.map((template)=>{
+      return (typeof template.id === 'undefined')? Object.assign(template, {id: uuid.v1()}) : template; 
+    }));
   default:
     return templates;
   }

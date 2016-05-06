@@ -1,7 +1,11 @@
 /* global describe it */
 const expect = require('chai').expect;
-const reducers = require('./reducers.js');
-const actions = require('./actions.js');
+const {template_reducer} = require('./reducers.js');
+const {addTemplate} = require('./actions.js');
+const {updateTemplate} = require('./actions.js');
+const {clearTemplates} = require('./actions.js');
+const {importTemplates} = require('./actions.js');
+
 
 describe('testing template reducers', () => {
 
@@ -10,7 +14,7 @@ describe('testing template reducers', () => {
     const name = 'basic text';
     const type = 'TEXT';
 
-    const actualNewTemplates = reducers.template_reducer(undefined, actions.addTemplate(name, type, template));
+    const actualNewTemplates = template_reducer(undefined, addTemplate(name, type, template));
     expect(actualNewTemplates[0].content).to.equal(template);
     expect(actualNewTemplates[0].name).to.equal(name);
     expect(actualNewTemplates[0].type).to.equal(type);
@@ -28,8 +32,8 @@ describe('testing template reducers', () => {
     const typeTwo = 'HTML';
 
     let actualNewTemplates = [];
-    actualNewTemplates = reducers.template_reducer(actualNewTemplates, actions.addTemplate(nameOne, typeOne, templateOne));
-    actualNewTemplates = reducers.template_reducer(actualNewTemplates, actions.addTemplate(nameTwo, typeTwo, templateTwo));
+    actualNewTemplates = template_reducer(actualNewTemplates, addTemplate(nameOne, typeOne, templateOne));
+    actualNewTemplates = template_reducer(actualNewTemplates, addTemplate(nameTwo, typeTwo, templateTwo));
 
     const expectedNewTemplates = [
       {
@@ -71,7 +75,7 @@ describe('testing template reducers', () => {
 
     const newName = 'text email';
 
-    const actualUpdatedTemplates = reducers.template_reducer(startingTemplates, actions.updateTemplate(id, newName));
+    const actualUpdatedTemplates = template_reducer(startingTemplates, updateTemplate(id, newName));
     expect(actualUpdatedTemplates[0].content).to.equal(template);
     expect(actualUpdatedTemplates[0].name).to.equal(newName);
     expect(actualUpdatedTemplates[0].type).to.equal(type);
@@ -97,7 +101,7 @@ describe('testing template reducers', () => {
 
     const newType = 'HTML';
 
-    const actualUpdatedTemplates = reducers.template_reducer(startingTemplates, actions.updateTemplate(id, name, newType));
+    const actualUpdatedTemplates = template_reducer(startingTemplates, updateTemplate(id, name, newType));
     expect(actualUpdatedTemplates[0].content).to.equal(template);
     expect(actualUpdatedTemplates[0].name).to.equal(name);
     expect(actualUpdatedTemplates[0].type).to.equal(newType);
@@ -122,12 +126,56 @@ describe('testing template reducers', () => {
 
     const startingTemplates = [ templateOne, templateTwo ];
 
-    const actualUpdatedTemplates = reducers.template_reducer(startingTemplates, actions.clearTemplates());
+    const actualUpdatedTemplates = template_reducer(startingTemplates, clearTemplates());
     expect(actualUpdatedTemplates.length).to.equal(0);
     expect(actualUpdatedTemplates).to.deep.equal([]);
   });
 
+  it('import some templates', ()=>{
 
+    const templateOne = {
+      id: '234-235-235-235-235-222',
+      content: 'here is some arbitrary {{content}}.',
+      name: 'template two',
+      type: 'TEXT'
+    };
+    const templateTwo = {
+      id: '493-235-746-235-255',
+      content: 'here is some other arbitrary {{content}}.',
+      name: 'template one',
+      type: 'TEXT'
+    };
+
+    const templatesToImport = [ templateOne, templateTwo ];
+    const startingTemplates = [];
+
+    const actualUpdatedTemplates = template_reducer(startingTemplates, importTemplates(templatesToImport));
+    expect(actualUpdatedTemplates).to.deep.equal(templatesToImport);
+  });
+
+  it('import some templates without IDs', ()=>{
+
+    const templateOne = {
+      id: '234-235-235-235-235-222',
+      content: 'here is some arbitrary {{content}}.',
+      name: 'template two',
+      type: 'TEXT'
+    };
+    const templateTwo = {
+      content: 'here is some other arbitrary {{content}}.',
+      name: 'template one',
+      type: 'TEXT'
+    };
+
+    const templatesToImport = [ templateTwo ];
+    const startingTemplates = [ templateOne ];
+
+    const actualUpdatedTemplates = template_reducer(startingTemplates, importTemplates(templatesToImport));
+    expect(actualUpdatedTemplates.length).to.equal(2);
+    actualUpdatedTemplates.forEach((template)=>{
+      expect(template.id).to.not.be.undefined;
+    });
+  });
 
 
 });

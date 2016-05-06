@@ -31,9 +31,17 @@ const clearTemplates = () => {
   };
 };
 
+const importTemplates = (templates) => {
+  return {
+    type: 'IMPORT_TEMPLATES',
+    templates: templates
+  };
+};
+
 module.exports = {
   addTemplate: addTemplate,
   updateTemplate: updateTemplate,
   deleteTemplate: deleteTemplate,
-  clearTemplates: clearTemplates
+  clearTemplates: clearTemplates,
+  importTemplates: importTemplates
 };
