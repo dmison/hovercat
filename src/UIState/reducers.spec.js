@@ -4,6 +4,7 @@ const {uistate_reducer} = require('./reducers.js');
 const {setSaved} = require('./actions.js');
 const {setEditorWrap} = require('./actions.js');
 const {setFilename} = require('./actions.js');
+const {setResourcesPath} = require('./actions.js');
 
 describe('testing UI State reducers', () => {
 
@@ -56,5 +57,12 @@ describe('testing UI State reducers', () => {
     expect(actualNewState.filename).to.equal(filename);
   });
 
+  it('set resourcesPath', ()=> {
+    const path = '/some/path/some/where';
+    const startingState = {'wrap': true, 'filename': '/home/username/oldfile.hovercat'};
+    const actualNewState = uistate_reducer(startingState, setResourcesPath(path));
+    expect(actualNewState.resourcesPath).to.equal(path);
+
+  });
 
 });

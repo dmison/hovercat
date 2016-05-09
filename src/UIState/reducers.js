@@ -7,6 +7,8 @@ const uistate_reducer = (state = {}, action) => {
     return Object.assign( state, { wrap: action.enabled } );
   case 'SET_FILENAME':
     return Object.assign( state, { filename: action.filename } );
+  case 'SET_RESOURCES_PATH':
+    return Object.assign( state, { resourcesPath: action.path } );
   default:
     return state;
   }

@@ -21,6 +21,12 @@ app.on('ready', function() {
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html');
   mainWindow.openDevTools();
+  // Emitted when first page finished loading
+  mainWindow.webContents.on('did-finish-load', function() {
+    mainWindow.webContents.send('send-homedir', app.getPath('home'));
+    mainWindow.webContents.send('send-resourcesPath', process.resourcesPath);
+  });
+
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
     // Dereference the window object, usually you would store windows

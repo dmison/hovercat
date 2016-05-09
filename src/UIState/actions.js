@@ -19,8 +19,16 @@ const setEditorWrap = (enabled) => {
   };
 };
 
+const setResourcesPath = (path) => {
+  return {
+    type: 'SET_RESOURCES_PATH',
+    path: path
+  };
+};
+
 module.exports = {
   setFilename: setFilename,
   setSaved: setSaved,
-  setEditorWrap: setEditorWrap
+  setEditorWrap: setEditorWrap,
+  setResourcesPath: setResourcesPath
 };
