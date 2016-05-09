@@ -3,6 +3,8 @@ const {Link} = require('react-router');
 const {openFile} = require('../Files/open.js');
 const ipc = require('electron').ipcRenderer;
 
+const dialog = require('electron').remote.require('dialog');
+
 const MainMenu = React.createClass({
 
   propTypes: function(){
@@ -30,7 +32,7 @@ const MainMenu = React.createClass({
           <span className='navbar-brand'>Hovercat</span>
           <ul className='nav navbar-nav'>
             <li><a className='menuLink' onClick={this.new}>New</a></li>
-            <li><a className='menuLink' >Open</a></li>
+            <li><a className='menuLink' onClick={this.open}>Open</a></li>
             <li><a className='menuLink' >Save</a></li>
             <li><a className='menuLink' >Export</a></li>
             <li><a className='menuLink' >Send Email</a></li>
@@ -41,8 +43,55 @@ const MainMenu = React.createClass({
     );
   },
 
+  refreshForLoadedFile: function(content, filename, templates){
+    this.props.clearTemplates();
+    this.props.updateContent(content);
+    this.props.setSaved(false);
+    this.props.setFilename(filename);
+    this.props.importTemplates(templates);
+  },
+
+  open: function(){
+    if(!this.props.uistate.saved){
+      if (!window.confirm('You have unsaved changes that will be lost if you open another file.  Continue?')) {
+        return;
+      }
+    }
+
+    // show open dialog
+    var filenames = dialog.showOpenDialog({
+      properties: ['openFile'],
+      filters: [
+        {
+          name: 'Hovercat',
+          extensions: ['hovercat']
+        },
+        {
+          name: 'Hovercraft (legacy)',
+          extensions: ['hovercraft']
+        }]
+    });
+
+    // if no file selected, ie cancelled, then we are done here
+    if (typeof filenames === 'undefined') {
+      return;
+    }
+
+    // otherwise continue
+    var filename = filenames[0];
+
+    openFile(filename, (err, input)=>{
+      if(err){
+        window.alert(`An error occurred opening ${filename}:\n\n ${err}`);
+      } else {
+        this.refreshForLoadedFile(input.content, filename, input.templates);
+      }
+    });
+
+  },
+
   new: function(){
-    if(!this.props.saved){
+    if(!this.props.uistate.saved){
       if (!window.confirm('You have unsaved changes that will be lost if you create a new file.  Continue?')) {
         return;
       }
@@ -52,18 +101,16 @@ const MainMenu = React.createClass({
 
     openFile(newPath, (err, input)=>{
       if(err){
-        window.alert(`An error occurred opening the new file: ${err}`);
+        window.alert(`An error occurred opening the example file: ${err}`);
       } else {
-        this.props.clearTemplates();
-        this.props.updateContent(input.content);
-        this.props.setSaved(false);
-        this.props.setFilename('untitled');
-        this.props.importTemplates(input.templates);
+        this.refreshForLoadedFile(input.content, 'untitled', input.templates);
       }
     });
 
   }
 
 });
+
+
 
 module.exports = MainMenu;
