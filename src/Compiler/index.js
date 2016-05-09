@@ -1,56 +1,12 @@
-// var entities = require('entities');
-// var markdown = require('node-markdown').Markdown;
 const YAML = require('yamljs');
 // var Styliner = require('styliner');
 const Handlebars = require('handlebars');
+const HandleBarsHelpers = require('./HandleBarsHelpers.js');
 
-// // ================ setup some handlebars helpers
-// Handlebars.registerHelper('markdown', function(context) {
-//   return new Handlebars.SafeString(markdown(context));
-// });
-//
-// Handlebars.registerHelper('line', function(string, replacement) {
-//   return new Handlebars.SafeString(string.replace(/./g, replacement));
-// });
-//
-// Handlebars.registerHelper('unentity', function(content) {
-//   return new Handlebars.SafeString(entities.decodeHTML(content));
-// });
-//
-// Handlebars.registerHelper('spanner', function(content) {
-//   var words = content.split(' ');
-//   words = words.map(function(word) {
-//     return '<span>' + word[0] + '</span>' + word.substring(1);
-//   });
-//   return words.join(' ');
-// });
-//
-// Handlebars.registerHelper('if_even', function(conditional, options) {
-//   //if(conditional === 0) return options.inverse(this);
-//   conditional += 1;
-//   if ((conditional % 2) == 0) {
-//     return options.fn(this);
-//   } else {
-//     return options.inverse(this);
-//   }
-// });
-//
-// Handlebars.registerHelper('firsthalf', function(context, options) {
-//   var ret = '';
-//   for (var i = 0, j = Math.ceil(context.length / 2); i < j; i++) {
-//     ret = ret + options.fn(context[i]);
-//   }
-//   return ret;
-// });
-//
-// Handlebars.registerHelper('secondhalf', function(context, options) {
-//   var ret = '';
-//   for (var i = Math.ceil(context.length / 2), j = context.length; i < j; i++) {
-//     ret = ret + options.fn(context[i]);
-//   }
-//   return ret;
-// });
-//
+for(var key in HandleBarsHelpers) {
+  const helper = HandleBarsHelpers[key];
+  Handlebars.registerHelper(helper.helper_name, helper);
+}
 
 var parseYAML = function(content){
   var data = {};
