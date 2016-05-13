@@ -8,31 +8,26 @@ for(var key in HandleBarsHelpers) {
   Handlebars.registerHelper(helper.helper_name, helper);
 }
 
-var parseYAML = function(content){
-  var data = {};
-  var yamlError = '';
-  try {
-    data = YAML.parse(content);
-    yamlError = '';
-  } catch(e){
-    yamlError = e;
-  }
-  return { data: data, error: yamlError };
+const parseYAML = (content, callback) => {
+  if (content) {
+    try {
+      callback(null, YAML.parse(content));
+    } catch(e){
+      callback(e, null);
+    }
+  } else callback(null, {});
 };
 
-var compile = function(content, template){
-  var output = '';
-  var error = '';
+const compile = (content, template, callback) => {
   try {
-    var builder = Handlebars.compile(template);
-    output = builder(content);
-    error = '';
+    const builder = Handlebars.compile(template);
+    const output = builder(content);
+    callback(null, output);
   } catch(e){
-    error = e;
+    callback(`${e}`, null);
   }
-  return { output:output, error: error };
 };
-//
+
 // var processCSS = function(input, callback){
 //   var styliner = new Styliner('', {
 //     noCSS: false

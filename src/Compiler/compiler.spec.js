@@ -12,14 +12,13 @@ describe('test compiler package', () => {
       text: 'some text'
     };
     const template = '{{title}} - {{text}}';
+    const expectedOutput = 'some title - some text';
 
-    const actualOutput = compile(content, template);
-    const expectedOutput = {
-      output: 'some title - some text',
-      error: ''
-    };
+    compile(content, template, (err, output)=>{
+      expect(err).to.be.null;
+      expect(output).to.deep.equal(expectedOutput);
+    });
 
-    expect(actualOutput).to.deep.equal(expectedOutput);
   });
 
 
@@ -30,16 +29,12 @@ describe('test compiler package', () => {
     };
     const template = '{{title - {{text}}';
 
-    const actualOutput = compile(content, template);
-
-    expect(actualOutput.output).to.equal('');
-    expect(actualOutput.error).to.not.equal('');
+    compile(content, template, (err, output)=>{
+      expect(typeof err).to.equal('string');
+      expect(output).to.be.null;
+    });
 
   });
-
-
-
-
 
 
   it('basic YAML parse - parseYAML()', ()=>{
@@ -47,16 +42,30 @@ describe('test compiler package', () => {
 text: some text`;
 
     const expectedOutput = {
-      data:{
-        title: 'some title',
-        text: 'some text'
-      },
-      error: ''
+      title: 'some title',
+      text: 'some text'
     };
 
-    const actualOutput = parseYAML(YAMLText);
+    parseYAML(YAMLText, (err, output)=>{
+      expect(output).to.deep.equal(expectedOutput);
+      expect(err).to.be.null;
+    });
+  });
 
-    expect(actualOutput).to.deep.equal(expectedOutput);
+
+  it('full render', ()=>{
+    const YAMLText = `title: some title
+text: some text`;
+    const template = '{{title}} - {{text}}';
+    const expectedOutput = 'some title - some text';
+    parseYAML(YAMLText, (err, result)=>{
+      expect(err).to.be.null;
+      compile(result, template, (err, output)=>{
+        expect(err).to.be.null;
+        expect(output).to.equal(expectedOutput);
+      });
+    });
+
   });
 
 
