@@ -61,5 +61,23 @@ describe('testing error reducers', () => {
     expect(finalState).to.deep.equal([]);
   });
 
+  it('errors of the same type and template name should overwrite', ()=>{
+    const errorTextOne = 'the first arbitrary text error message';
+    const errorTextTwo = 'the second arbitrary text error message';
+
+    const sourceType = 'TEXT';
+    const templateName = 'basic text email';
+
+    const startState = reducers.error_reducer(undefined, actions.addError(errorTextOne, sourceType, templateName));
+    const finalState = reducers.error_reducer(startState, actions.addError(errorTextTwo, sourceType, templateName));
+
+    expect(finalState.length).to.equal(1);
+    expect(finalState[0]).to.deep.equal({
+      type: 'TEXT',
+      message: 'the second arbitrary text error message',
+      template: 'basic text email'
+    });
+  });
+
 
 });

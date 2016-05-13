@@ -3,7 +3,7 @@ const addError = (message, sourceType, templateName) => {
     type: 'ADD_ERROR',
     message: message,
     sourceType: sourceType,
-    templateName: templateName
+    templateName: typeof templateName === 'undefined'? '':templateName
   };
 };
 
