@@ -16,7 +16,7 @@ const defaultState = {
   templates: [],
   content: '',
   errors: [],
-  uistate: { 'saved': true, 'wrap': false, 'resourcesPath': '', 'filename': 'untitled' }
+  uistate: { 'saved': true, 'wrap': false, 'resourcesPath': '', 'filename': '', 'active': false }
 };
 
 const store = Redux.createStore(AppReducer, defaultState);

@@ -2,9 +2,11 @@
 const expect = require('chai').expect;
 const {uistate_reducer} = require('./reducers.js');
 const {setSaved} = require('./actions.js');
+const {setSaving} = require('./actions.js');
 const {setEditorWrap} = require('./actions.js');
 const {setFilename} = require('./actions.js');
 const {setResourcesPath} = require('./actions.js');
+const {setActive} = require('./actions.js');
 
 describe('testing UI State reducers', () => {
 
@@ -62,7 +64,35 @@ describe('testing UI State reducers', () => {
     const startingState = {'wrap': true, 'filename': '/home/username/oldfile.hovercat'};
     const actualNewState = uistate_reducer(startingState, setResourcesPath(path));
     expect(actualNewState.resourcesPath).to.equal(path);
-
   });
+
+  it('set active to true', ()=>{
+    const startingState = {};
+    const expectedEndState = {'active': true};
+    const actualNewState = uistate_reducer(startingState, setActive(true));
+    expect(actualNewState).to.deep.equal(expectedEndState);
+  });
+
+  it('set active from true to false', ()=>{
+    const startingState = {'active': true};
+    const expectedEndState = {'active': false};
+    const actualNewState = uistate_reducer(startingState, setActive(false));
+    expect(actualNewState).to.deep.equal(expectedEndState);
+  });
+
+  it('set saving to true', ()=>{
+    const startingState = {};
+    const expectedEndState = {'saving': true};
+    const actualNewState = uistate_reducer(startingState, setSaving(true));
+    expect(actualNewState).to.deep.equal(expectedEndState);
+  });
+
+  it('set saved from true to false', ()=>{
+    const startingState = {'saving': true};
+    const expectedEndState = {'saving': false};
+    const actualNewState = uistate_reducer(startingState, setSaving(false));
+    expect(actualNewState).to.deep.equal(expectedEndState);
+  });
+
 
 });

@@ -12,6 +12,14 @@ const setSaved = (saved) => {
   };
 };
 
+const setSaving = (saving) => {
+  return {
+    type: 'SET_SAVING',
+    saving: saving
+  };
+};
+
+
 const setEditorWrap = (enabled) => {
   return {
     type: 'SET_WRAP',
@@ -26,9 +34,18 @@ const setResourcesPath = (path) => {
   };
 };
 
+const setActive = (active) => {
+  return {
+    type: 'SET_ACTIVE',
+    active: active
+  };
+};
+
 module.exports = {
   setFilename: setFilename,
   setSaved: setSaved,
+  setSaving: setSaving,
   setEditorWrap: setEditorWrap,
-  setResourcesPath: setResourcesPath
+  setResourcesPath: setResourcesPath,
+  setActive: setActive
 };
