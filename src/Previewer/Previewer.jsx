@@ -49,17 +49,30 @@ var Previewer = React.createClass({
     var style = { height: this.state.previewHeight, margin: 12 };
 
     if (this.props.template.type === 'markdown'){
-
-      let frameContent = '<html><head><link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css"><link rel="stylesheet" href="vendor/bootstrap/css/bootstrap-theme.min.css"> <style>html { overflow-x: wrap; overflow-y: scroll; } </style></head><body><pre style="overflow: wrap; word-break: auto;"><code>'+this.state.output+'</code></pre></body></html>';
+      let frameContent = `<html>
+        <head>
+          <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+          <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap-theme.min.css">
+          <style>html { overflow-x: wrap; overflow-y: scroll; } </style>
+        </head>
+        <body>
+          <pre style="overflow: wrap; word-break: auto;"><code>${this.state.output}</code></pre>
+        </body>
+      </html>`;
       return (
         <iframe style={style} className="previewer textpreview" scrolling="yes" srcDoc={frameContent}></iframe>
       );
     }
 
     if (this.props.template.type === 'html'){
-
-      let frameContent = '<html><head><style>html { overflow-x: wrap; overflow-y: scroll; } </style></head><body><div>'+this.state.output+'</div></body></html>';
-
+      let frameContent = `<html>
+        <head>
+          <style>html { overflow-x: wrap; overflow-y: scroll; } </style>
+        </head>
+        <body>
+          <div>${this.state.output}</div>
+        </body>
+      </html>`;
       return (
         <iframe style={style} className="previewer htmlpreview" scrolling="yes" srcDoc={frameContent}></iframe>
       );
