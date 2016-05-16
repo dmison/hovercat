@@ -29,11 +29,26 @@ var Previewer = React.createClass({
   },
 
   componentWillMount: function(){
-    this.setState( { output: this.compileOutput(this.props.template, this.props.content, this.props.addError, this.props.clearError) } );
+    this.compilePreview( this.props.template, this.props.content, (err, output)=>{
+      if (err) {
+        this.props.addError(err.message, err.type, err.template);
+      } else {
+        this.props.clearError(this.props.template.type, this.props.template.name);
+        this.setState( { output: output } );
+      }
+    });
+
   },
 
   componentWillReceiveProps: function(nextProps){
-    this.setState( { output: this.compileOutput(nextProps.template, nextProps.content, nextProps.addError, this.props.clearError) } );
+    this.compilePreview( nextProps.template, nextProps.content, (err, output)=>{
+      if (err) {
+        this.props.addError(err.message, err.type, err.template);
+      } else {
+        this.props.clearError(nextProps.template.type, nextProps.template.name);
+        this.setState( { output: output } );
+      }
+    });
   },
 
   componentDidMount: function(){
@@ -79,30 +94,22 @@ var Previewer = React.createClass({
     }
   },
 
-  compileOutput: function(template, content, addError, clearError){
+  compilePreview: function(template, content, callback){
+    parseYAML(content, (err, data)=>{
+      if(err){
+        let message = `Line: ${err.parsedLine}: ${err.message}, \"${err.snippet}\"`;
+        callback({ message: message, type: 'YAML', template: '' }, null);
+      } else {
 
-    let preview = '';
-    let output = {};
-    let data = parseYAML(content);
-
-    if (data.error){
-      let message = `Line: ${data.error.parsedLine}: ${data.error.message}, \"${data.error.snippet}\"`;
-      addError(message, 'YAML', template.name);
-    } else {
-      clearError('YAML', template.name);
-      output = compile(data.data, template.content);
-    }
-
-    if (output.error){
-      // console.log(output.error);
-      addError('output.error', template.type, template.name);
-    } else {
-      clearError(template.type, template.name);
-      preview = output.output;
-    }
-
-    return preview;
-
+        compile(data, template.content, (err, output)=>{
+          if (err) {
+            callback({ message: err, type: template.type, template: template.name }, null);
+          } else {
+            callback(null, output);
+          }
+        });
+      }
+    });
   }
 
 });
