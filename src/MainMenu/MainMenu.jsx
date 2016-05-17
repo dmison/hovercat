@@ -1,6 +1,7 @@
 const React = require('react');
 const {Link} = require('react-router');
 const {openFile} = require('../Files/open.js');
+const {saveFile} = require('../Files/save.js');
 const ipc = require('electron').ipcRenderer;
 
 const dialog = require('electron').remote.require('dialog');
@@ -10,6 +11,11 @@ const MainMenu = React.createClass({
   propTypes: function(){
     return {
       uistate: React.PropTypes.object,
+      content: React.PropTypes.string,
+      // urls: React.PropTypes.array,
+      setSaving: React.PropTypes.func,
+      setSaved: React.PropTypes.func,
+      templates: React.PropTypes.array,
       updateContent: React.PropTypes.func,
       clearTemplates: React.PropTypes.func,
       setFilename: React.PropTypes.string,
@@ -33,7 +39,8 @@ const MainMenu = React.createClass({
           <ul className='nav navbar-nav'>
             <li><a className='menuLink' onClick={this.new}>New</a></li>
             <li><a className='menuLink' onClick={this.open}>Open</a></li>
-            <li><a className='menuLink' >Save</a></li>
+            <li><a className='menuLink' onClick={this._save}>Save</a></li>
+            <li><a className='menuLink' onClick={this._saveAs}>Save As</a></li>
             <li><a className='menuLink' >Export</a></li>
             <li><a className='menuLink' >Send Email</a></li>
             <li><Link to='/manage-templates' >Manage Templates</Link></li>
@@ -44,10 +51,10 @@ const MainMenu = React.createClass({
   },
 
   refreshForLoadedFile: function(content, filename, templates){
-    this.props.clearTemplates();
-    this.props.updateContent(content);
-    this.props.setSaved(false);
     this.props.setFilename(filename);
+    this.props.setSaved(true);
+    this.props.updateContent(content);
+    this.props.clearTemplates();
     this.props.importTemplates(templates);
   },
 
@@ -89,7 +96,7 @@ const MainMenu = React.createClass({
     });
 
   },
-
+  // =================================================================== NEW
   new: function(){
     if(!this.props.uistate.saved){
       if (!window.confirm('You have unsaved changes that will be lost if you create a new file.  Continue?')) {
@@ -107,7 +114,53 @@ const MainMenu = React.createClass({
       }
     });
 
+  },
+
+  save: function(filename){
+    this.props.setSaving(true);
+    const fileout = {
+      content: this.props.content,
+      // urls: this.props.urls,
+      templates: this.props.templates
+    };
+    saveFile(filename, fileout, (err, finalFilename) => {
+      if(err){
+        alert(err);
+        this.props.setSaving(false);
+      } else {
+        this.props.setFilename(finalFilename);
+        this.props.setSaved(true);
+        setTimeout(()=>{
+          this.props.setSaving(false);
+        }, 1000);
+      }
+    });
+  },
+
+  _save: function(){
+    var filenameToUse = this.props.uistate.filename;
+    this.openSaveDialog(filenameToUse);
+  },
+
+  _saveAs: function(){
+    this.openSaveDialog('');
+  },
+
+
+  openSaveDialog: function(filenameToUse){
+    if (filenameToUse === ''){
+      filenameToUse = dialog.showSaveDialog({filters: [{
+        name: 'Hovercat',
+        extensions: ['hovercat']
+      }]});
+
+      if (typeof filenameToUse === 'undefined'){
+        return;
+      }
+    }
+    this.save(filenameToUse);
   }
+
 
 });
 
