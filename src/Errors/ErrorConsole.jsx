@@ -1,7 +1,6 @@
 const React = require('react');
 
 const ErrorConsole = (props) => {
-  console.log(JSON.stringify(props.errors));
 
   const errors = props.errors.map((error, index)=>{
     return (
