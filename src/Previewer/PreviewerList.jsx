@@ -7,6 +7,7 @@ const PreviewerList = React.createClass({
   propTypes: function(){
     return {
       content: React.PropTypes.string,
+      height: React.PropTypes.number,
       templates: React.PropTypes.array,
       addError: React.PropTypes.func
     };
@@ -24,7 +25,7 @@ const PreviewerList = React.createClass({
 
         {this.props.templates.map((template, index)=>{
           return <TabPanel key={index}>
-            <Previewer  content={this.props.content} template={template} addError={this.props.addError} clearError={this.props.clearError} />
+            <Previewer  content={this.props.content} height={this.props.height} template={template} addError={this.props.addError} clearError={this.props.clearError} />
           </TabPanel>;
         })}
       </Tabs>

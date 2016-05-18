@@ -8,7 +8,8 @@ const {setSaved} = require('../UIState/actions.js');
 const mapStateToProps = (state) => {
   return {
     templates: state.templates,
-    content: state.content
+    content: state.content,
+    height: state.uistate.height
   };
 };
 

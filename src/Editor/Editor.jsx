@@ -13,15 +13,10 @@ require('brace/theme/tomorrow');
 
 var Editor = React.createClass({
 
-  getInitialState: function(){
-    return {
-      editorHeight: window.innerHeight/2
-    };
-  },
-
   propTypes: function(){
     return {
       content: React.PropTypes.string,
+      height: React.PropTypes.number,
       onChange: React.PropTypes.func,
       mode: React.PropTypes.string,
       theme: React.PropTypes.string,
@@ -29,33 +24,15 @@ var Editor = React.createClass({
     };
   },
 
-  handleResize: function(){
-    // this.setState({
-    //   editorHeight: window.innerHeight/2
-    // });
-    // this.forceUpdate();
-  },
-
-  componentDidMount: function(){
-    window.addEventListener('resize', this.handleResize);
-  },
-
-  componentWillUnmount: function(){
-    window.removeEventListener('resize', this.handleReize);
-  },
-
   shouldComponentUpdate: function(nextProps) {
     return ( (nextProps.content !== this.props.content) ||
-      (nextProps.wrapEnabled !== this.props.wrapEnabled) );
-  },
-
-  onChange: function (content) {
-    this.props.onChange(content);
+      (nextProps.wrapEnabled !== this.props.wrapEnabled) ||
+    (nextProps.height !== this.props.height) );
   },
 
   render: function() {
-    var name = this.props.mode+'Editor';
-    var height = this.state.editorHeight+'px';
+    var name = `${this.props.mode}Editor`;
+    var height = `${this.props.height}px`;
 
     return (
       <AceEditor
@@ -64,7 +41,7 @@ var Editor = React.createClass({
           name={name}
           height={height}
           width='90%'
-          onChange={this.onChange}
+          onChange={(content)=>{ this.props.onChange(content); }}
           value={this.props.content}
           wrapEnabled={this.props.wrapEnabled}
           showPrintMargin={false}

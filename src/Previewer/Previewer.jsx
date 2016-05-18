@@ -8,6 +8,7 @@ var Previewer = React.createClass({
   propTypes: function(){
     return {
       template: React.PropTypes.object,
+      height: React.PropTypes.number,
       content: React.PropTypes.string,
       addError: React.PropTypes.func,
       clearError: React.PropTypes.func
@@ -16,16 +17,8 @@ var Previewer = React.createClass({
 
   getInitialState: function(){
     return {
-      previewHeight: window.innerHeight/2,
       output: ''
     };
-  },
-
-  handleResize: function(){
-    this.setState({
-      previewHeight: window.innerHeight/2
-    });
-    this.forceUpdate();
   },
 
   componentWillMount: function(){
@@ -51,18 +44,10 @@ var Previewer = React.createClass({
     });
   },
 
-  componentDidMount: function(){
-    window.addEventListener('resize', this.handleResize);
-  },
-
-  componentWillUnmount: function(){
-    window.removeEventListener('resize', this.handleReize);
-  },
-
   render: function(){
 
-    var style = { height: this.state.previewHeight, margin: 12 };
-
+    var style = { height: this.props.height, margin: 12 };
+    // console.log(style);
     if (this.props.template.type === 'markdown'){
       let frameContent = `<html>
         <head>
@@ -88,6 +73,7 @@ var Previewer = React.createClass({
           <div>${this.state.output}</div>
         </body>
       </html>`;
+
       return (
         <iframe style={style} className="previewer htmlpreview" scrolling="yes" srcDoc={frameContent}></iframe>
       );

@@ -13,6 +13,8 @@ const uistate_reducer = (state = {}, action) => {
     return Object.assign( {}, state, { resourcesPath: action.path } );
   case 'SET_ACTIVE':
     return Object.assign( {}, state, { active: action.active } );
+  case 'SET_HEIGHT':
+    return Object.assign( {}, state, { height: action.height } );
   default:
     return state;
   }

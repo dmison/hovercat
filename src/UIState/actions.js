@@ -41,11 +41,20 @@ const setActive = (active) => {
   };
 };
 
+const setHeight = (height) => {
+  return {
+    type: 'SET_HEIGHT',
+    height: height
+  };
+};
+
+
 module.exports = {
   setFilename: setFilename,
   setSaved: setSaved,
   setSaving: setSaving,
   setEditorWrap: setEditorWrap,
   setResourcesPath: setResourcesPath,
-  setActive: setActive
+  setActive: setActive,
+  setHeight: setHeight
 };

@@ -3,11 +3,10 @@ const ReactDOM = require('react-dom');
 const {Router, IndexRoute, Route, hashHistory} = require('react-router');
 const {Provider} = require('react-redux');
 const MainMenuContainer = require('./MainMenu/MainMenuContainer.js');
-
 const WorkSpace = require('./WorkSpace');
 const TemplateManagerContainer = require('./Template/TemplateManagerContainer.js');
-
 const store = require('./Store');
+const {setHeight} = require('./UIState/actions.js');
 
 const App = (props) => {
   return (
@@ -31,6 +30,12 @@ ReactDOM.render(<Provider store={store}>
     </Route>
   </Router>
 </Provider>, document.getElementById('app'));
+
+const dispatchHeight = () => {
+  store.dispatch(setHeight(window.innerHeight-210));
+};
+dispatchHeight();
+window.addEventListener('resize', dispatchHeight);
 
 
 // <Route path='configure' component={ConfigurationContainer} />
