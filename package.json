@@ -10,7 +10,7 @@
     "clean": "rm -fr build dist",
     "makeicns": "nicns --in assets/hovercat.png --out assets/hovercat.icns",
     "copy:bootstrap": "mkdir -p build/vendor/bootstrap; cp -Rf node_modules/bootstrap/dist/* build/vendor/bootstrap",
-    "copy:font-awesome": "mkdir -p build/vendor/font-awesome; cp -Rf node_modules/font-awesome/{css,fonts}/ build/vendor/font-awesome",
+    "copy:font-awesome": "mkdir -p build/vendor/font-awesome; cp -Rf node_modules/font-awesome/{css,fonts} build/vendor/font-awesome/; rm -rf build/vendor/font-awesome/fonts/4.4.0",
     "copy:html": "mkdir -p build; cp -Rf src/html/* build",
     "copy:assets": "mkdir -p build; cp assets/hovercat.png build/hovercat.png",
     "build:js": "webpack",
