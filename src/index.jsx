@@ -2,24 +2,12 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const {Router, IndexRoute, Route, hashHistory} = require('react-router');
 const {Provider} = require('react-redux');
-const MainMenuContainer = require('./MainMenu/MainMenuContainer.js');
 const WorkSpace = require('./WorkSpace');
 const TemplateManagerContainer = require('./Template/TemplateManagerContainer.js');
 const store = require('./Store');
 const {setHeight} = require('./UIState/actions.js');
 
-const App = (props) => {
-  return (
-    <div>
-      <MainMenuContainer />
-      {props.children}
-    </div>
-  );
-};
-
-App.propTypes = {
-  children: React.PropTypes.node
-};
+const App = require('./App.jsx');
 
 ReactDOM.render(<Provider store={store}>
   <Router history={hashHistory}>
