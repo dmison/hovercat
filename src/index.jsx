@@ -20,7 +20,7 @@ ReactDOM.render(<Provider store={store}>
 </Provider>, document.getElementById('app'));
 
 const dispatchHeight = () => {
-  store.dispatch(setHeight(window.innerHeight-210));
+  store.dispatch(setHeight(window.innerHeight-153));
 };
 dispatchHeight();
 window.addEventListener('resize', dispatchHeight);

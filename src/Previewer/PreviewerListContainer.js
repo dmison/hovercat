@@ -7,7 +7,8 @@ const mapStateToProps = (state) => {
   return {
     templates: state.templates,
     content: state.content,
-    height: state.uistate.height
+    height: state.uistate.height,
+    consoleHeight: state.uistate.consoleHeight
   };
 };
 

@@ -1,13 +1,16 @@
 /* global describe it */
 const expect = require('chai').expect;
 const {uistate_reducer} = require('./reducers.js');
-const { setSaved,
-        setSaving,
-        setEditorWrap,
-        setFilename,
-        setResourcesPath,
-        setActive,
-        setHeight} = require('./actions.js');
+const {
+  setSaved,
+  setSaving,
+  setEditorWrap,
+  setFilename,
+  setResourcesPath,
+  setActive,
+  setHeight,
+  setConsoleHeight
+} = require('./actions.js');
 
 describe('testing UI State reducers', () => {
 
@@ -100,5 +103,9 @@ describe('testing UI State reducers', () => {
     expect(actualNewState.height).to.equal(640);
   });
 
+  it('set console height', ()=>{
+    const actualNewState = uistate_reducer({}, setConsoleHeight(60));
+    expect(actualNewState.consoleHeight).to.equal(60);
+  });
 
 });

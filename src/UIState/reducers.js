@@ -15,6 +15,8 @@ const uistate_reducer = (state = {}, action) => {
     return Object.assign( {}, state, { active: action.active } );
   case 'SET_HEIGHT':
     return Object.assign( {}, state, { height: action.height } );
+  case 'SET_CONSOLE_HEIGHT':
+    return Object.assign( {}, state, { consoleHeight: action.height } );
   default:
     return state;
   }

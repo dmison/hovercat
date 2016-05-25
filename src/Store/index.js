@@ -23,7 +23,17 @@ const defaultState = {
   templates: [],
   content: '',
   errors: [],
-  uistate: { 'saved': true, 'saving': false, 'wrap': false, 'resourcesPath': '', 'filename': '', 'active': false, 'height': window.innerHeight-210 }
+  uistate: {
+    'saved': true,
+    'saving': false,
+    'wrap': false,
+    'resourcesPath': '',
+    'filename': '',
+    'active': false,
+    'height': window.innerHeight-230,
+    'consoleHeight': 42,
+    'errorConsoleVisible': true
+  }
 };
 
 const store = Redux.createStore(AppReducer, defaultState); //, Redux.applyMiddleware(logger));

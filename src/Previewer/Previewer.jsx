@@ -46,7 +46,12 @@ var Previewer = React.createClass({
 
   render: function(){
 
-    var style = { height: this.props.height, margin: 12 };
+    var style = {
+      height: this.props.height,
+      marginTop: 12,
+      marginLeft: 12,
+      marginRight: 12
+    };
     // console.log(style);
     if (this.props.template.type === 'markdown'){
       let frameContent = `<html>

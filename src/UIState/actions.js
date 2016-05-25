@@ -48,6 +48,14 @@ const setHeight = (height) => {
   };
 };
 
+const setConsoleHeight = (height) => {
+  return {
+    type: 'SET_CONSOLE_HEIGHT',
+    height: height
+  };
+};
+
+
 
 module.exports = {
   setFilename: setFilename,
@@ -56,5 +64,6 @@ module.exports = {
   setEditorWrap: setEditorWrap,
   setResourcesPath: setResourcesPath,
   setActive: setActive,
-  setHeight: setHeight
+  setHeight: setHeight,
+  setConsoleHeight: setConsoleHeight
 };

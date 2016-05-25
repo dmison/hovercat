@@ -106,3 +106,14 @@ table.urlTable > tbody > tr > td {
   margin: 15px 15px;
 
 }
+
+div.error-console {
+  padding: 15px 15px 15px 15px;
+  background-color: lightgrey;
+  border-top: 1px solid darkgrey;
+  margin: 5px 0px 0px 0px;
+}
+
+div.error-list {
+  padding: 3px;
+}

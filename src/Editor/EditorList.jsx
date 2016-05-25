@@ -9,7 +9,7 @@ const EditorList = (props) => {
       <Editor content={props.content}
               mode='yaml'
               theme='tomorrow'
-              height={props.height}
+              height={props.height-props.consoleHeight}
               setSaved={props.setSaved}
               onChange={(content)=>{
                 props.setSaved(false);
@@ -22,7 +22,7 @@ const EditorList = (props) => {
         <Editor content={template.content}
                 mode={template.type}
                 theme='tomorrow'
-                height={props.height}
+                height={props.height-props.consoleHeight}
                 onChange={(content)=>{
                   props.setSaved(false);
                   props.updateTemplate(template.id, template.name, template.type, content);
@@ -49,6 +49,7 @@ const EditorList = (props) => {
 EditorList.propTypes = {
   content: React.PropTypes.string,
   height: React.PropTypes.number,
+  consoleHeight: React.PropTypes.number,
   templates: React.PropTypes.array,
   updateTemplate: React.PropTypes.func,
   updateContent: React.PropTypes.func,
