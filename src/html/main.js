@@ -2,6 +2,7 @@ const electron = require('electron');
 const BrowserWindow = electron.BrowserWindow;
 const Menu = electron.Menu;
 const app = electron.app;
+const ipc = electron.ipcMain;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the javascript object is GCed.
@@ -17,7 +18,12 @@ app.on('window-all-closed', function() {
 // initialization and ready for creating browser windows.
 app.on('ready', function() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({'width': 1000, 'height': 700, 'dark-theme': false, 'icon': __dirname+'/hovercat.png' });
+  mainWindow = new BrowserWindow( {
+    'width': 1000,
+    'height': 700,
+    'dark-theme': false,
+    'icon': __dirname+'/hovercat.png'
+  });
 
   //setup menus
   var template = getMenuTemplate(process.platform);
@@ -32,6 +38,7 @@ app.on('ready', function() {
   mainWindow.webContents.on('did-finish-load', function() {
     mainWindow.webContents.send('send-homedir', app.getPath('home'));
     mainWindow.webContents.send('send-resourcesPath', process.resourcesPath);
+    mainWindow.setTitle('Hovercat: untitled');
   });
 
   // Emitted when the window is closed.
@@ -41,6 +48,10 @@ app.on('ready', function() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+});
+
+ipc.on('setTitle',function(event, message){
+  mainWindow.setTitle(`Hovercat: ${message}`);
 });
 
 

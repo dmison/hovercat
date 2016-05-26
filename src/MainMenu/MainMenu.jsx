@@ -101,6 +101,7 @@ const MainMenu = React.createClass({
     this.props.updateContent(content);
     this.props.clearTemplates();
     this.props.importTemplates(templates);
+    this.setTitle(filename);
   },
 
   open: function(){
@@ -156,6 +157,7 @@ const MainMenu = React.createClass({
         window.alert(`An error occurred opening the example file: ${err}`);
       } else {
         this.refreshForLoadedFile(input.content, 'untitled', input.templates);
+        this.setTitle('untitled');
       }
     });
 
@@ -175,6 +177,7 @@ const MainMenu = React.createClass({
       } else {
         this.props.setFilename(finalFilename);
         this.props.setSaved(true);
+        this.setTitle(finalFilename);
         setTimeout(()=>{
           this.props.setSaving(false);
         }, 1000);
@@ -204,6 +207,10 @@ const MainMenu = React.createClass({
       }
     }
     this.save(filenameToUse);
+  },
+
+  setTitle: function(filename) {
+    ipc.send('setTitle', filename);
   }
 
 

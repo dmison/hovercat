@@ -4,36 +4,23 @@ const FileStatus = React.createClass({
 
   render: function(){
 
-    let statusLabel = (<span></span>);
-    let statusIcon = (<span></span>);
-
-    if (this.props.uistate.saved) {
-      statusLabel = '';
-      statusIcon = <i className='fa fa-circle fa-fw'></i>;
-    } else {
-      statusLabel = <span className='label label-warning pull-right'>Unsaved changes</span>;
-      statusIcon = <i className='fa fa-circle-o fa-fw'></i>;
-
-    }
-    if(this.props.uistate.saving) {
-      statusLabel = <span className='label label-default pull-right'>Saving...</span>;
-      statusIcon = <i className='fa fa-circle-o-notch fa-spin fa-fw'></i>;
-    }
-
     const style = {
-      paddingLeft: 15,
-      paddingRight: 15
+      paddingTop: 5,
+      paddingBottom: 4,
+      paddingLeft: 8,
+      paddingRight: 8
     };
 
-    const filename = this.props.uistate.filename === ''? 'untitled':this.props.uistate.filename;
+    let statusLabel = (<span></span>);
 
-    return (
-      <div style={style}>
-        {statusIcon}
-        <span>{filename}</span>
-        {statusLabel}
-      </div>
-    );
+    if (!this.props.uistate.saved) {
+      statusLabel = <span style={style} className='label label-warning'><i className='fa fa-circle-o'></i> Unsaved changes</span>;
+    }
+    if(this.props.uistate.saving) {
+      statusLabel = <span style={style} className='label label-default'><i className='fa fa-circle-o-notch fa-spin '></i> Saving...</span>;
+    }
+
+    return statusLabel;
   },
 
   propTypes: function(){

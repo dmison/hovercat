@@ -1,4 +1,5 @@
 const React = require('react');
+const FileStatusContainer = require('../Files/FileStatusContainer.js');
 
 const ErrorConsole = React.createClass({
 
@@ -26,7 +27,12 @@ const ErrorConsole = React.createClass({
     const noErrors = <div className='label label-info'>No Errors</div>;
     return (
       <div className='error-console' ref='errorConsole'>
-        {errors.length === 0 ? noErrors : errors}
+        <div className='error-block'>
+          {errors.length === 0 ? noErrors : errors}
+        </div>
+        <div className='status-block'>
+          <FileStatusContainer />
+        </div>
       </div>
     );
   }
