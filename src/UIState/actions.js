@@ -19,14 +19,6 @@ const setSaving = (saving) => {
   };
 };
 
-
-const setEditorWrap = (enabled) => {
-  return {
-    type: 'SET_WRAP',
-    enabled: enabled
-  };
-};
-
 const setResourcesPath = (path) => {
   return {
     type: 'SET_RESOURCES_PATH',
@@ -55,15 +47,21 @@ const setConsoleHeight = (height) => {
   };
 };
 
+const setHomeDir = (dir) => {
+  return {
+    type: 'SET_HOME_DIR',
+    dir: dir
+  };
+};
 
 
 module.exports = {
   setFilename: setFilename,
   setSaved: setSaved,
   setSaving: setSaving,
-  setEditorWrap: setEditorWrap,
-  setResourcesPath: setResourcesPath,
   setActive: setActive,
   setHeight: setHeight,
-  setConsoleHeight: setConsoleHeight
+  setConsoleHeight: setConsoleHeight,
+  setResourcesPath: setResourcesPath,
+  setHomeDir: setHomeDir
 };

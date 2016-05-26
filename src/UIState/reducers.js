@@ -5,8 +5,6 @@ const uistate_reducer = (state = {}, action) => {
     return Object.assign( {}, state, { saved: action.saved } );
   case 'SET_SAVING':
     return Object.assign( {}, state, { saving: action.saving } );
-  case 'SET_WRAP':
-    return Object.assign( {}, state, { wrap: action.enabled } );
   case 'SET_FILENAME':
     return Object.assign( {}, state, { filename: action.filename } );
   case 'SET_RESOURCES_PATH':
@@ -17,6 +15,8 @@ const uistate_reducer = (state = {}, action) => {
     return Object.assign( {}, state, { height: action.height } );
   case 'SET_CONSOLE_HEIGHT':
     return Object.assign( {}, state, { consoleHeight: action.height } );
+  case 'SET_HOME_DIR':
+    return Object.assign( {}, state, { homeDir: action.dir } );
   default:
     return state;
   }

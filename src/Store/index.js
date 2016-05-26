@@ -2,6 +2,7 @@ const {content_reducer} = require('../Content/reducers.js');
 const {error_reducer} = require('../Errors/reducers.js');
 const {template_reducer} = require('../Template/reducers.js');
 const {uistate_reducer} = require('../UIState/reducers.js');
+const {config_reducer} = require('../config/reducers.js');
 const Redux = require('redux');
 
 // const logger = store => next => action => {
@@ -16,23 +17,42 @@ const AppReducer = Redux.combineReducers({
   content: content_reducer,
   errors: error_reducer,
   templates: template_reducer,
-  uistate: uistate_reducer
+  uistate: uistate_reducer,
+  config: config_reducer
 });
 
 const defaultState = {
   templates: [],
   content: '',
   errors: [],
+  config: {
+    'wrap': true,
+    'bitlyAccessToken': '',
+    'email': {
+      'defaultSender': '',
+      'gmail': {
+        'username': '',
+        'appPassword': ''
+      },
+      'smtp': {
+        'host': '',
+        'port': 25,
+        'tls': {
+          'rejectUnauthorized': true
+        }
+      }
+    }
+  },
   uistate: {
     'saved': true,
     'saving': false,
-    'wrap': false,
     'resourcesPath': '',
     'filename': '',
     'active': false,
     'height': window.innerHeight-230,
     'consoleHeight': 42,
-    'errorConsoleVisible': true
+    'errorConsoleVisible': true,
+    'homeDir': ''
   }
 };
 

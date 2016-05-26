@@ -4,12 +4,12 @@ const {uistate_reducer} = require('./reducers.js');
 const {
   setSaved,
   setSaving,
-  setEditorWrap,
   setFilename,
   setResourcesPath,
   setActive,
   setHeight,
-  setConsoleHeight
+  setConsoleHeight,
+  setHomeDir
 } = require('./actions.js');
 
 describe('testing UI State reducers', () => {
@@ -25,27 +25,6 @@ describe('testing UI State reducers', () => {
     const startingState = {'saved': false};
     const expectedEndState = {'saved': true};
     const actualNewState = uistate_reducer(startingState, setSaved(true));
-    expect(actualNewState).to.deep.equal(expectedEndState);
-  });
-
-  it('set editor wrap to true', ()=>{
-    const startingState = {};
-    const expectedEndState = {'wrap': true};
-    const actualNewState = uistate_reducer(startingState, setEditorWrap(true));
-    expect(actualNewState).to.deep.equal(expectedEndState);
-  });
-
-  it('set editor wrap from true to false', ()=>{
-    const startingState = {'wrap': true};
-    const expectedEndState = {'wrap': false};
-    const actualNewState = uistate_reducer(startingState, setEditorWrap(false));
-    expect(actualNewState).to.deep.equal(expectedEndState);
-  });
-
-  it('set editor wrap from true to false', ()=>{
-    const startingState = {'wrap': true};
-    const expectedEndState = {'wrap': false};
-    const actualNewState = uistate_reducer(startingState, setEditorWrap(false));
     expect(actualNewState).to.deep.equal(expectedEndState);
   });
 
@@ -107,5 +86,12 @@ describe('testing UI State reducers', () => {
     const actualNewState = uistate_reducer({}, setConsoleHeight(60));
     expect(actualNewState.consoleHeight).to.equal(60);
   });
+
+  it('set home dir', ()=>{
+    const homedir = '/home/some/path';
+    const actualNewState = uistate_reducer({}, setHomeDir(homedir));
+    expect(actualNewState.homeDir).to.equal(homedir);
+  });
+
 
 });

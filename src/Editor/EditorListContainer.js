@@ -10,7 +10,8 @@ const mapStateToProps = (state) => {
     templates: state.templates,
     content: state.content,
     height: state.uistate.height,
-    consoleHeight: state.uistate.consoleHeight
+    consoleHeight: state.uistate.consoleHeight,
+    editorWrap: state.config.wrap
   };
 };
 
