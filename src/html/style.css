@@ -115,5 +115,20 @@ div.error-console {
 }
 
 div.error-list {
-  padding: 3px;
+  padding-top: 2px;
+  padding-bottom: 3px;
+}
+
+div.error-block {
+  display: inline-block;
+  width: 80%;
+  text-align: left;
+  vertical-align: top;
+}
+
+div.status-block {
+  display: inline-block;
+  width: 20%;
+  text-align: right;
+  vertical-align: top;
 }
