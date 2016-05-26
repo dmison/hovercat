@@ -1,12 +1,10 @@
 const {connect} = require('react-redux');
 const MainMenu = require('./MainMenu.jsx');
-const {clearTemplates} = require('../Template/actions.js');
-const {importTemplates} = require('../Template/actions.js');
+const {clearTemplates, importTemplates} = require('../Template/actions.js');
+
 const {updateContent} = require('../Content/actions.js');
-const {setSaved} = require('../UIState/actions.js');
-const {setSaving} = require('../UIState/actions.js');
-const {setFilename} = require('../UIState/actions.js');
-const {setResourcesPath} = require('../UIState/actions.js');
+
+const {setSaved, setSaving, setFilename, setResourcesPath, setHomeDir} = require('../UIState/actions.js');
 
 const mapStateToProps = (state) => {
   return {
@@ -26,7 +24,8 @@ const mapDispatchToProps = (dispatch) => {
     setSaving: (saving) => { dispatch(setSaving(saving)); },
     setFilename: (filename) => { dispatch(setFilename(filename)); },
     importTemplates: (templates) => { dispatch(importTemplates(templates)); },
-    setResourcesPath: (path) => { dispatch(setResourcesPath(path)); }
+    setResourcesPath: (path) => { dispatch(setResourcesPath(path)); },
+    setHomeDir: (dir) => { dispatch(setHomeDir(dir));  }
   };
 };
 

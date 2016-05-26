@@ -71,6 +71,12 @@ const MainMenu = React.createClass({
 
     }.bind(this));
 
+    //wait to get homedir path from main process
+    ipc.on('send-homedir',function(event, message){
+      this.props.setHomeDir(message);
+    }.bind(this));
+
+
     //wait to get resourcesPath from main process
     ipc.on('send-resourcesPath',function(event, message){
       this.props.setResourcesPath(message);
