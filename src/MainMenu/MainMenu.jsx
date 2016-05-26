@@ -3,9 +3,10 @@ const {Link} = require('react-router');
 const {openFile} = require('../Files/open.js');
 const {saveFile} = require('../Files/save.js');
 const ipc = require('electron').ipcRenderer;
+const {hashHistory} = require('react-router');
+
 
 const dialog = require('electron').remote.require('dialog');
-
 const MainMenu = React.createClass({
 
   propTypes: function(){
@@ -25,6 +26,51 @@ const MainMenu = React.createClass({
 
   componentDidMount: function(){
 
+    //listen to messages from app menu
+    ipc.on('send-menu',function(event, message){
+
+      switch(message){
+
+      case 'newFile':
+        this.new();
+        break;
+
+      case 'openFile':
+        this.open();
+        break;
+
+      case 'saveFile':
+        this._save();
+        break;
+
+      case 'saveAsFile':
+        this._saveAs();
+        break;
+
+      // case 'exportFile':
+      //   this.openExportDialog();
+      //   break;
+      //
+      // case 'sendEmail':
+      //   this.showEmailDialog();
+      //   break;
+      //
+      case 'openTemplateManager':
+        hashHistory.push('manage-templates');
+        break;
+
+            // case 'openConfig':
+      //   this.showConfigDialog();
+      //   break;
+
+
+
+      default:
+        alert('unknown message sent from menu, "'+message+'"');
+      }
+
+    }.bind(this));
+
     //wait to get resourcesPath from main process
     ipc.on('send-resourcesPath',function(event, message){
       this.props.setResourcesPath(message);
@@ -40,7 +86,6 @@ const MainMenu = React.createClass({
             <li><a className='menuLink' onClick={this.new}>New</a></li>
             <li><a className='menuLink' onClick={this.open}>Open</a></li>
             <li><a className='menuLink' onClick={this._save}>Save</a></li>
-            <li><a className='menuLink' onClick={this._saveAs}>Save As</a></li>
             <li><a className='menuLink' >Export</a></li>
             <li><a className='menuLink' >Send Email</a></li>
             <li><Link to='/manage-templates' >Manage Templates</Link></li>
