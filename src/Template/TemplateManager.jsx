@@ -1,6 +1,5 @@
 const React = require('react');
-const {createHistory} = require('history');
-
+const {hashHistory} = require('react-router');
 const AddTemplate = require('./AddTemplate.jsx');
 const TemplateDetailsForm = require('./TemplateDetailsForm.jsx');
 
@@ -8,8 +7,6 @@ const TemplateDetailsForm = require('./TemplateDetailsForm.jsx');
 const TemplateManager = React.createClass({
 
   render: function(){
-
-    const history = createHistory();
 
     return (
       <div className='container col-md-10 col-md-offset-1'>
@@ -26,7 +23,7 @@ const TemplateManager = React.createClass({
                 <AddTemplate  onAdd={(name, type)=>{ this.props.addTemplate(name, type, ''); }} />
               </div>
               <div className='col-md-4'>
-                <button className='btn btn-info pull-right' onClick={()=>{history.goBack();}} >Done</button>
+                <button className='btn btn-info pull-right' onClick={()=>{hashHistory.push('/');}} >Done</button>
               </div>
             </div>
 
