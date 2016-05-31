@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "config": {
-    "electronVersion": "0.36.5"
+    "electronVersion": "1.2.0"
   },
   "scripts": {
     "clean": "rm -fr build dist",

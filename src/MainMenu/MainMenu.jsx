@@ -8,7 +8,7 @@ const ipc = require('electron').ipcRenderer;
 const {hashHistory} = require('react-router');
 
 
-const dialog = require('electron').remote.require('dialog');
+const {dialog} = require('electron').remote;
 const MainMenu = React.createClass({
 
   propTypes: function(){
