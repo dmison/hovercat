@@ -4,6 +4,7 @@ const {Router, IndexRoute, Route, hashHistory} = require('react-router');
 const {Provider} = require('react-redux');
 const WorkSpace = require('./WorkSpace');
 const TemplateManagerContainer = require('./Template/TemplateManagerContainer.js');
+const ConfigManagerContainer = require('./Config/ConfigManagerContainer.js');
 const store = require('./Store');
 const {setHeight} = require('./UIState/actions.js');
 
@@ -14,7 +15,7 @@ ReactDOM.render(<Provider store={store}>
     <Route path='/' component={App} >
       <IndexRoute component={WorkSpace} />
       <Route path='manage-templates' component={TemplateManagerContainer} />
-
+      <Route path='configure' component={ConfigManagerContainer} />
     </Route>
   </Router>
 </Provider>, document.getElementById('app'));
@@ -26,5 +27,5 @@ dispatchHeight();
 window.addEventListener('resize', dispatchHeight);
 
 
-// <Route path='configure' component={ConfigurationContainer} />
+
 // <Route path='send' component={SendEmailContainer} />
