@@ -2,6 +2,8 @@ const React = require('react');
 const {Link} = require('react-router');
 const {openFile} = require('../Files/open.js');
 const {saveFile} = require('../Files/save.js');
+const {readConfigFile} = require('../Config');
+
 const ipc = require('electron').ipcRenderer;
 const {hashHistory} = require('react-router');
 
@@ -20,7 +22,9 @@ const MainMenu = React.createClass({
       updateContent: React.PropTypes.func,
       clearTemplates: React.PropTypes.func,
       setFilename: React.PropTypes.string,
-      importTemplates: React.PropTypes.func
+      importTemplates: React.PropTypes.func,
+      setHomeDir: React.PropTypes.func,
+      importConfig: React.PropTypes.func
     };
   },
 
@@ -74,6 +78,13 @@ const MainMenu = React.createClass({
     //wait to get homedir path from main process
     ipc.on('send-homedir',function(event, message){
       this.props.setHomeDir(message);
+      readConfigFile(this.props.config, `${message}`, (err, config)=>{
+        if(err){
+          alert(`Failed to load configuration:\n\n${err}`);
+        } else {
+          this.props.importConfig(config);
+        }
+      });
     }.bind(this));
 
 

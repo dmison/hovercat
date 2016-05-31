@@ -5,14 +5,16 @@ const {clearTemplates, importTemplates} = require('../Template/actions.js');
 const {updateContent} = require('../Content/actions.js');
 
 const {setSaved, setSaving, setFilename, setResourcesPath, setHomeDir} = require('../UIState/actions.js');
+const {importConfig} = require('../Config/actions.js');
+
 
 const mapStateToProps = (state) => {
   return {
     uistate: state.uistate,
     content: state.content,
     // urls: state.urls,
-    templates: state.templates
-
+    templates: state.templates,
+    config: state.config
   };
 };
 
@@ -25,7 +27,8 @@ const mapDispatchToProps = (dispatch) => {
     setFilename: (filename) => { dispatch(setFilename(filename)); },
     importTemplates: (templates) => { dispatch(importTemplates(templates)); },
     setResourcesPath: (path) => { dispatch(setResourcesPath(path)); },
-    setHomeDir: (dir) => { dispatch(setHomeDir(dir));  }
+    setHomeDir: (dir) => { dispatch(setHomeDir(dir));  },
+    importConfig: (config) => { dispatch(importConfig(config)); }
   };
 };
 
