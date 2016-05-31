@@ -1,5 +1,9 @@
-var writeConfigFile = function(config, configfilepath, done){
+const YAML = require('yamljs');
+const fs = require('fs');
+const path = require('path');
 
+const writeConfigFile = (config, homeDir, done) => {
+  const configfilepath = `${homeDir}/.hovercat/config.yaml`;
   // turn config into YAML
   var output = YAML.stringify(config, 4);
   var options = { flag: 'w' };
@@ -18,9 +22,9 @@ var writeConfigFile = function(config, configfilepath, done){
 
     fs.writeFile(configfilepath, output, options, function(err) {
       if (err) {
-        done('File save failed: ' + err);
+        done(err, null);
       } else {
-        done(config);
+        done(null, config);
       }
     });
 
@@ -28,36 +32,56 @@ var writeConfigFile = function(config, configfilepath, done){
 
 };
 
+const migrateConfigFile = (homedir) => {
+  const newfile = `${homedir}/.hovercat/config.yaml`;
+  const oldfile = `${homedir}/.hovercraft/config.yaml`;
+
+  try {
+    fs.accessSync(oldfile, fs.F_OK);
+  } catch (e) {
+    return;
+  }
+
+  try {
+    fs.accessSync(newfile, fs.F_OK);
+  } catch (e) {
+    fs.mkdirSync(`${homedir}/.hovercat`);
+    fs.renameSync(oldfile, newfile);
+  }
+};
+
 // if config file exists then read & return JSON, otherwise create
 // done(config json)
-var readConfigFile = function(defaultConfig, configfilepath, done){
-  if (configfilepath === ''){
+var readConfigFile = (defaultConfig, homeDir, done)=>{
+  if (homeDir === ''){
     // no filename specified for config yet - ie got called before state
     // populated so just return
     return;
   }
-  fs.access(configfilepath, fs.F_OK | fs.W_OK | fs.R_OK, function(error){
 
+  const configfilepath = `${homeDir}/.hovercat/config.yaml`;
+  migrateConfigFile(homeDir);
+
+  fs.access(configfilepath, fs.F_OK | fs.W_OK | fs.R_OK, (error)=>{
     if (error){
-      writeConfigFile(defaultConfig, configfilepath, done);
+      writeConfigFile(defaultConfig, homeDir, done);
     } else {
 
-      fs.readFile(configfilepath, 'utf-8', function(err, data) {
-
+      fs.readFile(configfilepath, 'utf-8', (err, data)=>{
         if (err) {
-          alert('failed to read config\n%s', err);
+          done(err, null);
         } else {
           var loadedConfig = {};
           // parse YAML to JSON
           try {
             loadedConfig = YAML.parse(data);
           } catch(e){
-            alert('yaml parse error: %s', e);
+            done(e,null);
             loadedConfig = {};
           }
 
           loadedConfig = _mergeRecursive(loadedConfig, defaultConfig);
-          done(loadedConfig);
+          done(null, loadedConfig);
         }
       });
     }
@@ -66,7 +90,7 @@ var readConfigFile = function(defaultConfig, configfilepath, done){
 };
 
 // http://stackoverflow.com/questions/21450060/how-to-join-two-json-object-in-javascript-without-using-jquery
-var _mergeRecursive = function(destObj, sourceObj) {
+var _mergeRecursive = (destObj, sourceObj) => {
 
   //iterate over all the properties in the object which is being consumed
   for (var p in sourceObj) {
@@ -79,4 +103,9 @@ var _mergeRecursive = function(destObj, sourceObj) {
     }
   }
   return destObj;
+};
+
+module.exports = {
+  readConfigFile: readConfigFile,
+  writeConfigFile: writeConfigFile
 };
