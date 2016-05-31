@@ -10,7 +10,7 @@ const EditorList = (props) => {
               mode='yaml'
               theme='tomorrow'
               height={props.height-props.consoleHeight}
-              wrapEnabled={props.wrap}
+              wrapEnabled={props.editorWrap}
               onChange={(content)=>{
                 props.setSaved(false);
                 props.updateContent(content);
@@ -23,7 +23,7 @@ const EditorList = (props) => {
                 mode={template.type}
                 theme='tomorrow'
                 height={props.height-props.consoleHeight}
-                wrapEnabled={props.wrap}
+                wrapEnabled={props.editorWrap}
                 onChange={(content)=>{
                   props.setSaved(false);
                   props.updateTemplate(template.id, template.name, template.type, content);
@@ -50,7 +50,7 @@ const EditorList = (props) => {
 EditorList.propTypes = {
   content: React.PropTypes.string,
   height: React.PropTypes.number,
-  wrap: React.PropTypes.bool,
+  editorWrap: React.PropTypes.bool,
   consoleHeight: React.PropTypes.number,
   templates: React.PropTypes.array,
   updateTemplate: React.PropTypes.func,

@@ -2,7 +2,7 @@ const {content_reducer} = require('../Content/reducers.js');
 const {error_reducer} = require('../Errors/reducers.js');
 const {template_reducer} = require('../Template/reducers.js');
 const {uistate_reducer} = require('../UIState/reducers.js');
-const {config_reducer} = require('../config/reducers.js');
+const {config_reducer} = require('../Config/reducers.js');
 const Redux = require('redux');
 
 // const logger = store => next => action => {
@@ -11,7 +11,6 @@ const Redux = require('redux');
 //   console.log('next state', store.getState());
 //   return result;
 // };
-
 
 const AppReducer = Redux.combineReducers({
   content: content_reducer,
@@ -26,7 +25,9 @@ const defaultState = {
   content: '',
   errors: [],
   config: {
-    'wrap': true,
+    'editor':{
+      'wrapEnabled': true
+    },
     'bitlyAccessToken': '',
     'email': {
       'defaultSender': '',

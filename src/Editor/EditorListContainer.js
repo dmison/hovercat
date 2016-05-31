@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
     content: state.content,
     height: state.uistate.height,
     consoleHeight: state.uistate.consoleHeight,
-    editorWrap: state.config.wrap
+    editorWrap: state.config.editor.wrapEnabled
   };
 };
 

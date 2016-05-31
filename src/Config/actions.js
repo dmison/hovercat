@@ -5,6 +5,13 @@ const setEditorWrap = (enabled) => {
   };
 };
 
+const importConfig = (config) => {
+  return {
+    type: 'IMPORT_CONFIG',
+    config: config
+  };
+};
 module.exports = {
-  setEditorWrap: setEditorWrap
+  setEditorWrap: setEditorWrap,
+  importConfig: importConfig
 };
