@@ -7,7 +7,7 @@ const mapStateToProps = (state) => {
   return {
     config: state.config,
     homeDir: state.uistate.homeDir,
-    height: state.uistate.height
+    height: state.uistate.height-50
   };
 };
 
