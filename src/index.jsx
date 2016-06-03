@@ -7,6 +7,7 @@ const TemplateManagerContainer = require('./Template/TemplateManagerContainer.js
 const ConfigManagerContainer = require('./Config/ConfigManagerContainer.js');
 const store = require('./Store');
 const {setHeight} = require('./UIState/actions.js');
+require('../app/app.global.css');
 
 const App = require('./App.jsx');
 

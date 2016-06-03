@@ -32,12 +32,17 @@ app.on('ready', function() {
   mainWindow.setMenuBarVisibility(false);
 
   // and load the index.html of the app.
-  mainWindow.loadURL('file://' + __dirname + '/index.html');
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow.loadURL('file://' + __dirname + '/../app/dev-app.html');
+  } else {
+    mainWindow.loadURL('file://' + __dirname + '/../app/app.html');
+  }
+  // mainWindow.loadURL('file://' + __dirname + '/../app/index.html');
 
   // Emitted when first page finished loading
   mainWindow.webContents.on('did-finish-load', function() {
     mainWindow.webContents.send('send-homedir', app.getPath('home'));
-    mainWindow.webContents.send('send-resourcesPath', process.resourcesPath);
+    mainWindow.webContents.send('send-resourcesPath', `${__dirname}/..`);
     mainWindow.setTitle('Hovercat: untitled');
   });
 

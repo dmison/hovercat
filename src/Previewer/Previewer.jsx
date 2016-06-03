@@ -56,8 +56,8 @@ var Previewer = React.createClass({
     if (this.props.template.type === 'markdown'){
       let frameContent = `<html>
         <head>
-          <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
-          <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap-theme.min.css">
+          <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+          <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap-theme.min.css">
           <style>html { overflow-x: wrap; overflow-y: scroll; } </style>
         </head>
         <body>
