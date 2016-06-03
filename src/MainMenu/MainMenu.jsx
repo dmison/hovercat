@@ -63,11 +63,9 @@ const MainMenu = React.createClass({
         hashHistory.push('manage-templates');
         break;
 
-            // case 'openConfig':
-      //   this.showConfigDialog();
-      //   break;
-
-
+      case 'openConfig':
+        hashHistory.push('configure');
+        break;
 
       default:
         alert('unknown message sent from menu, "'+message+'"');
