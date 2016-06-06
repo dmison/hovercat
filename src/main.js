@@ -10,8 +10,9 @@ var mainWindow = null;
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
-  if (process.platform != 'darwin')
+  if (process.platform != 'darwin') {
     app.quit();
+  }
 });
 
 // This method will be called when Electron has done everything
@@ -111,11 +112,11 @@ var getMenuTemplate = function(platform){
 
   var template = [];
 
-  if(platform === 'darwin'){
+  if (platform === 'darwin'){
     template.push(OSX_app_menu, FileMenu, EditMenu);
   }
 
-  if(platform === 'linux'){
+  if (platform === 'linux'){
     FileMenu.submenu.push(
       { type: 'separator' },
       { label: 'Quit', accelerator: 'Command+Q', click: function() { app.quit(); }}

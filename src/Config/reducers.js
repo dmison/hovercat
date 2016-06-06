@@ -1,6 +1,6 @@
 const config_reducer = (state = {}, action) => {
 
-  switch(action.type){
+  switch (action.type){
   case 'SET_WRAP':
     return Object.assign( {}, state, { editor: { wrapEnabled: action.enabled } } );
   case 'IMPORT_CONFIG':

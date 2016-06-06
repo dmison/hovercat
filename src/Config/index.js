@@ -13,7 +13,7 @@ const writeConfigFile = (config, homeDir, done) => {
   //does directory exist?
   fs.access(configDir, fs.F_OK, function(err){
     //no: mkdir
-    if(err){
+    if (err){
       fs.mkdir(configDir);
     }
     //yes: can it be written to?
@@ -75,7 +75,7 @@ var readConfigFile = (defaultConfig, homeDir, done)=>{
           // parse YAML to JSON
           try {
             loadedConfig = YAML.parse(data);
-          } catch(e){
+          } catch (e){
             done(e,null);
             loadedConfig = {};
           }

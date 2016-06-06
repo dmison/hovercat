@@ -1,6 +1,6 @@
 const uistate_reducer = (state = {}, action) => {
 
-  switch(action.type){
+  switch (action.type){
   case 'SET_SAVED':
     return Object.assign( {}, state, { saved: action.saved } );
   case 'SET_SAVING':

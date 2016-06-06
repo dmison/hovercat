@@ -1,7 +1,7 @@
 
 const error_reducer = (error = [], action) => {
 
-  switch(action.type){
+  switch (action.type){
   case 'ADD_ERROR': {
     return error.filter((error)=>{
       return error.type === action.sourceType && error.templateName === action.templateName;

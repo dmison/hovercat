@@ -9,7 +9,7 @@ const openFile = (filename, callback) => {
       try {
         dataInput = JSON.parse(data);
         // update data from V1 files to V2 format
-        if(isV1Format(dataInput)){
+        if (isV1Format(dataInput)){
           dataInput = convertV1ToV2(dataInput);
         }
         callback(null, dataInput);

@@ -2,7 +2,7 @@ const uuid = require('node-uuid');
 
 const template_reducer = (templates = [], action) => {
 
-  switch(action.type){
+  switch (action.type){
   case 'ADD_TEMPLATE':
     return templates.concat({
       id: uuid.v1(),

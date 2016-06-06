@@ -1,6 +1,6 @@
 const content_reducer = (content = '', action) => {
 
-  switch(action.type){
+  switch (action.type){
   case 'UPDATE_CONTENT':
     return action.content;
   default:

@@ -3,7 +3,7 @@ const YAML = require('yamljs');
 const Handlebars = require('handlebars');
 const HandleBarsHelpers = require('./HandleBarsHelpers.js');
 
-for(var key in HandleBarsHelpers) {
+for (var key in HandleBarsHelpers) {
   const helper = HandleBarsHelpers[key];
   Handlebars.registerHelper(helper.helper_name, helper);
 }
@@ -12,7 +12,7 @@ const parseYAML = (content, callback) => {
   if (content) {
     try {
       callback(null, YAML.parse(content));
-    } catch(e){
+    } catch (e){
       callback(e, null);
     }
   } else callback(null, {});
@@ -23,7 +23,7 @@ const compile = (content, template, callback) => {
     const builder = Handlebars.compile(template);
     const output = builder(content);
     callback(null, output);
-  } catch(e){
+  } catch (e){
     callback(`${e}`, null);
   }
 };
