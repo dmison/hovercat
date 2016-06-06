@@ -27,7 +27,9 @@ const DEFAULT_OPTS = {
     '^/release($|/)',
     '^/src($|/)',
     '^/server.js',
-    '^/package.js$'
+    '^/package.js$',
+    // '^\..*',
+    '^/webpack\.config\..*\.js'
   ].concat(devDeps.map(name => `/node_modules/${name}($|/)`))
   .concat(
     deps.filter(name => !electronCfg.externals.includes(name))
