@@ -1,18 +1,13 @@
-var React = require('react');
+const React = require('react');
 
-// bundling a build of react-ace from https://github.com/dmison/react-ace
-// until wrap mode updating is supported in the NPM react-ace
-// see PR: https://github.com/securingsincity/react-ace/pull/80
-var AceEditor  = require('./react-ace.min.js'); //('react-ace');
+import AceEditor from 'react-ace';
 
-require('brace/mode/markdown');
-require('brace/mode/yaml');
-require('brace/mode/html');
-
-require('brace/theme/tomorrow');
+import 'brace/mode/markdown';
+import 'brace/mode/yaml';
+import 'brace/mode/html';
+import 'brace/theme/tomorrow';
 
 var Editor = React.createClass({
-
   propTypes: function(){
     return {
       content: React.PropTypes.string,
@@ -36,16 +31,16 @@ var Editor = React.createClass({
 
     return (
       <AceEditor
-          mode={this.props.mode}
-          theme={this.props.theme}
-          name={name}
-          height={height}
-          width='90%'
-          onChange={(content)=>{ this.props.onChange(content); }}
-          value={this.props.content}
-          wrapEnabled={this.props.wrapEnabled}
-          showPrintMargin={false}
-        />
+        name={name}
+        height={height}
+        mode={this.props.mode}
+        theme={this.props.theme}
+        width='90%'
+        onChange={(content)=>{ this.props.onChange(content); }}
+        value={this.props.content}
+        wrapEnabled={this.props.wrapEnabled}
+        showPrintMargin={false}
+      />
     );
   }
 
