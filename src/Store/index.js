@@ -3,7 +3,8 @@ const {error_reducer} = require('../Errors/reducers.js');
 const {template_reducer} = require('../Template/reducers.js');
 const {uistate_reducer} = require('../UIState/reducers.js');
 const {config_reducer} = require('../Config/reducers.js');
-const Redux = require('redux');
+const { createStore, applyMiddleware, combineReducers } = require('redux');
+const thunk = require('redux-thunk').default;
 
 // const logger = store => next => action => {
 //   console.log('dispatching', action);
@@ -12,7 +13,7 @@ const Redux = require('redux');
 //   return result;
 // };
 
-const AppReducer = Redux.combineReducers({
+const AppReducer = combineReducers({
   content: content_reducer,
   errors: error_reducer,
   templates: template_reducer,
@@ -57,6 +58,6 @@ const defaultState = {
   }
 };
 
-const store = Redux.createStore(AppReducer, defaultState); //, Redux.applyMiddleware(logger));
+const store = createStore(AppReducer, defaultState, applyMiddleware(thunk));
 
 module.exports = store;
