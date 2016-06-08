@@ -51,7 +51,7 @@ const defaultState = {
     'resourcesPath': '',
     'filename': '',
     'active': false,
-    'height': window.innerHeight-230,
+    'height': window.innerHeight-138,
     'consoleHeight': 42,
     'errorConsoleVisible': true,
     'homeDir': ''

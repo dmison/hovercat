@@ -9,6 +9,10 @@ html, body {
   background-color: #ffffff;
 }
 
+nav.navbar {
+  margin-bottom: 5px;
+}
+
 div.hovercat-workspace {
   margin: 0px;
 }
