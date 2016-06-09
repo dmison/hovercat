@@ -11,7 +11,7 @@ const clearError = (sourceType, templateName) => {
   return {
     type: 'CLEAR_ERROR',
     sourceType: sourceType,
-    templateName: templateName
+    templateName: typeof templateName === 'undefined'? '':templateName
   };
 };
 

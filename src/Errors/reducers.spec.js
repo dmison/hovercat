@@ -19,6 +19,32 @@ describe('testing error reducers', () => {
     expect(actualNewState).to.deep.equal(expectedNewState);
   });
 
+  it('add and clear yaml error', ()=>{
+    const errors = [
+      {
+        message: 'some arbitrary content error message',
+        type: 'YAML',
+        template: ''
+      },
+      {
+        message: 'some arbitrary content error message',
+        type: 'HTML',
+        template: 'HTML Email'
+      }
+    ];
+    const expectedNewState = [
+      {
+        message: 'some arbitrary content error message',
+        type: 'HTML',
+        template: 'HTML Email'
+      }
+    ];
+
+    const actualNewState = reducers.error_reducer(errors, actions.clearError('YAML'));
+    expect(actualNewState).to.deep.equal(expectedNewState);
+  });
+
+
   it('add text template processing error', ()=>{
     const errorText = 'some arbitrary text error message';
     const sourceType = 'TEXT';

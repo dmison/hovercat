@@ -13,7 +13,7 @@ const error_reducer = (error = [], action) => {
   }
   case 'CLEAR_ERROR': {
     return error.filter((error)=>{
-      return error.type === action.sourceType && error.templateName === action.templateName;
+      return error.type !== action.sourceType && error.template !== action.templateName;
     });
   }
   default:{
