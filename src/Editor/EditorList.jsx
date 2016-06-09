@@ -11,6 +11,8 @@ const EditorList = (props) => {
               theme='tomorrow'
               height={props.height-props.consoleHeight}
               wrapEnabled={props.editorWrap}
+              enableBasicAutoCompletion={props.enableBasicAutoCompletion}
+              enableLiveAutoCompletion={props.enableLiveAutoCompletion}
               onChange={(content)=>{
                 props.setSaved(false);
                 props.updateContent(content);
@@ -24,6 +26,8 @@ const EditorList = (props) => {
                 theme='tomorrow'
                 height={props.height-props.consoleHeight}
                 wrapEnabled={props.editorWrap}
+                enableBasicAutoCompletion={props.enableBasicAutoCompletion}
+                enableLiveAutoCompletion={props.enableLiveAutoCompletion}
                 onChange={(content)=>{
                   props.setSaved(false);
                   props.updateTemplate(template.id, template.name, template.type, content);
@@ -51,6 +55,8 @@ EditorList.propTypes = {
   content: React.PropTypes.string,
   height: React.PropTypes.number,
   editorWrap: React.PropTypes.bool,
+  enableBasicAutoCompletion: React.PropTypes.bool,
+  enableLiveAutoCompletion: React.PropTypes.bool,
   consoleHeight: React.PropTypes.number,
   templates: React.PropTypes.array,
   updateTemplate: React.PropTypes.func,

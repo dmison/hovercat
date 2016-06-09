@@ -11,7 +11,9 @@ const mapStateToProps = (state) => {
     content: state.content,
     height: state.uistate.height,
     consoleHeight: state.uistate.consoleHeight,
-    editorWrap: state.config.editor.wrapEnabled
+    editorWrap: state.config.editor.wrapEnabled,
+    enableBasicAutoCompletion: state.config.editor.enableBasicAutoCompletion,
+    enableLiveAutoCompletion: state.config.editor.enableLiveAutoCompletion
   };
 };
 

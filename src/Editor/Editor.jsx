@@ -2,6 +2,7 @@ const React = require('react');
 
 import AceEditor from 'react-ace';
 
+import 'brace/ext/language_tools';
 import 'brace/mode/markdown';
 import 'brace/mode/yaml';
 import 'brace/mode/html';
@@ -15,13 +16,17 @@ var Editor = React.createClass({
       onChange: React.PropTypes.func,
       mode: React.PropTypes.string,
       theme: React.PropTypes.string,
-      wrapEnabled: React.PropTypes.bool
+      wrapEnabled: React.PropTypes.bool,
+      enableBasicAutocompletion: React.PropTypes.bool,
+      enableLiveAutocompletion: React.PropTypes.bool
     };
   },
 
   shouldComponentUpdate: function(nextProps) {
     return ( (nextProps.content !== this.props.content) ||
       (nextProps.wrapEnabled !== this.props.wrapEnabled) ||
+      (nextProps.basicAutoComplete !== this.props.basicAutoComplete) ||
+      (nextProps.liveAutoComplete !== this.props.liveAutoComplete) ||
     (nextProps.height !== this.props.height) );
   },
 
@@ -40,6 +45,8 @@ var Editor = React.createClass({
         value={this.props.content}
         wrapEnabled={this.props.wrapEnabled}
         showPrintMargin={false}
+        enableBasicAutocompletion={this.props.enableBasicAutocompletion}
+        enableLiveAutocompletion={this.props.enableLiveAutocompletion}
       />
     );
   }

@@ -27,7 +27,9 @@ const defaultState = {
   errors: [],
   config: {
     'editor':{
-      'wrapEnabled': true
+      'wrapEnabled': true,
+      'enableLiveAutoCompletion': false,
+      'enableBasicAutoCompletion': false
     },
     'bitlyAccessToken': '',
     'email': {
