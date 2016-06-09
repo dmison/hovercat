@@ -3,6 +3,8 @@ const {error_reducer} = require('../Errors/reducers.js');
 const {template_reducer} = require('../Template/reducers.js');
 const {uistate_reducer} = require('../UIState/reducers.js');
 const {config_reducer} = require('../Config/reducers.js');
+const output_reducer = require('../Compiler/reducers.js');
+
 const { createStore, applyMiddleware, combineReducers } = require('redux');
 const thunk = require('redux-thunk').default;
 
@@ -14,15 +16,17 @@ const thunk = require('redux-thunk').default;
 // };
 
 const AppReducer = combineReducers({
+  templates: template_reducer,
+  output: output_reducer,
   content: content_reducer,
   errors: error_reducer,
-  templates: template_reducer,
-  uistate: uistate_reducer,
-  config: config_reducer
+  config: config_reducer,
+  uistate: uistate_reducer
 });
 
 const defaultState = {
   templates: [],
+  output: [],
   content: '',
   errors: [],
   config: {

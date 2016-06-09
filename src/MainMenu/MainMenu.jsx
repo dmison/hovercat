@@ -117,6 +117,7 @@ const MainMenu = React.createClass({
     this.props.clearTemplates();
     this.props.importTemplates(templates);
     this.setTitle(filename);
+    this.props.buildAll();
   },
 
   open: function(){

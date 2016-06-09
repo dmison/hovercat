@@ -4,6 +4,7 @@ const EditorList = require('./EditorList.jsx');
 const {updateContent} = require('../Content/actions.js');
 const {updateTemplate} = require('../Template/actions.js');
 const {setSaved} = require('../UIState/actions.js');
+const {buildAll} = require('../Compiler/actions.js');
 
 const mapStateToProps = (state) => {
   return {
@@ -19,6 +20,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    buildAll: () => { dispatch(buildAll()); },
     updateContent: (content) => { dispatch(updateContent(content)); },
     updateTemplate: (id, name, type, template) => { dispatch(updateTemplate(id, name, type, template)); },
     setSaved: (saved) => { dispatch(setSaved(saved)); }

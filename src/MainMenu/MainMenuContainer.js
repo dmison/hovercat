@@ -6,7 +6,7 @@ const {updateContent} = require('../Content/actions.js');
 
 const {setSaved, setSaving, setFilename, setResourcesPath, setHomeDir} = require('../UIState/actions.js');
 const {importConfig} = require('../Config/actions.js');
-
+const {buildAll} = require('../Compiler/actions.js');
 
 const mapStateToProps = (state) => {
   return {
@@ -20,6 +20,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    buildAll: () => { dispatch(buildAll()); },
     clearTemplates: () => { dispatch(clearTemplates()); },
     updateContent: (content) => { dispatch(updateContent(content)); },
     setSaved: (saved) => { dispatch(setSaved(saved)); },
