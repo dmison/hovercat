@@ -110,13 +110,14 @@ const MainMenu = React.createClass({
     );
   },
 
-  refreshForLoadedFile: function(content, filename, templates){
+  refreshForLoadedFile: function(content, filename, templates, newfile){
     this.props.setFilename(filename);
-    this.props.setSaved(true);
+    this.setTitle(filename===''?'untitled':filename);
+    this.props.setSaved(!newfile);
     this.props.updateContent(content);
     this.props.clearTemplates();
     this.props.importTemplates(templates);
-    this.setTitle(filename);
+
     this.props.buildAll();
   },
 
@@ -153,7 +154,7 @@ const MainMenu = React.createClass({
       if(err){
         window.alert(`An error occurred opening ${filename}:\n\n ${err}`);
       } else {
-        this.refreshForLoadedFile(input.content, filename, input.templates);
+        this.refreshForLoadedFile(input.content, filename, input.templates,false);
       }
     });
 
@@ -172,8 +173,7 @@ const MainMenu = React.createClass({
       if(err){
         window.alert(`An error occurred opening the example file: ${err}`);
       } else {
-        this.refreshForLoadedFile(input.content, 'untitled', input.templates);
-        this.setTitle('untitled');
+        this.refreshForLoadedFile(input.content, '', input.templates, true);
       }
     });
 
@@ -202,8 +202,7 @@ const MainMenu = React.createClass({
   },
 
   _save: function(){
-    var filenameToUse = this.props.uistate.filename;
-    this.openSaveDialog(filenameToUse);
+    this.openSaveDialog(this.props.uistate.filename);
   },
 
   _saveAs: function(){
