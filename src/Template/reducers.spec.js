@@ -1,27 +1,28 @@
 /* global describe it */
 const expect = require('chai').expect;
 const {template_reducer} = require('./reducers.js');
-const {addTemplate} = require('./actions.js');
+const {addNewTemplate} = require('./actions.js');
 const {updateTemplate} = require('./actions.js');
-const {clearTemplates} = require('./actions.js');
+const {clearOnlyTemplates} = require('./actions.js');
 const {importTemplates} = require('./actions.js');
 
 
-describe('testing template reducers', () => {
+describe('testing template reducers', function(){
 
-  it('add one template', ()=>{
-    const template = 'here is some arbitrary {{content}}.';
+  it('add one template', function(){
+    const content = 'here is some arbitrary {{content}}.';
     const name = 'basic text';
     const type = 'TEXT';
 
-    const actualNewTemplates = template_reducer(undefined, addTemplate(name, type, template));
-    expect(actualNewTemplates[0].content).to.equal(template);
-    expect(actualNewTemplates[0].name).to.equal(name);
-    expect(actualNewTemplates[0].type).to.equal(type);
+    const actualNewState = template_reducer(undefined, addNewTemplate(name, type, content));
+
+    expect(actualNewState[0].content).to.equal(content);
+    expect(actualNewState[0].name).to.equal(name);
+    expect(actualNewState[0].type).to.equal(type);
 
   });
 
-  it('add two template templates', ()=>{
+  it('add two template templates', function(){
 
     const templateOne = 'here is some arbitrary {{content}}.';
     const nameOne = 'text email';
@@ -32,8 +33,8 @@ describe('testing template reducers', () => {
     const typeTwo = 'HTML';
 
     let actualNewTemplates = [];
-    actualNewTemplates = template_reducer(actualNewTemplates, addTemplate(nameOne, typeOne, templateOne));
-    actualNewTemplates = template_reducer(actualNewTemplates, addTemplate(nameTwo, typeTwo, templateTwo));
+    actualNewTemplates = template_reducer(actualNewTemplates, addNewTemplate(nameOne, typeOne, templateOne));
+    actualNewTemplates = template_reducer(actualNewTemplates, addNewTemplate(nameTwo, typeTwo, templateTwo));
 
     const expectedNewTemplates = [
       {
@@ -48,7 +49,7 @@ describe('testing template reducers', () => {
       }
 
     ];
-    actualNewTemplates.forEach((template, index)=>{
+    actualNewTemplates.forEach(function(template, index){
       expect(template.content).to.equal(expectedNewTemplates[index].content);
       expect(template.name).to.equal(expectedNewTemplates[index].name);
       expect(template.type).to.equal(expectedNewTemplates[index].type);
@@ -57,7 +58,7 @@ describe('testing template reducers', () => {
 
   });
 
-  it('updated tempate name', ()=>{
+  it('updated tempate name', function(){
 
     const id = '234-235-235-235-235-222';
     const template = 'here is some arbitrary {{content}}.';
@@ -83,7 +84,7 @@ describe('testing template reducers', () => {
 
   });
 
-  it('updated tempate type', ()=>{
+  it('updated tempate type', function(){
 
     const id = '234-235-235-235-235-222';
     const template = 'here is some <b>arbitrary</b> {{content}}.';
@@ -109,7 +110,7 @@ describe('testing template reducers', () => {
 
   });
 
-  it('clear all templates', ()=>{
+  it('clear all templates', function(){
 
     const templateOne = {
       id: '234-235-235-235-235-222',
@@ -126,12 +127,12 @@ describe('testing template reducers', () => {
 
     const startingTemplates = [ templateOne, templateTwo ];
 
-    const actualUpdatedTemplates = template_reducer(startingTemplates, clearTemplates());
+    const actualUpdatedTemplates = template_reducer(startingTemplates, clearOnlyTemplates());
     expect(actualUpdatedTemplates.length).to.equal(0);
     expect(actualUpdatedTemplates).to.deep.equal([]);
   });
 
-  it('import some templates', ()=>{
+  it('import some templates', function(){
 
     const templateOne = {
       id: '234-235-235-235-235-222',
@@ -153,7 +154,7 @@ describe('testing template reducers', () => {
     expect(actualUpdatedTemplates).to.deep.equal(templatesToImport);
   });
 
-  it('import some templates without IDs', ()=>{
+  it('import some templates without IDs', function(){
 
     const templateOne = {
       id: '234-235-235-235-235-222',
@@ -172,7 +173,7 @@ describe('testing template reducers', () => {
 
     const actualUpdatedTemplates = template_reducer(startingTemplates, importTemplates(templatesToImport));
     expect(actualUpdatedTemplates.length).to.equal(2);
-    actualUpdatedTemplates.forEach((template)=>{
+    actualUpdatedTemplates.forEach(function(template){
       expect(template.id).to.not.be.undefined;
     });
   });

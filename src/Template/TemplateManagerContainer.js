@@ -3,7 +3,7 @@ const TemplateManager = require('./TemplateManager.jsx');
 
 const {updateTemplate} = require('./actions.js');
 const {addTemplate} = require('./actions.js');
-const {deleteTemplate} = require('./actions.js');
+const {clearATemplate} = require('./actions.js');
 
 const mapStateToProps = (state) => {
   return {
@@ -14,7 +14,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addTemplate: (name, type, template) => { dispatch(addTemplate(name, type, template)); },
-    deleteTemplate: (id) => { dispatch(deleteTemplate(id)); },
+    deleteTemplate: (id) => { dispatch(clearATemplate(id)); },
     updateTemplate: (id, name, type) => { dispatch(updateTemplate(id, name, type)); }
   };
 };

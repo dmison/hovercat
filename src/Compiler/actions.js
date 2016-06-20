@@ -4,12 +4,24 @@ const {parseYAML} = require('./index.js');
 const {addError} = require('../Errors/actions.js');
 const {clearError} = require('../Errors/actions.js');
 
-const updateOutput = (output, templateType, templateName) => {
+const updateOutput = (output, id) => {
   return {
     type: 'UPDATE_RESULTS',
-    templateType: templateType,
-    templateName: templateName,
+    templateID: id,
     output: output
+  };
+};
+
+const clearAnOutput = (id) => {
+  return {
+    type: 'CLEAR_AN_OUTPUT',
+    templateID: id
+  };
+};
+
+const clearAllOutputs = () => {
+  return {
+    type: 'CLEAR_ALL_OUTPUTS'
   };
 };
 
@@ -31,7 +43,7 @@ const buildAll = () => {
               dispatch(addError(err, template.type, template.name));
             } else {
               dispatch(clearError(template.type, template.name));
-              dispatch(updateOutput(output, template.type, template.name));
+              dispatch(updateOutput(output, template.id));
             }
           });
 
@@ -45,5 +57,7 @@ const buildAll = () => {
 
 module.exports = {
   buildAll: buildAll,
-  updateOutput: updateOutput
+  updateOutput: updateOutput,
+  clearAnOutput: clearAnOutput,
+  clearAllOutputs: clearAllOutputs
 };
