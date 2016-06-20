@@ -19,7 +19,7 @@ const ErrorConsole = React.createClass({
     const errors = this.props.errors.map((error, index)=>{
       return (
         <div key={index} className='error-list'>
-          <span className='label label-danger'>{error.template === ''? 'YAML':error.template}</span>
+          <span className='label label-danger'>{error.template === ''? 'YAML':`${error.template} : ${error.type}`}</span>
           <span> {error.message}</span>
         </div>
       );
