@@ -139,12 +139,14 @@ describe('testing template reducers', function(){
       content: 'here is some arbitrary {{content}}.',
       name: 'template two',
       type: 'markdown',
+      order: 1
     };
     const templateTwo = {
       id: '493-235-746-235-255',
       content: 'here is some other arbitrary {{content}}.',
       name: 'template one',
       type: 'markdown',
+      order: 2
     };
 
     const templatesToImport = [ templateOne, templateTwo ];
@@ -176,6 +178,121 @@ describe('testing template reducers', function(){
     actualUpdatedTemplates.forEach(function(template){
       expect(template.id).to.not.be.undefined;
     });
+  });
+
+  it('starting with nothing, import some templates without ordering, they should become ordered', function(){
+
+    const templateOne = {
+      id: '234-235-235-235-235-222',
+      content: 'here is some arbitrary {{content}}.',
+      name: 'template one',
+      type: 'markdown'
+    };
+    const templateTwo = {
+      id: '493-235-746-235-255',
+      content: 'here is some other arbitrary {{content}}.',
+      name: 'template two',
+      type: 'html'
+    };
+
+    const templatesToImport = [ templateOne, templateTwo ];
+    const startingTemplates = [];
+
+    const expectedNewTemplates = [
+      Object.assign({}, templateOne, { order: 1}),
+      Object.assign({}, templateTwo, { order: 2})
+    ];
+
+    const actualUpdatedTemplates = template_reducer(startingTemplates, importTemplates(templatesToImport));
+    expect(actualUpdatedTemplates).to.deep.equal(expectedNewTemplates);
+  });
+
+  it('starting with existing templates, import some new ones without ordering, they should become ordered accordingly', function(){
+
+    const templateOne = {
+      id: '821',
+      content: 'one: here is some arbitrary {{content}}.',
+      name: 'template one',
+      type: 'markdown',
+      order: 3
+    };
+    const templateTwo = {
+      id: '635',
+      content: 'two: here is some other arbitrary {{content}}.',
+      name: 'template two',
+      type: 'html',
+      order: 6
+    };
+
+    const templateThree = {
+      id: '234',
+      content: 'three: here is some arbitrary {{content}}.',
+      name: 'template three',
+      type: 'markdown'
+    };
+    const templateFour = {
+      id: '493',
+      content: 'four: here is some other arbitrary {{content}}.',
+      name: 'template four',
+      type: 'html'
+    };
+
+
+    const templatesToImport = [ templateThree, templateFour ];
+    const startingTemplates = [ templateOne, templateTwo ];
+
+    const expectedNewTemplates = [
+      templateOne,
+      templateTwo,
+      Object.assign({}, templateThree, { order: 8}),
+      Object.assign({}, templateFour, { order: 7})
+    ];
+
+    const actualUpdatedTemplates = template_reducer(startingTemplates, importTemplates(templatesToImport));
+    expect(actualUpdatedTemplates).to.deep.include.members(expectedNewTemplates);
+  });
+
+  it('test ordering: add one, expect order: 1', function(){
+
+    const content = 'here is some <b>arbitrary</b> {{stuff}}.';
+    const name = 'basic text';
+    const type = 'markdown';
+
+    const actualEndState = template_reducer(undefined, addNewTemplate(name, type, content));
+    expect(actualEndState[0].order).to.equal(1);
+  });
+
+  it('test ordering: add two, existing order: 2,4, expect 2,4,5,6', function(){
+
+    const startState = [
+      {
+        id: '234-235-235-235-235-222',
+        content: 'here is some arbitrary {{content}}.',
+        name: 'template one',
+        type: 'markdown',
+        order: 2
+      },
+      {
+        id: '234-654-235-385-731-998',
+        content: 'here is some more arbitrary {{content}}.',
+        name: 'template two',
+        type: 'markdown',
+        order: 4
+      }
+    ];
+
+    const templateOne = 'here is some arbitrary {{content}}.';
+    const nameOne = 'text email';
+    const typeOne = 'markdown';
+
+    const templateTwo = 'here is some more arbitrary {{content}}.';
+    const nameTwo = 'html email';
+    const typeTwo = 'html';
+
+    const secondState = template_reducer(startState, addNewTemplate(nameOne, typeOne, templateOne));
+    const actualEndState = template_reducer(secondState, addNewTemplate(nameTwo, typeTwo, templateTwo));
+
+    expect(actualEndState.map((template)=>{ return template.order; })).to.deep.equal([2,4,5,6]);
   });
 
 

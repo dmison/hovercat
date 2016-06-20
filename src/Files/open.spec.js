@@ -17,12 +17,14 @@ const v2File = {
     {
       name: 'Text Email',
       content: 'some markdown',
-      type: 'markdown'
+      type: 'markdown',
+      order: 2
     },
     {
       name: 'HTML Email',
       content: 'some html',
-      type: 'html'
+      type: 'html',
+      order: 1
     }
   ]
 };

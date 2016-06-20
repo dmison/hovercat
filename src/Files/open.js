@@ -41,12 +41,14 @@ var convertV1ToV2 = (data) => {
     {
       name: 'Text Email',
       content: data.gfmTemplate,
-      type: 'markdown'
+      type: 'markdown',
+      order: 2
     },
     {
       name: 'HTML Email',
       content: data.htmlTemplate,
-      type: 'html'
+      type: 'html',
+      order: 1
     }
   ];
 
