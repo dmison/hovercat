@@ -4,17 +4,30 @@ const Previewer = require('./Previewer.jsx');
 
 const PreviewerList = (props) => {
 
-  return props.outputs.length > 0 ?  (
+  const mergedoutputs = props.templates.map((template)=>{
+    return Object.assign({}, template, (typeof props.outputs === 'undefined'? [] : props.outputs).find((output)=>{
+      return template.id === output.id;
+    }));
+  }).sort((a,b)=>{
+    if (a.order < b.order) {
+      return -1;
+    }
+    if (a.order > b.order) {
+      return 1;
+    }
+  });
+
+  return mergedoutputs.length > 0 ?  (
     <Tabs>
       <TabList>
-        {props.outputs.map((template, index)=>{
+        {mergedoutputs.map((template, index)=>{
           return <Tab key={index}>{template.name} - {template.type}</Tab>;
         })}
       </TabList>
 
-      {props.outputs.map((output, index)=>{
+      {mergedoutputs.map((output, index)=>{
         return <TabPanel key={index}>
-          <Previewer content={output.output} height={props.height - props.consoleHeight} templateName={output.name} templateType={output.type} />
+          <Previewer key={index} content={output.output} height={props.height - props.consoleHeight} templateName={output.name} templateType={output.type} />
         </TabPanel>;
       })}
     </Tabs>
@@ -24,13 +37,14 @@ const PreviewerList = (props) => {
       <p>Maybe you should add one. </p>
     </div>
   );
+
 };
 
 PreviewerList.propTypes = {
   height: React.PropTypes.number,
   consoleHeight: React.PropTypes.number,
-  outputs: React.PropTypes.array
+  outputs: React.PropTypes.array,
+  templates: React.PropTypes.array
 };
-
 
 module.exports = PreviewerList;

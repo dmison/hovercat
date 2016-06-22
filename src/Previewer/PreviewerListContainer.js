@@ -4,6 +4,7 @@ const PreviewerList = require('./PreviewerList.jsx');
 const mapStateToProps = (state) => {
   return {
     outputs: state.output,
+    templates: state.templates,
     height: state.uistate.height,
     consoleHeight: state.uistate.consoleHeight
   };
