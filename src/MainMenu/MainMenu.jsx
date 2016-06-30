@@ -51,9 +51,9 @@ const MainMenu = React.createClass({
         this._saveAs();
         break;
 
-      // case 'exportFile':
-      //   this.openExportDialog();
-      //   break;
+      case 'exportFile':
+        hashHistory.push('export');
+        break;
       //
       // case 'sendEmail':
       //   this.showEmailDialog();
@@ -101,7 +101,7 @@ const MainMenu = React.createClass({
             <li><a className='menuLink' onClick={this.new}>New</a></li>
             <li><a className='menuLink' onClick={this.open}>Open</a></li>
             <li><a className='menuLink' onClick={this._save}>Save</a></li>
-            <li><a className='menuLink' >Export</a></li>
+            <li><Link to='/export' >Export</Link></li>
             <li><a className='menuLink' >Send Email</a></li>
             <li><Link to='/manage-templates' >Manage Templates</Link></li>
             <li><Link to='/configure' >Configure</Link></li>
