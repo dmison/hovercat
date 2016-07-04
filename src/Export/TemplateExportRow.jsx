@@ -6,11 +6,27 @@ const TemplateExportRow = (props) => {
     cursor: 'pointer'
   };
 
+  let status = '';
+  switch(props.error){
+  case '': {
+    status = '';
+    break;
+  }
+  case 'success': {
+    status = <span className='label label-success'>Exported successfully</span>;
+    break;
+  }
+  default: {
+    status = <span><span className='label label-danger'>Error</span> {props.error}</span>;
+  }
+  }
+
   return (
-    <tr style={rowStyle} key={props.key} onClick={()=>{props.onClick(props.template.id, !props.selected);}}>
+    <tr style={rowStyle} key={props.key} onClick={()=>{props.onClick(props.id, !props.selected);}}>
       <td><input type='checkbox' checked={props.selected} readOnly /></td>
-      <td>{props.template.name}</td>
-      <td>{props.template.type}</td>
+      <td>{props.name}</td>
+      <td>{props.type}</td>
+      <td>{status}</td>
     </tr>
   );
 
@@ -18,7 +34,10 @@ const TemplateExportRow = (props) => {
 
 TemplateExportRow.propTypes = {
   key: React.PropTypes.number,
-  template: React.PropTypes.object,
+  id: React.PropTypes.string,
+  name: React.PropTypes.string,
+  type: React.PropTypes.string,
+  error: React.PropTypes.string,
   selected: React.PropTypes.bool
 };
 

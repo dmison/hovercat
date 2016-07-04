@@ -1,20 +1,22 @@
 const React = require('react');
 const {hashHistory} = require('react-router');
 const TemplateExportRow = require('./TemplateExportRow.jsx');
+const {exportFiles} = require('../Files/export.js');
+const {dialog} = require('electron').remote;
 
 const ExportManager = React.createClass({
 
   propTypes: function(){
     return {
-      templates: React.PropTypes.array,
       output: React.PropTypes.array,
-      height: React.PropTypes.number
+      height: React.PropTypes.number,
+      homeDir: React.PropTypes.string
     };
   },
 
   getInitialState: function(){
     return {
-      selectedOutputs: []
+      outputs: []
     };
   },
 
@@ -30,10 +32,10 @@ const ExportManager = React.createClass({
       overflowY: 'scroll'
     };
 
+    const panelBody = this.props.output.length === 0 ? this.emptyPanel() : this.exportTable(this.state.outputs);
+
     return (
-
       <div className='container' style={{paddingTop:15}}>
-
           <div className='panel panel-default'>
             <div className='panel-heading'>
               <h3 className='panel-title pull-left'>Export</h3>
@@ -43,27 +45,7 @@ const ExportManager = React.createClass({
             </div>
             <div className='panel-body'>
               <div style={style}>
-              <table className='table table-striped table-hover'>
-                <thead>
-                  <tr>
-                    <th style={{width:45}}>
-                      <input type='checkbox' checked={this._areAllSelected()} onClick={this._selectAllToggle} readOnly />
-                    </th>
-                    <th>Template Name</th>
-                    <th>Template Type</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {this.props.templates.map((template, index)=>{
-                  const selected = this.state.selectedOutputs.reduce((prev,curr)=>{
-                    return curr.id === template.id? true : prev;
-                  },false);
-                  return (
-                    <TemplateExportRow key={index} template={template} selected={selected} onClick={this._adjustSelection}/>
-                  );
-                })}
-                </tbody>
-              </table>
+                {panelBody}
             </div>
           </div>
         </div>
@@ -71,46 +53,109 @@ const ExportManager = React.createClass({
     );
   },
 
+  componentWillMount: function(){
+    const updated = this.props.output.map((output)=>{
+      return Object.assign({}, output, { selected: false, error:''});
+    });
+    this.setState({ outputs: updated });
+  },
+
+  // ======================================================================
+  emptyPanel: function(){
+    return (
+      <div>
+        <h3>No templates</h3>
+        <p>Maybe you should add one. </p>
+      </div>
+    );
+  },
+
+  exportTable: function(outputs){
+    return (
+      <table className='table table-striped table-hover'>
+        <thead>
+          <tr>
+            <th style={{width:45}}>
+              <input type='checkbox' checked={this._areAllSelected()} onClick={this._selectAllToggle} readOnly />
+            </th>
+            <th>Template Name</th>
+            <th>Template Type</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {outputs.map((output, index)=>{
+            return (
+              <TemplateExportRow key={index} name={output.name} id={output.id} type={output.type} selected={output.selected} error={output.error} onClick={this._adjustSelection}/>
+            );
+
+          })}
+        </tbody>
+      </table>
+
+    );
+  },
+
+  // {this.props.templates.map((template, index)=>{
+  //   const selected = this.state.selectedOutputs.reduce((prev,curr)=>{
+  //     return curr.id === template.id? true : prev;
+  //   },false);
+  //   return (
+  //     <TemplateExportRow key={index} template={template} selected={selected} error={''} onClick={this._adjustSelection}/>
+  //   );
+  // })}
+
+
+  // ======================================================================
+  // true if all items have selected === true
   _areAllSelected: function(){
-    return this.state.selectedOutputs.length === this.props.output.length;
+    return this.state.outputs.filter((output)=>{
+      return output.selected;
+    }).length === this.state.outputs.length;
   },
 
+  // select all items if any are unselected
+  // unselect all if all items are already selected
   _selectAllToggle: function(){
-    if(this._areAllSelected()){
-      this.setState( { selectedOutputs: [] } );
-    } else {
-      this.setState( { selectedOutputs: this.props.output } );
-    }
+    const selectAll = !this._areAllSelected();
+    const selectedAll = this.state.outputs.map((output)=>{
+      output.selected = selectAll;
+      return output;
+    });
+    this.setState( { outputs: selectedAll } );
   },
 
+  // updated selected property of the items specified by templateID
   _adjustSelection: function(templateID, isSelected){
-
-    let updateSelection = this.state.selectedOutputs;
-    if(isSelected){
-      const newlySelected = this.props.output.filter((output)=>{
-        return output.id === templateID;
-      });
-      updateSelection = this.state.selectedOutputs.concat(newlySelected);
-
-    } else {
-      updateSelection = this.state.selectedOutputs.filter((output)=>{
-        return output.id !== templateID;
-      });
-    }
-    this.setState( { selectedOutputs : updateSelection });
+    const updatedOutputs = this.state.outputs.map((output)=>{
+      output.selected = (output.id === templateID)? isSelected : output.selected;
+      return output;
+    });
+    this.setState( { outputs : updatedOutputs });
   },
 
   _exportSelected: function(){
 
-    const out = this.state.selectedOutputs.map((output)=>{
-      const matchingTemplate = this.props.templates.find((template)=>{
-        return template.id === output.id;
+    const exportDir = dialog.showOpenDialog({properties: ['openDirectory']});
+
+    if(!exportDir)return; // means cancel was clicked so just return
+
+    exportFiles(exportDir, this.state.outputs, (results)=>{
+      const updatedOutputs = this.state.outputs.map((output)=>{
+        if(output.selected) {
+          const matchingResult = results.find((result)=>{
+            return result.id === output.id;
+          });
+          output.error = matchingResult.err? matchingResult.err.message: 'success';
+        } else {
+          output.error = '';
+        }
+        return output;
       });
-      return Object.assign({}, output, { name: matchingTemplate.name, type: matchingTemplate.type });
+
+      this.setState( { outputs: updatedOutputs } );
+
     });
-
-    //TODO: now write to file
-
   }
 
 

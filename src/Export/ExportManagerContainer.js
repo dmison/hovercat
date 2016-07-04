@@ -3,8 +3,10 @@ const ExportManager = require('./ExportManager.jsx');
 
 const mapStateToProps = (state) => {
   return {
-    templates: state.templates,
-    output: state.output,
+    output: state.templates.map((template)=>{
+      const matchingOutput = state.output.find((output)=>{ return template.id === output.id; });
+      return Object.assign({}, template, { content: matchingOutput.output});
+    }),
     homeDir: state.uistate.homeDir,
     height: state.uistate.height-50
   };
