@@ -9,7 +9,7 @@
   "scripts": {
     "test": "mocha './src/**/*.spec.js' --compilers js:babel-core/register",
     "hot-server": "node -r babel-register server.js",
-    "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./src/main",
+    "hot-client": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./src/main",
     "package": "cross-env NODE_ENV=production node -r babel-register package.js",
     "package-all": "npm run package -- --all",
     "dev": "concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\""
@@ -31,7 +31,7 @@
     "react-ace": "^3.4.1",
     "react-dom": "^0.14.7",
     "react-redux": "^4.4.1",
-    "react-router": "^2.1.1",
+    "react-router": "^2.5.1",
     "react-tabs": "^0.5.3",
     "redux": "^3.3.1",
     "redux-thunk": "^2.1.0",
