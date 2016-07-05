@@ -8,36 +8,60 @@ const TemplateManager = React.createClass({
 
   render: function(){
 
+    var style = {
+      height: this.props.height,
+      marginTop: 12,
+      marginLeft: 12,
+      marginRight: 12,
+      paddingLeft: 12,
+      paddingRight:12,
+      overflowY: 'scroll'
+    };
+
     return (
-      <div className='container col-md-10 col-md-offset-1'>
-        <div className='panel panel-default'>
-
-          <div className='panel-heading'>
-            <h3 className='panel-title'>Template Manager</h3>
-          </div>
-
-          <div className='panel-body'>
-
-            <div className='row'>
-              <div className='col-md-8'>
-                <AddTemplate  onAdd={(name, type)=>{ this.props.addTemplate(name, type, ''); }} />
-              </div>
-              <div className='col-md-4'>
-                <button className='btn btn-info pull-right' onClick={()=>{hashHistory.push('/');}} >Done</button>
-              </div>
+      <div className='container' style={{paddingTop:15}}>
+          <div className='panel panel-default'>
+            <div className='panel-heading'>
+              <h3 className='panel-title pull-left'>Manage Templates</h3>
+              <button className='btn btn-info pull-right' onClick={()=>{hashHistory.push('/');}} >Done</button>
+              <div className='clearfix'></div>
             </div>
+            <div className='panel-body'>
+              <div style={style}>
 
-            <div className='row'>
-              <div className='col-md-8'>
-                <TemplateManagerList {...this.props} />
-              </div>
+                  <div className='col-md-8'>
+                    <AddTemplate  onAdd={(name, type)=>{ this.props.addTemplate(name, type, ''); }} />
+                  </div>
+                  <div className='col-md-4'>
+
+                  </div>
+
+                  <div className='col-md-8'>
+                    <TemplateManagerList {...this.props} />
+                  </div>
+
+
             </div>
-
           </div>
-
         </div>
       </div>
     );
+    // return (
+    //   <div className='container col-md-10 col-md-offset-1'>
+    //     <div className='panel panel-default'>
+    //
+    //       <div className='panel-heading'>
+    //         <h3 className='panel-title'>Template Manager</h3>
+    //       </div>
+    //
+    //       <div className='panel-body'>
+    //
+    //
+    //       </div>
+    //
+    //     </div>
+    //   </div>
+    // );
   },
 
   propTypes: function(){

@@ -49,78 +49,77 @@ const ConfigManager = React.createClass({
 
     return (
 
-      <div className='container '>
-
-        <div className='row' style={{paddingTop: 15}}>
-          <div className='col-md-7'>
-            <h2 style={{marginTop:5, marginBottom:30}}>Configuration</h2>
-          </div>
-          <div className='col-md-2'>
-            <button className='btn btn-default'
-              disabled={!unsavedChanges}
-              onClick={this._discardChanges} >Discard Changes</button>
-          </div>
-          <div className='col-md-2'>
-            <button className='btn btn-default'
-              disabled={!unsavedChanges}
-              onClick={this._saveConfig}>Save Changes</button>
-          </div>
-          <div className='col-md-1'>
-            <button className='btn btn-default pull-right'
-              disabled={unsavedChanges}
-              onClick={()=>{hashHistory.push('/');}} >Close</button>
-          </div>
-        </div>
-
-        <div className='row' style={style}>
-          <form className='form-horizontal'>
-
-            <div className='panel panel-default'>
-              <div className='panel-heading'>
-                <h3 className='panel-title'>Editor Configuration</h3>
-              </div>
-
-              <div className='panel-body'>
-                <ConfigEntryField
-                  type='boolean'
-                  label='Word wrap'
-                  configValue={this.state.updatedConfig.editor.wrapEnabled}
-                  originalValue={this.state.originalConfig.editor.wrapEnabled}
-                  description='Enable word wrap in editors.'
-                  onChange={(enabled) => {
-                    this.setState( {updatedConfig: config_reducer(this.state.updatedConfig, setEditorWrap(enabled)) });
-                  } } />
-
-              </div>
+      <div className='container' style={{paddingTop:15}}>
+          <div className='panel panel-default'>
+            <div className='panel-heading'>
+              <h3 className='panel-title pull-left'>Configuration</h3>
+              <button className='btn btn-info pull-right'
+                disabled={unsavedChanges}
+                onClick={()=>{hashHistory.push('/');}} >Close</button>
+              <button className='btn btn-default pull-right'
+                disabled={!unsavedChanges} style={{marginRight: 10}}
+                onClick={this._discardChanges} >Discard Changes</button>
+              <button className='btn btn-default pull-right'
+                disabled={!unsavedChanges} style={{marginRight: 10}}
+                onClick={this._saveConfig}>Save Changes</button>
+              <div className='clearfix'></div>
             </div>
+            <div className='panel-body'>
+              <div style={style}>
+                <form className='form-horizontal'>
 
-            <div className='panel panel-default'>
-              <div className='panel-heading'>
-                <h3 className='panel-title'>Bitly Configuration</h3>
-              </div>
+                  <div className='panel panel-default'>
+                    <div className='panel-heading'>
+                      <h3 className='panel-title'>Editor Configuration</h3>
+                    </div>
 
-              <div className='panel-body'>
+                    <div className='panel-body'>
+                      <ConfigEntryField
+                        type='boolean'
+                        label='Word wrap'
+                        configValue={this.state.updatedConfig.editor.wrapEnabled}
+                        originalValue={this.state.originalConfig.editor.wrapEnabled}
+                        description='Enable word wrap in editors.'
+                        onChange={(enabled) => {
+                          this.setState( {updatedConfig: config_reducer(this.state.updatedConfig, setEditorWrap(enabled)) });
+                        } } />
 
-              </div>
+                    </div>
+                  </div>
+
+                  <div className='panel panel-default'>
+                    <div className='panel-heading'>
+                      <h3 className='panel-title'>Bitly Configuration</h3>
+                    </div>
+
+                    <div className='panel-body'>
+
+                    </div>
+                  </div>
+
+
+                  <div className='panel panel-default'>
+                    <div className='panel-heading'>
+                      <h3 className='panel-title'>Email Configuration</h3>
+                    </div>
+
+                    <div className='panel-body'>
+
+
+                    </div>
+                  </div>
+
+                </form>
+
             </div>
-
-
-            <div className='panel panel-default'>
-              <div className='panel-heading'>
-                <h3 className='panel-title'>Email Configuration</h3>
-              </div>
-
-              <div className='panel-body'>
-
-
-              </div>
-            </div>
-
-          </form>
+          </div>
         </div>
       </div>
+
+
     );
   },
+
 
   _saveConfig: function(){
     writeConfigFile(this.state.updatedConfig, this.props.homeDir, (err, config)=>{
@@ -137,8 +136,6 @@ const ConfigManager = React.createClass({
   },
 
   _unsavedChanges: function(when, one, two){
-    console.log(when, '_unsavedChanges:', one );
-    console.log(when, '_unsavedChanges:', two );
     return one.editor.wrapEnabled !== two.editor.wrapEnabled;
   }
 
