@@ -7,7 +7,8 @@ const {clearATemplate} = require('./actions.js');
 
 const mapStateToProps = (state) => {
   return {
-    templates: state.templates
+    templates: state.templates,
+    height: state.uistate.height-50
   };
 };
 
