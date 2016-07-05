@@ -3,6 +3,7 @@ const {Link} = require('react-router');
 const {openFile} = require('../Files/open.js');
 const {saveFile} = require('../Files/save.js');
 const {readConfigFile} = require('../Config');
+const MainMenuItem = require('./MainMenuItem.jsx');
 
 const ipc = require('electron').ipcRenderer;
 const {hashHistory} = require('react-router');
@@ -24,7 +25,8 @@ const MainMenu = React.createClass({
       setFilename: React.PropTypes.string,
       importTemplates: React.PropTypes.func,
       setHomeDir: React.PropTypes.func,
-      importConfig: React.PropTypes.func
+      importConfig: React.PropTypes.func,
+      location: React.PropTypes.string
     };
   },
 
@@ -32,45 +34,45 @@ const MainMenu = React.createClass({
 
     //listen to messages from app menu
     ipc.on('send-menu',function(event, message){
+      if(this.props.location === '/'){
+        switch(message){
 
-      switch(message){
+        case 'newFile':
+          this.new();
+          break;
 
-      case 'newFile':
-        this.new();
-        break;
+        case 'openFile':
+          this.open();
+          break;
 
-      case 'openFile':
-        this.open();
-        break;
+        case 'saveFile':
+          this._save();
+          break;
 
-      case 'saveFile':
-        this._save();
-        break;
+        case 'saveAsFile':
+          this._saveAs();
+          break;
 
-      case 'saveAsFile':
-        this._saveAs();
-        break;
+        case 'exportFile':
+          hashHistory.push('export');
+          break;
+        //
+        // case 'sendEmail':
+        //   this.showEmailDialog();
+        //   break;
+        //
+        case 'openTemplateManager':
+          hashHistory.push('manage-templates');
+          break;
 
-      case 'exportFile':
-        hashHistory.push('export');
-        break;
-      //
-      // case 'sendEmail':
-      //   this.showEmailDialog();
-      //   break;
-      //
-      case 'openTemplateManager':
-        hashHistory.push('manage-templates');
-        break;
+        case 'openConfig':
+          hashHistory.push('configure');
+          break;
 
-      case 'openConfig':
-        hashHistory.push('configure');
-        break;
-
-      default:
-        alert('unknown message sent from menu, "'+message+'"');
+        default:
+          alert('unknown message sent from menu, "'+message+'"');
+        }
       }
-
     }.bind(this));
 
     //wait to get homedir path from main process
@@ -94,17 +96,18 @@ const MainMenu = React.createClass({
   },
 
   render: function(){
+
     return (
       <nav className='navbar navbar-default navbar-static-top'>
           <span className='navbar-brand'>Hovercat</span>
-          <ul className='nav navbar-nav'>
-            <li><a className='menuLink' onClick={this.new}>New</a></li>
-            <li><a className='menuLink' onClick={this.open}>Open</a></li>
-            <li><a className='menuLink' onClick={this._save}>Save</a></li>
-            <li><Link to='/export' >Export</Link></li>
-            <li><a className='menuLink' >Send Email</a></li>
-            <li><Link to='/manage-templates' >Manage Templates</Link></li>
-            <li><Link to='/configure' >Configure</Link></li>
+          <ul className='nav navbar-nav' >
+            <li><MainMenuItem currentPath={this.props.location} label='New' action={this.new}/></li>
+            <li><MainMenuItem currentPath={this.props.location} label='Open' action={this.open}/></li>
+            <li><MainMenuItem currentPath={this.props.location} label='Save' action={this.save}/></li>
+            <li><MainMenuItem currentPath={this.props.location} label='Export' link='/export'/></li>
+            <li><MainMenuItem currentPath={this.props.location} label='Send Email' link='/email'/></li>
+            <li><MainMenuItem currentPath={this.props.location} label='Manage Templates' link='/manage-templates'/></li>
+            <li><MainMenuItem currentPath={this.props.location} label='Configure' link='/configure'/></li>
           </ul>
       </nav>
     );

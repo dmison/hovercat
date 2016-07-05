@@ -10,10 +10,9 @@ const App = React.createClass({
   },
 
   render: function(){
-
     return (
       <div>
-        <MainMenuContainer />
+        <MainMenuContainer location={this.props.location.pathname}/>
         {this.props.children}
       </div>
     );
