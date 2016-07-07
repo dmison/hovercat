@@ -4,10 +4,11 @@ const {writeConfigFile} = require('./index.js');
 
 // lets use the config actions and reducer to maintain the
 // updatedConfig object independant of the store
-const {setEditorWrap} = require('./actions.js');
+const {setEditorWrap, setBitlyToken} = require('./actions.js');
 const {config_reducer} = require('./reducers.js');
 
 const ConfigEntryField = require('./ConfigEntryField.jsx');
+const BitlyAccessTokenFormField = require('./BitlyAccessTokenFormField.jsx');
 
 const ConfigManager = React.createClass({
 
@@ -35,7 +36,7 @@ const ConfigManager = React.createClass({
   },
 
   render: function(){
-    const unsavedChanges = this._unsavedChanges('render', this.state.updatedConfig, this.state.originalConfig);
+    const unsavedChanges = this._unsavedChanges(this.state.updatedConfig, this.state.originalConfig);
 
     var style = {
       height: this.props.height,
@@ -91,20 +92,21 @@ const ConfigManager = React.createClass({
                     <div className='panel-heading'>
                       <h3 className='panel-title'>Bitly Configuration</h3>
                     </div>
-
                     <div className='panel-body'>
-
+                      <BitlyAccessTokenFormField
+                        token={this.state.updatedConfig.bitlyAccessToken}
+                        originalToken={this.state.originalConfig.bitlyAccessToken}
+                        onTokenChange={(token) => {
+                          this.setState( {updatedConfig: config_reducer(this.state.updatedConfig, setBitlyToken(token)) });
+                        } } />
                     </div>
                   </div>
-
 
                   <div className='panel panel-default'>
                     <div className='panel-heading'>
                       <h3 className='panel-title'>Email Configuration</h3>
                     </div>
-
                     <div className='panel-body'>
-
 
                     </div>
                   </div>
@@ -115,7 +117,6 @@ const ConfigManager = React.createClass({
           </div>
         </div>
       </div>
-
 
     );
   },
@@ -135,13 +136,15 @@ const ConfigManager = React.createClass({
     this.setState({ updatedConfig: this.state.originalConfig});
   },
 
-  _unsavedChanges: function(when, one, two){
-    return one.editor.wrapEnabled !== two.editor.wrapEnabled;
+  // this is pretty fragile way of comparing objects,
+  // but should work consistently in this case because the order of
+  // properties shouldn't change and there are no methods
+  _unsavedChanges: function(one, two){
+    return JSON.stringify(one) !== JSON.stringify(two);
   }
 
 });
 
-// <BitlyConfig authToken={this.state.bitlyAccessToken} setAuthToken={this.setAuthToken} />
 
 // <ConfigEntryField
 //   type='text'

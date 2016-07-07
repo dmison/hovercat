@@ -3,7 +3,8 @@ const expect = require('chai').expect;
 const {config_reducer} = require('./reducers.js');
 const {
   setEditorWrap,
-  importConfig
+  importConfig,
+  setBitlyToken
 } = require('./actions.js');
 
 describe('testing config reducers', () => {
@@ -126,5 +127,13 @@ describe('testing config reducers', () => {
     const actual = config_reducer(starting, importConfig(incoming));
     expect(actual).to.deep.equal(expected);
   });
+
+  it('saving bitly access token', ()=>{
+    const tokenCode = 'randomtokencharacters8453';
+    const expectedEndState = { 'bitlyAccessToken': tokenCode};
+    const actualNewState = config_reducer({}, setBitlyToken(tokenCode));
+    expect(actualNewState).to.deep.equal(expectedEndState);
+  });
+
 
 });

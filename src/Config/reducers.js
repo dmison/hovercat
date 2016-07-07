@@ -5,6 +5,8 @@ const config_reducer = (state = {}, action) => {
     return Object.assign( {}, state, { editor: { wrapEnabled: action.enabled } } );
   case 'IMPORT_CONFIG':
     return Object.assign( {}, state, action.config );
+  case 'SET_BITLY_TOKEN':
+    return Object.assign( {}, state, { bitlyAccessToken: action.token } );
   default:
     return state;
   }

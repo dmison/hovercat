@@ -11,7 +11,17 @@ const importConfig = (config) => {
     config: config
   };
 };
+
+const setBitlyToken = (token) => {
+  return {
+    type: 'SET_BITLY_TOKEN',
+    token: token
+  };
+};
+
+
 module.exports = {
   setEditorWrap: setEditorWrap,
-  importConfig: importConfig
+  importConfig: importConfig,
+  setBitlyToken: setBitlyToken
 };

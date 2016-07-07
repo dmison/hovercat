@@ -1,7 +1,7 @@
 const {connect} = require('react-redux');
 const ConfigManager = require('./ConfigManager.jsx');
-const {setEditorWrap} = require('./actions.js');
 const {importConfig} = require('./actions.js');
+
 
 const mapStateToProps = (state) => {
   return {
@@ -13,7 +13,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setEditorWrap: (enabled) => { dispatch(setEditorWrap(enabled)); },
     importConfig: (config) => { dispatch(importConfig(config)); }
   };
 };
