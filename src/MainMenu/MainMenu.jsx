@@ -1,5 +1,4 @@
 const React = require('react');
-const {Link} = require('react-router');
 const {openFile} = require('../Files/open.js');
 const {saveFile} = require('../Files/save.js');
 const {readConfigFile} = require('../Config');
@@ -120,7 +119,7 @@ const MainMenu = React.createClass({
     this.props.updateContent(content);
     this.props.clearTemplates();
     this.props.importTemplates(templates);
-
+    this.props.clearURLs();
     this.props.buildAll();
   },
 
