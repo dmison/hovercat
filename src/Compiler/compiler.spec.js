@@ -1,8 +1,10 @@
 /* global describe it */
 const expect = require('chai').expect;
-const {compile} = require('./index.js');
-const {parseYAML} = require('./index.js');
-
+const { compile,
+  parseYAML,
+  extractURLs ,
+  matchURLs
+} = require('./index.js');
 
 describe('test compiler package', () => {
 
@@ -68,5 +70,43 @@ text: some text`;
 
   });
 
+  it('should extract urls from YAML text', function(){
+    const YAMLText = `url1: http://some.com/path/thing
+url2: https://something.com/else/goes/here`;
+
+    const expectedURLs = ['http://some.com/path/thing',
+    'https://something.com/else/goes/here'];
+
+    const actualURLs = extractURLs(YAMLText);
+    expect(actualURLs).to.deep.equal(expectedURLs);
+
+  });
+
+  it('URLs should merge', function(){
+    const newURLs = ['http://some.com/path/thing',
+    'https://something.com/else/goes/here',
+    'https://another.com/thing/goes/here'];
+
+    const urls = [{
+      long: 'http://some.com/path/thing',
+      short: 'http://bit.ly/something'
+    }];
+
+    const expectedURLs = [{
+      long: 'http://some.com/path/thing',
+      short: 'http://bit.ly/something'
+    },{
+      long: 'https://something.com/else/goes/here',
+      short: ''
+    },{
+      long: 'https://another.com/thing/goes/here',
+      short: ''
+    }];
+
+
+    const actualURLs = matchURLs(newURLs, urls);
+    expect(actualURLs).to.deep.equal(expectedURLs);
+
+  });
 
 });
