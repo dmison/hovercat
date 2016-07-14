@@ -119,7 +119,7 @@ const BitlyURLManager = React.createClass({
           if(err){
             done(null, Object.assign({}, url, {error_msg: err.status_txt}));
           } else {
-            done(null, Object.assign({}, url, {short: shorturl}));
+            done(null, Object.assign({}, url, {short: shorturl, selected: false}));
           }
 
         });
