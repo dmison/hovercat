@@ -128,13 +128,15 @@ const BitlyURLManager = React.createClass({
       }
 
     }, (err, results)=>{
-      this.setState({urls: results});
-      this.props.setURLs(results.map((url)=>{
-        return {
-          long: url.long,
-          short: url.short
-        };
-      }));
+      // ensure setURLs is not called until setState is complete
+      this.setState({urls: results}, ()=>{
+        this.props.setURLs(results.map((url)=>{
+          return {
+            long: url.long,
+            short: url.short
+          };
+        }));
+      });
     });
 
 
@@ -142,16 +144,17 @@ const BitlyURLManager = React.createClass({
 
   _restoreSelected: function(){
     const restored = this.state.urls.map((url)=>{
-      return Object.assign({}, url, {short: url.selected?'':url.short});
+      return url.selected? Object.assign({}, url, {short: '', selected: false, error_msg:''}): url;
     });
-
-    this.props.setURLs(restored.map((url)=>{
-      return {
-        long: url.long,
-        short: url.short
-      };
-    }));
-
+    // ensure setURLs is not called until setState is complete
+    this.setState({urls: restored}, ()=>{
+      this.props.setURLs(restored.map((url)=>{
+        return {
+          long: url.long,
+          short: url.short
+        };
+      }));
+    });
   }
 
 });
