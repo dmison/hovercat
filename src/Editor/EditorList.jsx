@@ -1,6 +1,7 @@
 const React = require('react');
 const {Tab, Tabs, TabList, TabPanel} = require('react-tabs');
 const Editor = require('./Editor.jsx');
+const BitlyURLManager = require('../Bitly/BitlyURLManager.jsx');
 
 const EditorList = (props) => {
 
@@ -9,7 +10,7 @@ const EditorList = (props) => {
       <Editor content={props.content}
               mode='yaml'
               theme='tomorrow'
-              height={props.height-props.consoleHeight}
+              height={props.height-props.consoleHeight-10}
               wrapEnabled={props.editorWrap}
               enableBasicAutoCompletion={props.enableBasicAutoCompletion}
               enableLiveAutoCompletion={props.enableLiveAutoCompletion}
@@ -18,10 +19,13 @@ const EditorList = (props) => {
                 props.updateContent(content);
                 props.buildAll();
               } } />
+    </TabPanel>,
+    <TabPanel key={1}>
+      <BitlyURLManager urls={props.urls} height={props.height-props.consoleHeight+5} setURLs={props.setURLs} authToken={props.authToken}/>
     </TabPanel>
   ].concat( props.templates.map((template, index) => {
     return (
-      <TabPanel key={index+1}>
+      <TabPanel key={index+2}>
         <Editor content={template.content}
                 mode={template.type}
                 theme='tomorrow'
@@ -34,12 +38,12 @@ const EditorList = (props) => {
                   props.updateTemplate(template.id, template.name, template.type, content);
                   props.buildAll();
                 } } />
-            </TabPanel>
+      </TabPanel>
     );
   }));
 
-  const EditorTabs = [<Tab key={0}>Content</Tab>].concat(props.templates.map((template, index) => {
-    return <Tab key={index+1}>{template.name} - {template.type}</Tab>;
+  const EditorTabs = [<Tab key={0}>Content</Tab>,<Tab key={1}>URLs</Tab>].concat(props.templates.map((template, index) => {
+    return <Tab key={index+2}>{template.name} - {template.type}</Tab>;
   }));
 
   return (
@@ -55,8 +59,11 @@ const EditorList = (props) => {
 
 EditorList.propTypes = {
   content: React.PropTypes.string,
+  urls: React.PropTypes.array,
+  setURLs: React.PropTypes.func,
   height: React.PropTypes.number,
   editorWrap: React.PropTypes.bool,
+  authToken: React.PropTypes.string,
   enableBasicAutoCompletion: React.PropTypes.bool,
   enableLiveAutoCompletion: React.PropTypes.bool,
   consoleHeight: React.PropTypes.number,
