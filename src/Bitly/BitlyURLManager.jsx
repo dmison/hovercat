@@ -142,8 +142,9 @@ const BitlyURLManager = React.createClass({
 
   _restoreSelected: function(){
     const restored = this.state.urls.map((url)=>{
-      return Object.assign({}, url, {short: ''});
+      return Object.assign({}, url, {short: url.selected?'':url.short});
     });
+
     this.props.setURLs(restored.map((url)=>{
       return {
         long: url.long,
@@ -151,7 +152,6 @@ const BitlyURLManager = React.createClass({
       };
     }));
 
-    // this.setState({ urls: restored });
   }
 
 });
