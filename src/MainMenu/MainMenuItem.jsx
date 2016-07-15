@@ -4,7 +4,7 @@ const {Link} = require('react-router');
 const MainMenuItem = (props) => {
   let style = {};
   // if I'm not in workspace:
-  if(props.currentPath !== '/') {
+  if(props.currentPath !== '/' || props.disabled) {
     // then menu items are disabled with normal arrow cursor
     // current item is bolded
     style = {
@@ -29,8 +29,8 @@ MainMenuItem.propTypes = {
   action: React.PropTypes.func,
   label: React.PropTypes.string,
   link: React.PropTypes.string,
-  enabled: React.PropTypes.bool,
-  currentPath: React.PropTypes.string
+  currentPath: React.PropTypes.string,
+  disabled: React.PropTypes.bool
 };
 
 module.exports = MainMenuItem;

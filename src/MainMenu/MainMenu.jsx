@@ -102,7 +102,7 @@ const MainMenu = React.createClass({
           <ul className='nav navbar-nav' >
             <li><MainMenuItem currentPath={this.props.location} label='New' action={this.new}/></li>
             <li><MainMenuItem currentPath={this.props.location} label='Open' action={this.open}/></li>
-            <li><MainMenuItem currentPath={this.props.location} label='Save' action={this.save}/></li>
+            <li><MainMenuItem currentPath={this.props.location} label='Save' action={this._save} disabled={this.props.uistate.saved}/></li>
             <li><MainMenuItem currentPath={this.props.location} label='Export' link='/export'/></li>
             <li><MainMenuItem currentPath={this.props.location} label='Send Email' link='/email'/></li>
             <li><MainMenuItem currentPath={this.props.location} label='Manage Templates' link='/manage-templates'/></li>
