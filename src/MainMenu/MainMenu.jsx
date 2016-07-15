@@ -23,6 +23,7 @@ const MainMenu = React.createClass({
       clearTemplates: React.PropTypes.func,
       setFilename: React.PropTypes.string,
       importTemplates: React.PropTypes.func,
+      setURLs: React.PropTypes.func,
       setHomeDir: React.PropTypes.func,
       importConfig: React.PropTypes.func,
       location: React.PropTypes.string
@@ -112,14 +113,14 @@ const MainMenu = React.createClass({
     );
   },
 
-  refreshForLoadedFile: function(content, filename, templates, newfile){
+  refreshForLoadedFile: function(content, filename, templates, urls=[], newfile){
     this.props.setFilename(filename);
     this.setTitle(filename===''?'untitled':filename);
     this.props.setSaved(!newfile);
     this.props.updateContent(content);
     this.props.clearTemplates();
     this.props.importTemplates(templates);
-    this.props.clearURLs();
+    this.props.setURLs(urls);
     this.props.buildAll();
   },
 
@@ -156,7 +157,7 @@ const MainMenu = React.createClass({
       if(err){
         window.alert(`An error occurred opening ${filename}:\n\n ${err}`);
       } else {
-        this.refreshForLoadedFile(input.content, filename, input.templates,false);
+        this.refreshForLoadedFile(input.content, filename, input.templates, input.urls, false);
       }
     });
 
