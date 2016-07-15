@@ -41,6 +41,10 @@ const MainMenu = React.createClass({
           this.new();
           break;
 
+        case 'loadSampleFile':
+          this.loadSampleFile();
+          break;
+
         case 'openFile':
           this.open();
           break;
@@ -170,13 +174,24 @@ const MainMenu = React.createClass({
       }
     }
 
-    var newPath = `${this.props.uistate.resourcesPath}/app/newfile.hovercat`;
+    this.refreshForLoadedFile('', '', [], [], true);
+
+  },
+
+  loadSampleFile: function(){
+    if(!this.props.uistate.saved){
+      if (!window.confirm('You have unsaved changes that will be lost if you create a new file.  Continue?')) {
+        return;
+      }
+    }
+
+    var newPath = `${this.props.uistate.resourcesPath}/app/samplefile.hovercat`;
 
     openFile(newPath, (err, input)=>{
       if(err){
         window.alert(`An error occurred opening the example file: ${err}`);
       } else {
-        this.refreshForLoadedFile(input.content, '', input.templates, true);
+        this.refreshForLoadedFile(input.content, '', input.templates, input.urls, true);
       }
     });
 

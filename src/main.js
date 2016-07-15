@@ -75,6 +75,7 @@ var getMenuTemplate = function(platform){
       { label: 'About Hovercat', selector: 'orderFrontStandardAboutPanel:' },
       { type: 'separator' },
       { label: 'Configure', accelerator: 'CmdOrCtrl+,', click: function(){ sendMenuMsg('openConfig'); }       },
+      { label: 'Manage Templates', click: function() { sendMenuMsg('openTemplateManager'); }},
       { type: 'separator' },
       { label: 'DevTools', accelerator: 'CmdOrCtrl+\\', click: function(){ mainWindow.openDevTools(); }       },
       { type: 'separator' },
@@ -91,7 +92,7 @@ var getMenuTemplate = function(platform){
     { label: 'Save As', accelerator: 'Shift+CmdOrCtrl+S', click: function(){ sendMenuMsg('saveAsFile'); }     },
     { label: 'Export', accelerator: 'CmdOrCtrl+E', click: function(){ sendMenuMsg('exportFile'); } },
     { type: 'separator' },
-    { label: 'Manage Templates', click: function() { sendMenuMsg('openTemplateManager'); }},
+    { label: 'Load Sample File', click: function() { sendMenuMsg('loadSampleFile'); }},
     { type: 'separator' },
     { label: 'Send Email', accelerator: 'CmdOrCtrl+T', click: function() { sendMenuMsg('sendEmail'); }}
     ]
