@@ -21,6 +21,7 @@
     "bootstrap": "^3.3.6",
     "brace": "^0.7.0",
     "entities": "^1.1.1",
+    "escape-string-regexp": "^1.0.5",
     "font-awesome": "^4.6.1",
     "get-urls": "^5.0.1",
     "handlebars": "^4.0.5",

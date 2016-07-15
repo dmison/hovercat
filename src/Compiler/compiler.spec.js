@@ -2,13 +2,14 @@
 const expect = require('chai').expect;
 const { compile,
   parseYAML,
-  extractURLs ,
-  matchURLs
+  extractURLs,
+  matchURLs,
+  replaceURLs
 } = require('./index.js');
 
-describe('test compiler package', () => {
+describe('compiler package', () => {
 
-  it('basic compile - compile()', ()=>{
+  it('should do a basic compile - compile()', ()=>{
     const content = {
       title: 'some title',
       text: 'some text'
@@ -24,7 +25,7 @@ describe('test compiler package', () => {
   });
 
 
-  it('fail basic compile - compile()', ()=>{
+  it('should fail on this basic compile - compile()', ()=>{
     const content = {
       title: 'some title',
       text: 'some text'
@@ -39,7 +40,7 @@ describe('test compiler package', () => {
   });
 
 
-  it('basic YAML parse - parseYAML()', ()=>{
+  it('should be able to do a basic YAML parse - parseYAML()', ()=>{
     const YAMLText = `title: some title
 text: some text`;
 
@@ -55,7 +56,7 @@ text: some text`;
   });
 
 
-  it('full render', ()=>{
+  it('should do a full render from yaml and template to output', ()=>{
     const YAMLText = `title: some title
 text: some text`;
     const template = '{{title}} - {{text}}';
@@ -106,6 +107,40 @@ url2: https://something.com/else/goes/here`;
 
     const actualURLs = matchURLs(newURLs, urls);
     expect(actualURLs).to.deep.equal(expectedURLs);
+
+  });
+
+});
+
+
+describe('replaceURLs()', function(){
+
+  it('should only replace shortened urls', function(){
+    const urls = [{
+      long: 'http://some.com/path/thing',
+      short: 'http://bit.ly/something'
+    },{
+      long: 'https://something.com/else/goes/here',
+      short: ''
+    },{
+      long: 'https://another.com/else/something/here',
+      short: ''
+    }];
+
+    const yaml = `origin: [a thing](http://some.com/path/thing)
+links:
+  - https://something.com/else/goes/here
+  - https://another.com/else/something/here`;
+
+    const expectedOutput = `origin: [a thing](http://bit.ly/something)
+links:
+  - https://something.com/else/goes/here
+  - https://another.com/else/something/here`;
+
+    const actualOutput = replaceURLs(yaml, urls);
+
+    expect(actualOutput).to.equal(expectedOutput);
+
 
   });
 

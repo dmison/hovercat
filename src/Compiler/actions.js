@@ -1,9 +1,5 @@
-const {compile, extractURLs, matchURLs} = require('./index.js');
-const {parseYAML} = require('./index.js');
-
-const {addError} = require('../Errors/actions.js');
-const {clearError} = require('../Errors/actions.js');
-
+const {compile, extractURLs, matchURLs, parseYAML, replaceURLs} = require('./index.js');
+const {addError, clearError} = require('../Errors/actions.js');
 const {setURLs} = require('../Bitly/actions.js');
 
 const updateOutput = (output, id) => {
@@ -34,7 +30,11 @@ const buildAll = () => {
     const urls = getStore().urls;
     const templates = getStore().templates;
 
-    parseYAML(yaml, (err, data)=>{
+    const newUrls = matchURLs(extractURLs(yaml), urls);
+    dispatch(setURLs(newUrls));
+    const URLProcessedYAML = replaceURLs(yaml, newUrls);
+
+    parseYAML(URLProcessedYAML, (err, data)=>{
       if(err){
         let message = `Line: ${err.parsedLine}: ${err.message}, \"${err.snippet}\"`;
         dispatch(addError(message, 'YAML'));
@@ -50,8 +50,6 @@ const buildAll = () => {
             }
           });
         });
-        const newUrls = matchURLs(extractURLs(yaml), urls);
-        dispatch(setURLs(newUrls));
       }
     });
   };

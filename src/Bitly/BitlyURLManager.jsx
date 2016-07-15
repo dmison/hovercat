@@ -12,7 +12,8 @@ const BitlyURLManager = React.createClass({
       shortenURLs: React.PropTypes.func,
       unshortenURLs: React.PropTypes.func,
       authToken: React.PropTypes.string,
-      setURLs: React.PropTypes.func
+      setURLs: React.PropTypes.func,
+      onChange: React.PropTypes.func
     };
   },
 
@@ -126,7 +127,6 @@ const BitlyURLManager = React.createClass({
       } else {
         done(null, url);
       }
-
     }, (err, results)=>{
       // ensure setURLs is not called until setState is complete
       this.setState({urls: results}, ()=>{
@@ -136,10 +136,9 @@ const BitlyURLManager = React.createClass({
             short: url.short
           };
         }));
+        this.props.onChange();
       });
     });
-
-
   },
 
   _restoreSelected: function(){
@@ -154,6 +153,7 @@ const BitlyURLManager = React.createClass({
           short: url.short
         };
       }));
+      this.props.onChange();
     });
   }
 

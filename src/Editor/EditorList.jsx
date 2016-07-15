@@ -21,7 +21,14 @@ const EditorList = (props) => {
               } } />
     </TabPanel>,
     <TabPanel key={1}>
-      <BitlyURLManager urls={props.urls} height={props.height-props.consoleHeight+5} setURLs={props.setURLs} authToken={props.authToken}/>
+      <BitlyURLManager  urls={props.urls}
+                        height={props.height-props.consoleHeight+5}
+                        setURLs={props.setURLs}
+                        authToken={props.authToken}
+                        onChange={()=>{
+                          props.setSaved(false);
+                          props.buildAll();
+                        } } />
     </TabPanel>
   ].concat( props.templates.map((template, index) => {
     return (
