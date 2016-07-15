@@ -15,7 +15,7 @@ const MainMenu = React.createClass({
     return {
       uistate: React.PropTypes.object,
       content: React.PropTypes.string,
-      // urls: React.PropTypes.array,
+      urls: React.PropTypes.array,
       setSaving: React.PropTypes.func,
       setSaved: React.PropTypes.func,
       templates: React.PropTypes.array,
@@ -185,7 +185,7 @@ const MainMenu = React.createClass({
     this.props.setSaving(true);
     const fileout = {
       content: this.props.content,
-      // urls: this.props.urls,
+      urls: this.props.urls.filter((url)=>{ return url.short !== ''; }),
       templates: this.props.templates
     };
     saveFile(filename, fileout, (err, finalFilename) => {
@@ -204,7 +204,9 @@ const MainMenu = React.createClass({
   },
 
   _save: function(){
-    this.openSaveDialog(this.props.uistate.filename);
+    if(!this.props.uistate.saved){
+      this.openSaveDialog(this.props.uistate.filename);
+    }
   },
 
   _saveAs: function(){

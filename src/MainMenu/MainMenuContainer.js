@@ -13,7 +13,7 @@ const mapStateToProps = (state) => {
   return {
     uistate: state.uistate,
     content: state.content,
-    // urls: state.urls,
+    urls: state.urls,
     templates: state.templates,
     config: state.config
   };
