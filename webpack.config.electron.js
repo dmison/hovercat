@@ -35,15 +35,6 @@ export default {
   node: {
     __dirname: false,
     __filename: false
-  },
+  }
 
-  externals: [
-    ...baseConfig.externals,
-    'font-awesome',
-    'source-map-support',
-    'bootstrap',
-    'styliner',
-    'nodemailer',
-    'nodemailer-smtp-transport'
-  ]
 };
