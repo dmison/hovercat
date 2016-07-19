@@ -31,10 +31,6 @@ const DEFAULT_OPTS = {
     // '^\..*',
     '^/webpack\.config\..*\.js'
   ].concat(devDeps.map(name => `/node_modules/${name}($|/)`))
-  .concat(
-    deps.filter(name => !electronCfg.externals.includes(name))
-      .map(name => `/node_modules/${name}($|/)`)
-  )
 };
 
 const icon = argv.icon || argv.i || 'app/app';
