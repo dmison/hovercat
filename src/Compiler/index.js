@@ -1,5 +1,5 @@
 const YAML = require('yamljs');
-
+const Styliner = require('styliner');
 const Handlebars = require('handlebars');
 const HandleBarsHelpers = require('./HandleBarsHelpers.js');
 const getURLs = require('get-urls');
@@ -84,7 +84,6 @@ const replaceURLs = (yaml, urls) => {
 // inline CSS contained in HTML into style attributes on elements
 // ========================================================================
 const inlineCSS = function(html, callback){
-  const Styliner = require('styliner');
   const liner = new Styliner('', {
     noCSS: false
   });

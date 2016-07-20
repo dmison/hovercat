@@ -39,7 +39,7 @@
     "react-tabs": "^0.5.3",
     "redux": "^3.3.1",
     "redux-thunk": "^2.1.0",
-    "styliner": "^0.8.9",
+    "styliner": "^1.0.0",
     "yamljs": "^0.2.7"
   },
   "devDependencies": {
