@@ -1,5 +1,5 @@
 const YAML = require('yamljs');
-// var Styliner = require('styliner');
+
 const Handlebars = require('handlebars');
 const HandleBarsHelpers = require('./HandleBarsHelpers.js');
 const getURLs = require('get-urls');
@@ -69,7 +69,7 @@ const compile = (content, template, callback) => {
 // ========================================================================
 const replaceURLs = (yaml, urls) => {
   let result = yaml;
-  
+
   urls.filter((url)=>{
     return url.short !== '';
   }).forEach((url)=>{
@@ -80,12 +80,27 @@ const replaceURLs = (yaml, urls) => {
 };
 
 // ========================================================================
+// inlineCSS: (html:string, callback:function(error:{}, result:string))
+// inline CSS contained in HTML into style attributes on elements
+// ========================================================================
+const inlineCSS = function(html, callback){
+  const Styliner = require('styliner');
+  const liner = new Styliner('', {
+    noCSS: false
+  });
+  liner.processHTML(html)
+    .then(function(result) {
+      callback(null, result);
+    });
+};
+
+// ========================================================================
 module.exports = {
   parseYAML: parseYAML,
   extractURLs: extractURLs,
   matchURLs: matchURLs,
   replaceURLs: replaceURLs,
-//   processCSS: processCSS,
+  inlineCSS: inlineCSS,
   compile: compile
 };
 

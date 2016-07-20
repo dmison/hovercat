@@ -3,6 +3,8 @@ const {hashHistory} = require('react-router');
 const TemplateExportRow = require('./TemplateExportRow.jsx');
 const {exportFiles} = require('../Files/export.js');
 const {dialog} = require('electron').remote;
+const {inlineCSS} = require('../Compiler');
+const async = require('async');
 
 const ExportManager = React.createClass({
 
@@ -140,24 +142,33 @@ const ExportManager = React.createClass({
 
     if(!exportDir)return; // means cancel was clicked so just return
 
-    exportFiles(exportDir, this.state.outputs, (results)=>{
-      const updatedOutputs = this.state.outputs.map((output)=>{
-        if(output.selected) {
-          const matchingResult = results.find((result)=>{
-            return result.id === output.id;
-          });
-          output.error = matchingResult.err? matchingResult.err.message: 'success';
-        } else {
-          output.error = '';
-        }
-        return output;
+    // do CSS inlining
+    async.map(this.state.outputs, (output, done)=>{
+      if(output.type === 'html'){
+        inlineCSS(output.content,(err,transform)=>{
+          done(null, Object.assign({}, output, { 'output': transform }));
+        });
+      } else {
+        done(null, output);
+      }
+    }, (err,transforms)=>{
+
+      exportFiles(exportDir, transforms, (results)=>{
+        const updatedOutputs = transforms.map((output)=>{
+          if(output.selected) {
+            const matchingResult = results.find((result)=>{
+              return result.id === output.id;
+            });
+            output.error = matchingResult.err? matchingResult.err.message: 'success';
+          } else {
+            output.error = '';
+          }
+          return output;
+        });
+        this.setState( { outputs: updatedOutputs } );
       });
-
-      this.setState( { outputs: updatedOutputs } );
-
     });
   }
-
 
 });
 
