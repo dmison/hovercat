@@ -149,7 +149,7 @@ const ExportManager = React.createClass({
           done(null, Object.assign({}, output, { 'output': transform }));
         });
       } else {
-        done(null, output);
+        done(null, Object.assign({}, output, { 'output': output.content }));
       }
     }, (err,transforms)=>{
 
