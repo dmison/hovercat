@@ -92,7 +92,7 @@ const BitlyURLManager = React.createClass({
   },
 
   _allSelected: function(){
-    return this.state.urls.filter((url)=>{
+    return this.state.urls.length === 0 ? false : this.state.urls.filter((url)=>{
       return url.selected;
     }).length === this.state.urls.length;
   },
