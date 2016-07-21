@@ -28,10 +28,9 @@ export default {
     'font-awesome',
     'source-map-support',
     'bootstrap',
-    'styliner',
+    'juice',
     'nodemailer',
     'nodemailer-smtp-transport',
-    'styliner',
     'yamljs',
     'handlebars'
   ]

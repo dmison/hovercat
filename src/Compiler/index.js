@@ -1,5 +1,5 @@
 const YAML = require('yamljs');
-const Styliner = require('styliner');
+const juice = require('juice');
 const Handlebars = require('handlebars');
 const HandleBarsHelpers = require('./HandleBarsHelpers.js');
 const getURLs = require('get-urls');
@@ -80,17 +80,11 @@ const replaceURLs = (yaml, urls) => {
 };
 
 // ========================================================================
-// inlineCSS: (html:string, callback:function(error:{}, result:string))
-// inline CSS contained in HTML into style attributes on elements
+// inlineCSS: (html:string)
+// return html with CSS inlined into style attributes on elements
 // ========================================================================
-const inlineCSS = function(html, callback){
-  const liner = new Styliner('', {
-    noCSS: false
-  });
-  liner.processHTML(html)
-    .then(function(result) {
-      callback(null, result);
-    });
+const inlineCSS = function(html){
+  return juice(html);
 };
 
 // ========================================================================

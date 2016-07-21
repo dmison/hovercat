@@ -26,6 +26,7 @@
     "get-urls": "^5.0.1",
     "handlebars": "^4.0.5",
     "history": "^2.0.2",
+    "juice": "^2.0.0",
     "lodash": "^4.13.1",
     "node-markdown": "^0.1.1",
     "node-uuid": "^1.4.7",
@@ -39,7 +40,6 @@
     "react-tabs": "^0.5.3",
     "redux": "^3.3.1",
     "redux-thunk": "^2.1.0",
-    "styliner": "^1.0.0",
     "yamljs": "^0.2.7"
   },
   "devDependencies": {
