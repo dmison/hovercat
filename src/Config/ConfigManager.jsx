@@ -7,6 +7,7 @@ const {writeConfigFile} = require('./index.js');
 const {setEditorWrap, setBitlyToken} = require('./actions.js');
 const {config_reducer} = require('./reducers.js');
 
+const ConfigPanel = require('./ConfigPanel.jsx');
 const ConfigEntryField = require('./ConfigEntryField.jsx');
 const BitlyAccessTokenFormField = require('./BitlyAccessTokenFormField.jsx');
 
@@ -69,47 +70,32 @@ const ConfigManager = React.createClass({
               <div style={style}>
                 <form className='form-horizontal'>
 
-                  <div className='panel panel-default'>
-                    <div className='panel-heading'>
-                      <h3 className='panel-title'>Editor Configuration</h3>
-                    </div>
+                  <ConfigPanel title='Editor Configuration'>
+                    <ConfigEntryField
+                      type='boolean'
+                      label='Word wrap'
+                      configValue={this.state.updatedConfig.editor.wrapEnabled}
+                      originalValue={this.state.originalConfig.editor.wrapEnabled}
+                      description='Enable word wrap in editors.'
+                      onChange={(enabled) => {
+                        this.setState( {updatedConfig: config_reducer(this.state.updatedConfig, setEditorWrap(enabled)) });
+                      } } />
+                  </ConfigPanel>
 
-                    <div className='panel-body'>
-                      <ConfigEntryField
-                        type='boolean'
-                        label='Word wrap'
-                        configValue={this.state.updatedConfig.editor.wrapEnabled}
-                        originalValue={this.state.originalConfig.editor.wrapEnabled}
-                        description='Enable word wrap in editors.'
-                        onChange={(enabled) => {
-                          this.setState( {updatedConfig: config_reducer(this.state.updatedConfig, setEditorWrap(enabled)) });
-                        } } />
+                  <ConfigPanel title='Bitly Configuration'>
+                    <BitlyAccessTokenFormField
+                      token={this.state.updatedConfig.bitlyAccessToken}
+                      originalToken={this.state.originalConfig.bitlyAccessToken}
+                      onTokenChange={(token) => {
+                        this.setState( {updatedConfig: config_reducer(this.state.updatedConfig, setBitlyToken(token)) });
+                      } } />
+                  </ConfigPanel>
 
-                    </div>
-                  </div>
+                  <ConfigPanel title='Email Configuration'>
 
-                  <div className='panel panel-default'>
-                    <div className='panel-heading'>
-                      <h3 className='panel-title'>Bitly Configuration</h3>
-                    </div>
-                    <div className='panel-body'>
-                      <BitlyAccessTokenFormField
-                        token={this.state.updatedConfig.bitlyAccessToken}
-                        originalToken={this.state.originalConfig.bitlyAccessToken}
-                        onTokenChange={(token) => {
-                          this.setState( {updatedConfig: config_reducer(this.state.updatedConfig, setBitlyToken(token)) });
-                        } } />
-                    </div>
-                  </div>
 
-                  <div className='panel panel-default'>
-                    <div className='panel-heading'>
-                      <h3 className='panel-title'>Email Configuration</h3>
-                    </div>
-                    <div className='panel-body'>
 
-                    </div>
-                  </div>
+                  </ConfigPanel>
 
                 </form>
 
