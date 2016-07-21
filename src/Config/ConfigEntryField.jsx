@@ -35,6 +35,25 @@
         );
       }
 
+      if(this.props.type === 'password'){
+        element = (
+          <div className='form-group'>
+            <label className='col-sm-3 control-label'>{this.props.label}</label>
+            <div className='col-sm-4'>
+              <input type='password' className='form-control' onChange={this.valueChanged} value={this.props.configValue}/>
+              {changeIndicator}
+            </div>
+            <div className='col-sm-5 helptext'>
+              <p>
+                {this.props.description}
+              </p>
+            </div>
+          </div>
+
+        );
+      }
+
+
       if(this.props.type === 'boolean'){
         element = (
           <div className='form-group'>
@@ -43,7 +62,7 @@
                         label={this.props.label}
                         checked={this.props.configValue}
                         onChange={this.valueChanged} /> <span className='pull-left' style={{marginLeft: 5}}>{this.props.label}</span>
-                {changeIndicator}      
+                {changeIndicator}
               </label>
             <div className='col-sm-5 helptext'>
               <p>
