@@ -1,4 +1,26 @@
-const config_reducer = (state = {}, action) => {
+const default_config = {
+  'editor':{
+    'wrapEnabled': true,
+    'enableLiveAutoCompletion': false,
+    'enableBasicAutoCompletion': false
+  },
+  'bitlyAccessToken': '',
+  'email': {
+    'gmail': {
+      'username': '',
+      'appPassword': ''
+    },
+    'smtp': {
+      'sender': '',
+      'host': '',
+      'port': 25,
+      'tls': {
+        'rejectUnauthorized': true
+      }
+    }
+  }
+};
+const config_reducer = (state = default_config, action) => {
 
   switch (action.type){
   case 'SET_WRAP':
@@ -16,4 +38,6 @@ const config_reducer = (state = {}, action) => {
 
 module.exports = {
   config_reducer: config_reducer
+  config_reducer: config_reducer,
+  default_config: default_config
 };

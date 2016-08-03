@@ -32,28 +32,6 @@ const defaultState = {
   content: '',
   errors: [],
   urls: [],
-  config: {
-    'editor':{
-      'wrapEnabled': true,
-      'enableLiveAutoCompletion': false,
-      'enableBasicAutoCompletion': false
-    },
-    'bitlyAccessToken': '',
-    'email': {
-      'defaultSender': '',
-      'gmail': {
-        'username': '',
-        'appPassword': ''
-      },
-      'smtp': {
-        'host': '',
-        'port': 25,
-        'tls': {
-          'rejectUnauthorized': true
-        }
-      }
-    }
-  },
   uistate: {
     'saved': true,
     'saving': false,
