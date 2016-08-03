@@ -22,7 +22,9 @@ const ConfigManager = React.createClass({
 
   propTypes: function(){
     return {
-      config: React.PropTypes.object
+      config: React.PropTypes.object,
+      homeDir: React.PropTypes.string,
+      height: React.PropTypes.number
     };
   },
 
