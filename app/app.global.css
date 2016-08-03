@@ -44,6 +44,7 @@ div.col-right {
 
 a.menuLink {
   cursor: pointer;
+  border: 0px;
 }
 
 div#yamlEditor {

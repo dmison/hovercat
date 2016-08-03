@@ -20,7 +20,7 @@ const MainMenuItem = (props) => {
   }
 
   if(props.link){
-    return <Link to={props.link} style={style}>{props.label}</Link>;
+    return <Link className='menuLink' to={props.link} style={style}>{props.label}</Link>;
   }
 
 };
