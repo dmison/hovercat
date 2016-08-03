@@ -30,7 +30,7 @@ const BitlyURLManager = React.createClass({
     };
 
     const invalidURLs = invalidURLsfromSet(this.state.urls);
-
+    //TODO: buttons should only enabled when appropriate items are selected
     return (
       <div style={style}>
         <button className='btn btn-default pull-right' style={{marginRight: 10}} onClick={this._shortenSelected}>Shorten Selected</button>
