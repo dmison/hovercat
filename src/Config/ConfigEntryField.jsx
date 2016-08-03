@@ -81,7 +81,7 @@
       if(this.props.type === 'boolean'){
         this.props.onChange(event.target.checked);
       }
-      if(this.props.type === 'text'){
+      if(this.props.type === 'text' || this.props.type === 'password'){
         this.props.onChange(event.target.value);
       }
     }
