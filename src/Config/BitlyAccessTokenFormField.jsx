@@ -87,7 +87,7 @@ const BitlyAccessTokenFormField = React.createClass({
     return {
       token: React.PropTypes.string,
       originalToken: React.PropTypes.string,
-      onKeyChange: React.PropTypes.func
+      onTokenChange: React.PropTypes.func
     };
   }
 
