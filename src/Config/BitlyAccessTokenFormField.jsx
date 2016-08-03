@@ -47,13 +47,10 @@ const BitlyAccessTokenFormField = React.createClass({
     return (
         <div className='form-group form-horizontal'>
           <label className='col-sm-2 control-label'>Access Token</label>
-
-          {this.props.token === ''? getTokenForm:resetTokenForm}
-
+          { this.props.token === '' ? getTokenForm : resetTokenForm }
           <div className='col-sm-4 helptext'>
-
             <p>
-              { (this.props.token === this.props.originalToken)? '' : <span>*</span> } 
+              { (this.props.token === this.props.originalToken)? '' : <span>*</span> }
               Used to authenticate to Bitly.
             </p>
           </div>
@@ -63,6 +60,7 @@ const BitlyAccessTokenFormField = React.createClass({
   },
 
   _resetToken: function(){
+    this.setState({ username: '', password: ''});
     this.props.onTokenChange('');
   },
 
