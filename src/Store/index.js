@@ -31,20 +31,9 @@ const defaultState = {
   output: [],
   content: '',
   errors: [],
-  urls: [],
-  uistate: {
-    'saved': true,
-    'saving': false,
-    'resourcesPath': '',
-    'filename': '',
-    'active': false,
-    'height': window.innerHeight-138,
-    'consoleHeight': 42,
-    'errorConsoleVisible': true,
-    'homeDir': ''
-  }
+  urls: []
 };
 
-const store = createStore(AppReducer, defaultState, applyMiddleware(thunk));
+const store = createStore(AppReducer, defaultState, applyMiddleware(thunk, logger));
 
 module.exports = store;

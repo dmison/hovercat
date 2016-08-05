@@ -1,4 +1,16 @@
-const uistate_reducer = (state = {}, action) => {
+const default_uistate = {
+  'saved': true,
+  'saving': false,
+  'resourcesPath': '',
+  'filename': '',
+  'active': false,
+  'height': 600,
+  'consoleHeight': 42,
+  'errorConsoleVisible': true,
+  'homeDir': ''
+};
+
+const uistate_reducer = (state = default_uistate, action) => {
 
   switch (action.type){
   case 'SET_SAVED':
@@ -25,5 +37,6 @@ const uistate_reducer = (state = {}, action) => {
 
 
 module.exports = {
-  uistate_reducer: uistate_reducer
+  uistate_reducer: uistate_reducer,
+  default_uistate: default_uistate
 };
