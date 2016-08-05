@@ -90,10 +90,10 @@ var readConfigFile = (defaultConfig, homeDir, done)=>{
 };
 
 // http://stackoverflow.com/questions/21450060/how-to-join-two-json-object-in-javascript-without-using-jquery
-var _mergeRecursive = (destObj, sourceObj) => {
+const _mergeRecursive = (destObj, sourceObj) => {
 
   //iterate over all the properties in the object which is being consumed
-  for (var p in sourceObj) {
+  for (let p in sourceObj) {
     // Property in destination object set; update its value.
     if ( sourceObj.hasOwnProperty(p) && typeof destObj[p] !== 'undefined' ) {
       _mergeRecursive(destObj[p], sourceObj[p]);
@@ -107,5 +107,6 @@ var _mergeRecursive = (destObj, sourceObj) => {
 
 module.exports = {
   readConfigFile: readConfigFile,
-  writeConfigFile: writeConfigFile
+  writeConfigFile: writeConfigFile,
+  _mergeRecursive: _mergeRecursive
 };
