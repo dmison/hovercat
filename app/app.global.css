@@ -145,3 +145,17 @@ div.status-block {
     line-height: normal;
     padding-top: 8px;
 }
+
+div.config-entry-field {
+  padding: 5px 0px;
+  margin: 0px 5px;
+}
+
+div.unsaved {
+  background-color: #ffcc99;
+}
+
+div.helptext > p {
+  margin-top: 7px;
+  margin-bottom:3px;
+}

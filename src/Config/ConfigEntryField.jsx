@@ -15,16 +15,14 @@ const ConfigEntryField = React.createClass({
 
   render: function() {
     var element;
-
-    const changeIndicator = (this.props.originalValue === this.props.configValue)? <span></span> : <span>*</span>;
+    const changed = (this.props.originalValue === this.props.configValue)? '' : 'unsaved';
 
     if(this.props.type === 'text'){
       element = (
-        <div className='form-group'>
+        <div className={'form-group config-entry-field '+changed}>
           <label className='col-sm-3 control-label'>{this.props.label}</label>
           <div className='col-sm-4'>
             <input className='form-control' onChange={this.valueChanged} value={this.props.configValue}/>
-            {changeIndicator}
           </div>
           <div className='col-sm-5 helptext'>
             <p>
@@ -38,11 +36,10 @@ const ConfigEntryField = React.createClass({
 
     if(this.props.type === 'password'){
       element = (
-        <div className='form-group'>
+        <div className={'form-group config-entry-field '+changed}>
           <label className='col-sm-3 control-label'>{this.props.label}</label>
           <div className='col-sm-4'>
             <input type='password' className='form-control' onChange={this.valueChanged} value={this.props.configValue}/>
-            {changeIndicator}
           </div>
           <div className='col-sm-5 helptext'>
             <p>
@@ -57,13 +54,12 @@ const ConfigEntryField = React.createClass({
 
     if(this.props.type === 'boolean'){
       element = (
-        <div className='form-group'>
+        <div className={'form-group config-entry-field '+changed}>
           <label className='col-sm-4 col-sm-offset-3 control-label pull-left'>
               <input  type='checkbox' className='pull-left'
                       label={this.props.label}
                       checked={this.props.configValue}
                       onChange={this.valueChanged} /> <span className='pull-left' style={{marginLeft: 5}}>{this.props.label}</span>
-              {changeIndicator}
             </label>
           <div className='col-sm-5 helptext'>
             <p>
