@@ -66,6 +66,40 @@ const config_reducer = (state = default_config, action) => {
     newState.bitlyAccessToken = action.token;
     return newState;
   }
+
+  case 'SET_GMAIL_USERNAME':{
+    newState.email.gmail.username = action.username;
+    return newState;
+  }
+
+  case 'SET_GMAIL_APP_PASSWORD':{
+    newState.email.gmail.appPassword = action.appPassword;
+    return newState;
+  }
+
+  case 'SET_SMTP_SENDER':{
+    newState.email.smtp.sender = action.sender;
+    return newState;
+  }
+
+  case 'SET_SMTP_HOST':{
+    newState.email.smtp.host = action.host;
+    return newState;
+  }
+
+
+  case 'SET_SMTP_PORT':{
+    newState.email.smtp.port = action.port;
+    return newState;
+  }
+
+
+  case 'SET_SMTP_TLS_REJECT_UNAUTHORIZED':{
+    newState.email.smtp.tls.rejectUnauthorized = action.enabled;
+    return newState;
+  }
+
+
   default:
     return state;
   }
