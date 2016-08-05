@@ -100,6 +100,70 @@ const ConfigManager = React.createClass({
 
                   <ConfigPanel title='Email Configuration'>
 
+                    <h4>Gmail</h4>
+
+                    <ConfigEntryField
+                      type='text'
+                      label='Username'
+                      configValue={this.state.config.email.gmail.username}
+                      originalValue={this.props.config.email.gmail.username}
+                      description='GMail username'
+                      onChange={(username) => {
+                        this.setState( {config: config_reducer(this.state.config, setGmailUsername(username)) });
+                      } } />
+
+                    <ConfigEntryField
+                      type='password'
+                      label='Password'
+                      configValue={this.state.config.email.gmail.appPassword}
+                      originalValue={this.props.config.email.gmail.appPassword}
+                      description='GMail password'
+                      onChange={(appPassword) => {
+                        this.setState( {config: config_reducer(this.state.config, setGmailPassword(appPassword)) });
+                      } } />
+
+                    <hr/>
+
+                    <h4>SMTP</h4>
+                      <ConfigEntryField
+                        type='text'
+                        label='Sender'
+                          configValue={this.state.config.email.smtp.sender}
+                        originalValue={this.props.config.email.smtp.sender}
+                        description='Email address to send from'
+                        onChange={(sender) => {
+                          this.setState( {config: config_reducer(this.state.config, setSMTPSender(sender)) });
+                        } } />
+
+                      <ConfigEntryField
+                        type='text'
+                        label='SMTP host'
+                          configValue={this.state.config.email.smtp.host}
+                        originalValue={this.props.config.email.smtp.host}
+                        description='SMTP Server hostname'
+                        onChange={(hostname) => {
+                          this.setState( {config: config_reducer(this.state.config, setSMTPHost(hostname)) });
+                        } } />
+
+                        <ConfigEntryField
+                          type='text'
+                          label='SMTP Port'
+                          configValue={this.state.config.email.smtp.port}
+                          originalValue={this.props.config.email.smtp.port}
+                          description='SMTP Server Port'
+                          onChange={(port) => {
+                            this.setState( {config: config_reducer(this.state.config, setSMTPPort(port)) });
+                          } } />
+                          <ConfigEntryField
+                            type='boolean'
+                            label='Reject Unauthorized'
+                            configValue={this.state.config.email.smtp.tls.rejectUnauthorized}
+                            originalValue={this.props.config.email.smtp.tls.rejectUnauthorized}
+                            description='Require valid SSL certificate from server.'
+                            onChange={(enabled) => {
+                              this.setState( {config: config_reducer(this.state.config, setSMTPTLSRejectUnauthorized(enabled)) });
+                            } } />
+
                   </ConfigPanel>
 
 
