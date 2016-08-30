@@ -11,8 +11,7 @@
     "hot-server": "node -r babel-register server.js",
     "hot-client": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./src/main",
     "package": "cross-env NODE_ENV=production node -r babel-register package.js",
-    "package-all": "npm run package -- --all",
-    "dev": "concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\""
+    "package-all": "npm run package -- --all"
   },
   "author": "",
   "license": "ISC",
