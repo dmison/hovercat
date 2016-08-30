@@ -60,11 +60,11 @@ const MainMenu = React.createClass({
         case 'exportFile':
           hashHistory.push('export');
           break;
-        //
-        // case 'sendEmail':
-        //   this.showEmailDialog();
-        //   break;
-        //
+
+        case 'sendEmail':
+          hashHistory.push('email');
+          break;
+
         case 'openTemplateManager':
           hashHistory.push('manage-templates');
           break;

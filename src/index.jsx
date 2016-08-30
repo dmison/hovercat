@@ -6,6 +6,7 @@ const WorkSpace = require('./WorkSpace');
 const TemplateManagerContainer = require('./Template/TemplateManagerContainer.js');
 const ConfigManagerContainer = require('./Config/ConfigManagerContainer.js');
 const ExportManagerContainer = require('./Export/ExportManagerContainer.js');
+const SendEmailContainer = require('./Email/SendEmailContainer.js');
 const store = require('./Store');
 const {setHeight} = require('./UIState/actions.js');
 require ('../app/app.global.css');
@@ -19,6 +20,8 @@ ReactDOM.render(<Provider store={store}>
       <Route path='manage-templates' component={TemplateManagerContainer} />
       <Route path='configure' component={ConfigManagerContainer} />
       <Route path='export' component={ExportManagerContainer} />
+      <Route path='email' component={SendEmailContainer} />
+
     </Route>
   </Router>
 </Provider>, document.getElementById('app'));
@@ -28,7 +31,3 @@ const dispatchHeight = () => {
 };
 dispatchHeight();
 window.addEventListener('resize', dispatchHeight);
-
-
-
-// <Route path='send' component={SendEmailContainer} />
