@@ -8,19 +8,27 @@ const {clearAllOutputs} = require('./actions.js');
 describe('testing compiler reducers', function() {
 
   it('testing compiler updateOutput() - new output', function() {
-    const id = '1234';
+    const template = {
+      id: '1234',
+      type: 'HTML',
+      name: 'HTML test',
+      order: 1
+    };
     const output = `## this is a testing
 
     And some text goes here.`;
 
     const expectedState = [
       {
-        id: id,
-        output: output
+        id: template.id,
+        name: template.name,
+        type: template.type,
+        output: output,
+        order: template.order
       }
     ];
 
-    const actualState = output_reducer([], updateOutput(output, id));
+    const actualState = output_reducer([], updateOutput(output, template));
     expect(actualState).to.deep.equal(expectedState);
 
   });

@@ -4,9 +4,12 @@ const output_reducer = (state = [], action) =>{
 
   case 'UPDATE_RESULTS': {
     return state.filter((item) => {
-      return item.id !== action.templateID;
+      return item.id !== action.template.id;
     }).concat({
-      id: action.templateID,
+      id: action.template.id,
+      name: action.template.name,
+      type: action.template.type,
+      order: action.template.order,
       output: action.output
     });
   }

@@ -2,10 +2,10 @@ const {compile, extractURLs, matchURLs, parseYAML, replaceURLs} = require('./ind
 const {addError, clearError} = require('../Errors/actions.js');
 const {setURLs} = require('../Bitly/actions.js');
 
-const updateOutput = (output, id) => {
+const updateOutput = (output, template) => {
   return {
     type: 'UPDATE_RESULTS',
-    templateID: id,
+    template: template,
     output: output
   };
 };
@@ -46,7 +46,7 @@ const buildAll = () => {
               dispatch(addError(err, template.type, template.name));
             } else {
               dispatch(clearError(template.type, template.name));
-              dispatch(updateOutput(output, template.id));
+              dispatch(updateOutput(output, template));
             }
           });
         });
