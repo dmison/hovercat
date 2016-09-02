@@ -4,7 +4,6 @@ const TemplateExportRow = require('./TemplateExportRow.jsx');
 const {exportFiles} = require('../Files/export.js');
 const {dialog} = require('electron').remote;
 const {inlineCSS} = require('../Compiler');
-const async = require('async');
 
 const ExportManager = React.createClass({
 
@@ -98,16 +97,6 @@ const ExportManager = React.createClass({
     );
   },
 
-  // {this.props.templates.map((template, index)=>{
-  //   const selected = this.state.selectedOutputs.reduce((prev,curr)=>{
-  //     return curr.id === template.id? true : prev;
-  //   },false);
-  //   return (
-  //     <TemplateExportRow key={index} template={template} selected={selected} error={''} onClick={this._adjustSelection}/>
-  //   );
-  // })}
-
-
   // ======================================================================
   // true if all items have selected === true
   _areAllSelected: function(){
@@ -143,31 +132,27 @@ const ExportManager = React.createClass({
     if(!exportDir)return; // means cancel was clicked so just return
 
     // do CSS inlining
-    async.map(this.state.outputs, (output, done)=>{
-      if(output.type === 'html'){
-        inlineCSS(output.content,(err,transform)=>{
-          done(null, Object.assign({}, output, { 'output': transform }));
-        });
-      } else {
-        done(null, Object.assign({}, output, { 'output': output.content }));
-      }
-    }, (err,transforms)=>{
-
-      exportFiles(exportDir, transforms, (results)=>{
-        const updatedOutputs = transforms.map((output)=>{
-          if(output.selected) {
-            const matchingResult = results.find((result)=>{
-              return result.id === output.id;
-            });
-            output.error = matchingResult.err? matchingResult.err.message: 'success';
-          } else {
-            output.error = '';
-          }
-          return output;
-        });
-        this.setState( { outputs: updatedOutputs } );
-      });
+    const transforms = this.state.outputs.map((output)=>{
+      output.output = (output.type==='html' && output.output !== '')? inlineCSS(output.output):output.output;
+      return output;
     });
+
+    // export all the files & update status
+    exportFiles(exportDir, transforms, (results)=>{
+      const updatedOutputs = transforms.map((output)=>{
+        if(output.selected) {
+          const matchingResult = results.find((result)=>{
+            return result.id === output.id;
+          });
+          output.error = matchingResult.err? matchingResult.err.message: 'success';
+        } else {
+          output.error = '';
+        }
+        return output;
+      });
+      this.setState( { outputs: updatedOutputs } );
+    });
+
   }
 
 });
