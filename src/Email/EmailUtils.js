@@ -23,11 +23,11 @@ const sendEmail = function(config, method, receipients, subject, htmlBody, textB
 
   const transporter = getTransport(method, config);
 
-  transporter.sendMail(mailOptions, function(error, info) {
+  transporter.sendMail(mailOptions, function(error) {
     if (error) {
-      done(error);
+      done(error, null);
     } else {
-      done();
+      done(null);
     }
   });
 
@@ -41,17 +41,17 @@ const getTransport = function(method, config) {
     transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
-        user: config.email.gmail.username,
-        pass: config.email.gmail.appPassword
+        user: config.gmail.username,
+        pass: config.gmail.appPassword
       }
     });
     break;
 
   case 'smtp':
     transporter = nodemailer.createTransport(smtpTransport({
-      host: config.email.smtp.host,
-      port: config.email.smtp.port,
-      tls: config.email.smtp.tls
+      host: config.smtp.host,
+      port: config.smtp.port,
+      tls: config.smtp.tls
     }));
     break;
 
