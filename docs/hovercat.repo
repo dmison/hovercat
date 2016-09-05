@@ -1,0 +1,4 @@
+[Hovercat]
+name=Hovercat Repository
+baseurl=http://shinysparkly.com/hovercat/repo
+gpgcheck=0
