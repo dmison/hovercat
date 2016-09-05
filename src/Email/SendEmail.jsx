@@ -22,10 +22,16 @@ class SendEmail extends React.Component {
       textSelection: '',
       sending: false
     };
+
     this._sendEmail = this._sendEmail.bind(this);
+
     this._getContentForName = this._getContentForName.bind(this);
     this._getOutputForType = this._getOutputForType.bind(this);
     this._okToSend = this._okToSend.bind(this);
+    this._includeAtLeastOneFormat = this._includeAtLeastOneFormat.bind(this);
+    this._sendToIsValid = this._sendToIsValid.bind(this);
+    this._fromIsValid = this._fromIsValid.bind(this);
+    this._subjectIsValid = this._subjectIsValid.bind(this);
   }
 
   // on initial mount
@@ -47,6 +53,7 @@ class SendEmail extends React.Component {
   }
 
   _sendEmail(){
+
     this.setState({ sending: true });
     const htmlContent = inlineCSS(this._getContentForName(this.state.htmlSelection));
 
@@ -75,17 +82,40 @@ class SendEmail extends React.Component {
 
   }
 
-
-  _gmailConfigOK(){
-
+  _sendToIsValid(){
+    return this.state.sendTo != '';
   }
 
-  _smtpConfigOK(){
+  _fromIsValid(){
+    return this.state.useGmail || this.state.from != '';
+  }
 
+  _subjectIsValid(){
+    return this.state.subject != '';
+  }
+
+  _gmailOK(){
+    return  this.props.config.gmail.username !== '' &&
+            this.props.config.gmail.appPassword !== '' &&
+            this._sendToIsValid() &&
+            this._subjectIsValid();
+  }
+
+  _smtpOK(){
+    return  this.props.config.host !== '' &&
+            this._sendToIsValid() &&
+            this._subjectIsValid() &&
+            this._fromIsValid();
+  }
+
+  _includeAtLeastOneFormat(){
+    return this.state.html || this.state.text;
   }
 
   _okToSend(){
-
+    return  ((this.state.useGmail && this._gmailOK()) ||
+            (this.state.useSmtp && this._smtpOK())) &&
+            this._includeAtLeastOneFormat();
   }
 
   _getContentForName(name){
@@ -115,7 +145,7 @@ class SendEmail extends React.Component {
             <div className='panel-heading'>
               <h3 className='panel-title pull-left'>Send Email</h3>
               <button className='btn btn-default pull-right' onClick={()=>{hashHistory.push('/');}} >Close</button>
-              <button disabled={this.state.sending} className='btn btn-info pull-right' style={{marginRight: 10}} onClick={this._sendEmail}>
+              <button disabled={this.state.sending || !this._okToSend()} className='btn btn-info pull-right' style={{marginRight: 10}} onClick={this._sendEmail}>
                 {this.state.sending?<span className='pull-right sendingProgess'><i className="fa fa-spinner fa-spin fa-fw"></i> Sending</span>:'Send'}
               </button>
 
@@ -154,10 +184,15 @@ class SendEmail extends React.Component {
                 </div>
                 <hr/>
 
-                <EmailEntryItem label='Send To' value={this.state.sendTo} description='Address to send to.' onChange={(newValue)=>{ this.setState({ sendTo: newValue }); }} />
-                <EmailEntryItem label='From' value={this.state.from} description='From' onChange={(newValue)=>{ this.setState({ from: newValue }); }} />
-                <EmailEntryItem label='Reply To' value={this.state.replyTo} description='Reply To.' disabled={this.state.useGmail} onChange={(newValue)=>{ this.setState({ replyTo: newValue }); }} />
-                <EmailEntryItem label='Subject' value={this.state.subject} description='Subject.' onChange={(newValue)=>{ this.setState({ subject: newValue }); }} />
+                <EmailEntryItem label='Send To'
+                                value={this.state.sendTo}
+                                description='Address to send to.'
+                                onChange={(newValue)=>{ this.setState({ sendTo: newValue }); }}
+                                valid={this._sendToIsValid}
+                                />
+                              <EmailEntryItem valid={this._fromIsValid} label='From' value={this.state.useGmail?this.props.config.gmail.username:this.state.from} description='From' onChange={(newValue)=>{ this.setState({ from: newValue }); }} disabled={this.state.useGmail}/>
+                <EmailEntryItem label='Reply To' value={this.state.useGmail?this.props.config.gmail.username:this.state.replyTo} description='Reply To.' disabled={this.state.useGmail} onChange={(newValue)=>{ this.setState({ replyTo: newValue }); }} />
+                <EmailEntryItem valid={this._subjectIsValid} label='Subject' value={this.state.subject} description='Subject.' onChange={(newValue)=>{ this.setState({ subject: newValue }); }} />
 
                 <hr />
 
@@ -173,6 +208,7 @@ class SendEmail extends React.Component {
                                       setTEXT={(enabled, name)=>{
                                         this.setState({ text: enabled, textSelection: (typeof name === undefined ? '': name) });
                                       }}
+                                      valid={this._includeAtLeastOneFormat}
                                       />
 
               </div>

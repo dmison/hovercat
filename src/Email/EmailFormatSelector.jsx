@@ -1,6 +1,8 @@
 const React = require('react');
 
 const EmailFormatSelector = (props) => {
+  console.log(props);
+  const valid = typeof props.valid === 'undefined' ? true : props.valid();
 
   return (
     <div className='form-group row'>
@@ -54,6 +56,8 @@ const EmailFormatSelector = (props) => {
           </select>
         </div>
 
+        {!valid?<div className='col-sm-8 col-sm-offset-4 bg-danger'>You need to include at least one format</div>:''}
+
       </div>
 
       <div className='col-sm-5'>
@@ -72,7 +76,8 @@ EmailFormatSelector.propTypes = {
   htmlSelection: React.PropTypes.string,
   textSelection: React.PropTypes.string,
   setHTML: React.PropTypes.func,
-  setTEXT: React.PropTypes.func
+  setTEXT: React.PropTypes.func,
+  valid: React.PropTypes.func
 };
 
 module.exports = EmailFormatSelector;
