@@ -1,6 +1,6 @@
 {
   "name": "Hovercat",
-  "version": "0.0.0",
+  "version": "1.8.0",
   "description": "",
   "main": "./dist/main.js",
   "config": {
@@ -11,7 +11,9 @@
     "hot-server": "node -r babel-register server.js",
     "hot-client": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./src/main",
     "package": "cross-env NODE_ENV=production node -r babel-register package.js",
-    "package-all": "npm run package -- --all"
+    "package-linux": "npm run package --linux",
+    "package-all": "npm run package -- --all",
+    "rpm64": "electron-installer-redhat --src release/linux-x64/Hovercat-linux-x64/ --dest release/installers/ --config rpm-config.json"
   },
   "author": "",
   "license": "ISC",
@@ -56,6 +58,7 @@
     "cross-env": "^1.0.8",
     "css-loader": "^0.23.1",
     "del": "^2.2.0",
+    "electron-installer-redhat": "^0.3.0",
     "electron-packager": "^7.0.2",
     "electron-prebuilt": "^1.2.0",
     "eslint": "^2.11.1",

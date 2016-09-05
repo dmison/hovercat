@@ -1,0 +1,11 @@
+{
+  "name": "hovercat",
+  "description": "Template Email Authoring Application",
+  "productDescription": "Template Email Authoring Application",
+  "options.version": "1.8.0",
+  "options.icon": "assets/hovercat.png",
+  "arch": "x86_64",
+  "categories": [
+    "Utility"
+  ]
+}
