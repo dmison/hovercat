@@ -34,6 +34,6 @@ const defaultState = {
   urls: []
 };
 
-const store = createStore(AppReducer, defaultState, applyMiddleware(thunk, logger));
+const store = createStore(AppReducer, defaultState, applyMiddleware(thunk));
 
 module.exports = store;
