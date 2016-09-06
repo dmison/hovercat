@@ -26,6 +26,7 @@ const DEFAULT_OPTS = {
   ignore: [
     '^/release($|/)',
     '^/src($|/)',
+    '^/docs($|/)',
     '^/server.js',
     '^/package.js$',
     // '^\..*',
