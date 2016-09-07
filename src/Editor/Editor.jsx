@@ -41,7 +41,7 @@ var Editor = React.createClass({
         mode={this.props.mode}
         theme={this.props.theme}
         width='90%'
-        fontSize='15px'
+        fontSize={15}
         onChange={(content)=>{ this.props.onChange(content); }}
         value={this.props.content}
         wrapEnabled={this.props.wrapEnabled}
