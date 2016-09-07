@@ -14,7 +14,8 @@
     "package": "cross-env NODE_ENV=production node -r babel-register package.js",
     "package-linux": "npm run package --linux",
     "package-all": "npm run package -- --all",
-    "rpm64": "electron-installer-redhat --src release/linux-x64/Hovercat-linux-x64/ --dest release/installers/ --config rpm-config.json"
+    "rpm64": "electron-installer-redhat --src release/linux-x64/Hovercat-linux-x64/ --dest release/installers/ --config rpm-config.json",
+    "buildrepo": "cp release/installers/*.rpm docs/repo; createrepo docs/repo"
   },
   "author": "",
   "license": "ISC",
