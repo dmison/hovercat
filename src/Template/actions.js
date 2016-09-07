@@ -60,13 +60,13 @@ const clearOnlyTemplates = () => {
 
 
 // ==============================================================
-const addTemplate = (name, type, template) => {
+const addTemplate = (name, type, templateContent) => {
   return (dispatch, getState) => {
-    dispatch(addNewTemplate(name, type, template));
-    const tempID = getState().templates.find((template)=>{
+    dispatch(addNewTemplate(name, type, templateContent));
+    const newTemplate = getState().templates.find((template)=>{
       return template.name === name && template.type === type;
-    }).id;
-    dispatch(updateOutput('',tempID));
+    });
+    dispatch(updateOutput('',newTemplate));
   };
 };
 
